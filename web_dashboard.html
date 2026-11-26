@@ -2853,19 +2853,6 @@
             <div id="p1MonacoEditorContainer" style="height:140px;width:100%;"></div>
             <pre id="p1SqlPre" class="sql-pre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;"></pre>
           </div>
-          <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
-          <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
-              <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
-              <span style="color:#64748b;">(Đặc tả yêu cầu chuẩn theo SIGMOD 2008)</span>
-            </div>
-            <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
-              <span>Thực thi phần cứng trên RAM: Nhấn</span>
-              <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
-              <span>ở thanh bên dưới</span>
-            </div>
-          </div>
 
 <!-- Projection footer removed per user request -->
         </div>
@@ -3208,19 +3195,6 @@
           <div id="p2MonacoEditorContainer" style="height:100px;width:100%;"></div>
           <pre id="p2SqlPre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;"></pre>
         </div>
-        <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
-        <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
-            <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
-            <span style="color:#64748b;">(Đặc tả yêu cầu đếm trên cột orderdate)</span>
-          </div>
-          <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
-            <span>Thực thi phần cứng trên RAM: Nhấn</span>
-            <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
-            <span>ở thanh bên dưới</span>
-          </div>
-        </div>
       </div>
 
       <!-- 3-STEP RLE ALGORITHM WALKTHROUGH (COMPACT PIPELINE) -->
@@ -3464,20 +3438,6 @@ WHERE c.c_region = 'ASIA'
   AND d.d_year BETWEEN 1992 AND 1997
 GROUP BY c.c_nation, s.s_nation, d.d_year
 ORDER BY d.d_year ASC, revenue DESC;</pre>
-          </div>
-
-          <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
-          <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
-              <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
-              <span style="color:#64748b;">(Nối 4 bảng Star Schema: Lineorder, Customer, Supplier, Dwdate)</span>
-            </div>
-            <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
-              <span>Thực thi phần cứng trên RAM: Nhấn</span>
-              <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
-              <span>ở thanh bên dưới</span>
-            </div>
           </div>
         </div>
       </div>
@@ -3870,19 +3830,6 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
 -- Plan B: Standard Column-Store (Hash Join)
 -- Plan C: Column-Store + Invisible Join (Late Materialization)
 EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
-        </div>
-        <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
-        <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
-            <span style="color:#cbd5e1;font-weight:600;">Benchmark Specification</span>
-            <span style="color:#64748b;">(So sánh 3 Kế hoạch thực thi trên Star Schema)</span>
-          </div>
-          <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
-            <span>Thực thi phần cứng trên RAM: Nhấn</span>
-            <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
-            <span>ở bảng đua bên dưới</span>
-          </div>
         </div>
       </div>
 
