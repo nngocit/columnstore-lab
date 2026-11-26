@@ -2229,12 +2229,12 @@
 
       <div class="nav-bar">
         <nav class="nav-tabs" aria-label="Điều hướng bài lab">
-          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
-          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Hàng vs Cột <span class="kbd">1</span></button>
-          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE <span class="kbd">2</span></button>
-          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Invisible Join <span class="kbd">3</span></button>
-          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
-          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã Nguồn Backend <span class="kbd">5</span></button>
+          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')" title="0. Sơ Đồ Star Schema — Bối Cảnh Dữ Liệu SSBM (6M dòng)">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
+          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')" title="1. Hàng vs Cột — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)">1. Hàng vs Cột <span class="kbd">1</span></button>
+          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')" title="2. Nén RLE — Thuật Toán Nén Run-Length Encoding">2. Nén RLE <span class="kbd">2</span></button>
+          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')" title="3. Invisible Join — Thuật Toán Nối Sao 3 Pha (SIGMOD 2008)">3. Invisible Join <span class="kbd">3</span></button>
+          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')" title="4. Hiệu Suất Q3.1 — So Sánh 3 Kế Hoạch Thực Thi">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
+          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')" title="5. Mã Nguồn Backend — Engine Thực Tế column_store_demo.py">5. Mã Nguồn Backend <span class="kbd">5</span></button>
         </nav>
         <div class="nav-actions">
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
@@ -3229,7 +3229,7 @@
     <section id="sec-2" class="sec-panel">
       <!-- HEADER & SUBTITLE -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE — Run-Length Encoding</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE — Thuật Toán Nén Run-Length Encoding</h2>
         <div style="font-size:12px;color:#475569;">
           <b>Bảng LINEORDER:</b> <span id="ctx2-rows-sub">6,000,000</span> dòng · <b>Cột orderdate:</b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
         </div>
