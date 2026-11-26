@@ -5553,6 +5553,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (revStatusEl) {
         revStatusEl.style.display = isPass ? 'inline-flex' : 'none';
       }
+      if (!state.p1Measuring) {
+        const p1RunBtn = document.getElementById('p1RunQueryBtn');
+        if (p1RunBtn && p1RunBtn.innerHTML.includes('Executing')) {
+          p1RunBtn.innerHTML = '<span>▶ RUN BOTH PLANS (F5)</span>';
+          p1RunBtn.style.opacity = '1';
+        }
+      }
     }
 
     function runP1BothPlans() {
@@ -8721,6 +8728,26 @@ WHERE d.year = 1993
         if (touchedBtn && state.btnRunSeq[btn.id] === reqSeq) {
           btn.disabled = false;
           btn.textContent = origLabel;
+        }
+        const p1RunBtn = document.getElementById('p1RunQueryBtn');
+        if (p1RunBtn) {
+          p1RunBtn.innerHTML = '<span>▶ RUN BOTH PLANS (F5)</span>';
+          p1RunBtn.style.opacity = '1';
+        }
+        const p1BothBtn = document.getElementById('p1RunBothBtn');
+        if (p1BothBtn) {
+          p1BothBtn.innerHTML = '<span style="font-size:18px;">▶</span><span>Chạy cả 2 Plan (Run Both Plans)</span><span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>';
+          p1BothBtn.disabled = false;
+        }
+        const p2RunBtn = document.getElementById('p2RunQueryBtn');
+        if (p2RunBtn) {
+          p2RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p2RunBtn.style.opacity = '1';
+        }
+        const p3RunBtn = document.getElementById('p3RunQueryBtn');
+        if (p3RunBtn) {
+          p3RunBtn.innerHTML = '<span>▶ Chạy Invisible Join (F5)</span>';
+          p3RunBtn.style.opacity = '1';
         }
       }
     }
