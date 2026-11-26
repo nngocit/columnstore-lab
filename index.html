@@ -2175,19 +2175,19 @@
             <input id="seedInput" type="number" min="1" max="999999" value="42" oninput="onSeedChange(this.value)" onchange="onSeedChange(this.value); onSeedCommit();" onkeydown="if(event.key==='Enter'){event.preventDefault(); onSeedChange(this.value); onSeedCommit();}" class="mono" style="width:58px;border:none;background:transparent;font-weight:700;color:#0f172a;font-size:12px;outline:none;" />
           </div>
           <span id="seedBadge" style="display:none;">Seed: 42</span>
-          <button id="runAllBtn" class="btn btn-dark" type="button" onclick="runDemo('all')">▶ Chạy Benchmark</button>
+          <button id="runAllBtn" class="btn btn-dark" type="button" onclick="runDemo('all')">▶ Run All</button>
           
         </div>
       </div>
 
       <div class="nav-bar">
         <nav class="nav-tabs" aria-label="Điều hướng bài lab">
-          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Cấu Trúc Bảng & Sơ Đồ Star Schema <span class="kbd">0</span></button>
+          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
           <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Hàng vs Cột <span class="kbd">1</span></button>
           <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE <span class="kbd">2</span></button>
           <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Invisible Join <span class="kbd">3</span></button>
-          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu suất (Q3.1) <span class="kbd">4</span></button>
-          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Code Python <span class="kbd">5</span></button>
+          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
+          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã Nguồn Backend <span class="kbd">5</span></button>
         </nav>
         <div class="nav-actions">
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
@@ -2242,7 +2242,7 @@
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div>
-          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Cấu Trúc Bảng &amp; Sơ Đồ Star Schema</h2>
+          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ Đồ Star Schema — Bối Cảnh Dữ Liệu SSBM (6M dòng)</h2>
           <div style="font-size:12px;color:#475569;">
             Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
           </div>
@@ -2833,7 +2833,7 @@
 <section id="sec-1" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Hàng vs Cột — Một Truy Vấn (SSBM Q1.1), Hai Kế Hoạch Thực Thi</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Hàng vs Cột — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)</h2>
         <div style="font-size:12px;color:#475569;">
           <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) · <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
         </div>
@@ -3418,7 +3418,7 @@
     <section id="sec-3" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Invisible Join — Thuật Toán Nối Sao Đột Phá (SIGMOD 2008)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Invisible Join — Thuật Toán Nối Sao 3 Pha (SIGMOD 2008)</h2>
         <div style="font-size:12px;color:#475569;">
           <b>SSBM Q3.1 Star Schema Join:</b> Bảng Fact <b>LINEORDER</b> (<span class="p3-rows-label">6,000,000</span> dòng) nối 3 bảng Dimension: <b>CUSTOMER</b> (30,000 dòng), <b>SUPPLIER</b> (2,000 dòng), <b>DWDATE</b> (2,555 dòng)
         </div>
@@ -3794,7 +3794,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
     <section id="sec-4" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. Hiệu suất SSBM Q3.1 — Đua tốc độ 3 chiến lược trên toàn bộ Star Schema</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. Hiệu Suất Q3.1 — So Sánh 3 Kế Hoạch Thực Thi</h2>
         <div style="font-size:12px;color:#475569;">
           Truy vấn SSBM Q3.1 trên <b id="ctx4-rows" class="mono">6,000,000</b> dòng Fact: Lọc Khách hàng (Asia) + Nhà cung cấp (Asia) + Năm (1992..1997) → Tính tổng doanh thu theo quốc gia &amp; năm
         </div>
@@ -4093,7 +4093,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
             <span style="font-size:20px;">🐍</span>
-            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">5. Mã Nguồn Backend Thực Tế — column_store_demo.py</h2>
+            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">5. Mã Nguồn Backend — Engine Thực Tế column_store_demo.py</h2>
             <span style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;">Python 3 / NumPy SIMD Engine</span>
           </div>
           <div style="font-size:12px;color:#475569;line-height:1.5;">
@@ -9190,7 +9190,7 @@ WHERE d.year = 1993
       if (!stream) return;
 
       if (!state.pyLogs.length) {
-        stream.innerHTML = '<div class="py-log-empty">Chưa có log Python.<br />Chọn cột ở Phần 1 hoặc bấm "▶ Chạy Benchmark" để xem phản hồi thực tế từ Python.</div>';
+        stream.innerHTML = '<div class="py-log-empty">Chưa có log Python.<br />Chọn cột ở Phần 1 hoặc bấm "▶ Run All" để xem phản hồi thực tế từ Python.</div>';
         return;
       }
 
@@ -9552,7 +9552,7 @@ WHERE d.year = 1993
 
       const btnMap = { all: 'runAllBtn', '1': 'p1RunQueryBtn', '2': 'p2RunQueryBtn', '3': 'runBtn3', '4': 'p4RunQueryBtn' };
       const defaultLabels = {
-        all: '▶ Chạy Benchmark',
+        all: '▶ Run All',
         '1': '▶ Run',
         '2': '▶ Run',
         '3': '▶ Run',
@@ -9568,7 +9568,7 @@ WHERE d.year = 1993
         state.btnRunSeq[btn.id] = reqSeq;
         btn.disabled = true;
         if (btn.id === 'runAllBtn') {
-          btn.innerHTML = '<span>⏳ Đang đo...</span>';
+          btn.innerHTML = '<span>⏳ Running All...</span>';
         } else {
           btn.innerHTML = '<span>⏳ Executing...</span>';
         }
@@ -9701,7 +9701,7 @@ WHERE d.year = 1993
         }
         const runAll = document.getElementById('runAllBtn');
         if (runAll) {
-          runAll.innerHTML = '▶ Chạy Benchmark';
+          runAll.innerHTML = '▶ Run All';
           runAll.disabled = false;
         }
       }
