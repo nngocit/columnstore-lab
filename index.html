@@ -3173,7 +3173,7 @@
       <div style="margin-bottom:10px;">
         <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE — Run-Length Encoding</h2>
         <div style="font-size:12px;color:#475569;">
-          <b>Bảng LINEORDER:</b> 6,000,000 dòng · <b>Cột orderdate:</b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
+          <b>Bảng LINEORDER:</b> <span id="ctx2-rows-sub">6,000,000</span> dòng · <b>Cột orderdate:</b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
         </div>
       </div>
 
@@ -3252,7 +3252,7 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:10px;border-radius:8px;border:1px solid #fecdd3;font-size:12px;">
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Phần tử duyệt:</div>
-              <div style="font-weight:800;color:#0f172a;font-size:14px;" title="Quét tuần tự toàn bộ 6,000,000 giá trị trong mảng orderdate thô">6,000,000 dòng</div>
+              <div id="p2RawScanRows" style="font-weight:800;color:#0f172a;font-size:14px;" title="Quét tuần tự mảng orderdate thô">6,000,000 dòng</div>
             </div>
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Dung lượng đọc:</div>
@@ -5414,14 +5414,14 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const matchingRowsVal = d.matching_rows || 112383;
 
       const elTimeRow = document.getElementById('p1TimeRow');
-      if (elTimeRow) elTimeRow.textContent = `${fmtDec(tRow, 1)} ms`;
+      if (elTimeRow) elTimeRow.textContent = state.p1Measuring ? '⏳ Đang đo...' : `${fmtDec(tRow, 1)} ms`;
       const elBarTimeRow = document.getElementById('p1BarTimeRow');
-      if (elBarTimeRow) elBarTimeRow.textContent = `${fmtDec(tRow, 1)} ms`;
+      if (elBarTimeRow) elBarTimeRow.textContent = state.p1Measuring ? 'Đang đo...' : `${fmtDec(tRow, 1)} ms`;
 
       const elTimeCol = document.getElementById('p1TimeCol');
-      if (elTimeCol) elTimeCol.textContent = `${fmtDec(tCol, 1)} ms`;
+      if (elTimeCol) elTimeCol.textContent = state.p1Measuring ? '⏳ Đang đo...' : `${fmtDec(tCol, 1)} ms`;
       const elBarTimeCol = document.getElementById('p1BarTimeCol');
-      if (elBarTimeCol) elBarTimeCol.textContent = `${fmtDec(tCol, 1)} ms`;
+      if (elBarTimeCol) elBarTimeCol.textContent = state.p1Measuring ? 'Đang đo...' : `${fmtDec(tCol, 1)} ms`;
 
       const elRowStd = document.getElementById('p1RowStdSub');
       if (elRowStd) elRowStd.textContent = `(±${fmtDec(stdRow, 1)} ms)`;
@@ -5909,15 +5909,28 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       document.getElementById('p2RealRuns').textContent = fmtInt(d.num_runs);
       document.getElementById('p2RealAvg').textContent = fmtInt(d.avg_run);
 
+      const elSubRows = document.getElementById('ctx2-rows-sub');
+      if (elSubRows) elSubRows.textContent = fmtInt(rows);
+      const elRawScanRows = document.getElementById('p2RawScanRows');
+      if (elRawScanRows) elRawScanRows.textContent = `${fmtInt(rows)} dòng`;
+      const elKpiRaw = document.getElementById('p2KpiRaw');
+      if (elKpiRaw) elKpiRaw.textContent = `${fmtDec(rows * 4 / 1e6, 1)} MB`;
+
       const elTimeRaw = document.getElementById('p2TimeRaw');
-      if (elTimeRaw) elTimeRaw.textContent = `${fmtDec(d.t_raw_rle, 3)} ms`;
+      if (elTimeRaw) elTimeRaw.textContent = state.p2Measuring ? '⏳ Đang đo...' : `${fmtDec(d.t_raw_rle, 3)} ms`;
       const elTimeRle = document.getElementById('p2TimeRle');
-      if (elTimeRle) elTimeRle.textContent = `${fmtDec(d.t_direct_rle, 3)} ms`;
+      if (elTimeRle) elTimeRle.textContent = state.p2Measuring ? '⏳ Đang đo...' : `${fmtDec(d.t_direct_rle, 3)} ms`;
       const elSpeedupVal = document.getElementById('p2SpeedupVal');
-      if (elSpeedupVal) elSpeedupVal.textContent = `${fmtDec(d.speedup_2, 1)}x`;
+      if (elSpeedupVal) elSpeedupVal.textContent = state.p2Measuring ? 'Đang đo...' : `${fmtDec(d.speedup_2, 1)}x`;
       const elSpeedupBadge = document.getElementById('p2SpeedupBadge');
-      if (elSpeedupBadge && !state.p2Measuring) {
-        elSpeedupBadge.textContent = `Nhanh hơn ~${fmtDec(d.speedup_2, 0)}x`;
+      if (elSpeedupBadge) {
+        if (state.p2Measuring) {
+          elSpeedupBadge.className = 'class-badge badge-amber mono';
+          elSpeedupBadge.textContent = '⏳ Đang đo Python...';
+        } else {
+          elSpeedupBadge.className = 'class-badge badge-emerald mono';
+          elSpeedupBadge.textContent = `Nhanh hơn ~${fmtDec(d.speedup_2, 0)}x`;
+        }
       }
 
       const matchedCount = numVal(d.matched_runs_count, rangeCnt);
