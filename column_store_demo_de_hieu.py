@@ -591,7 +591,7 @@ def demo_phan_3_invisible_join():
     }
 
 
-def demo_phan_4_mini_benchmark(so_dong, bo_sinh_ngau_nhien):
+def demo_phan_4_benchmark_q31(so_dong, bo_sinh_ngau_nhien):
     """Phần 4 (SSBM Q3.1): trả về dict so sánh Plan A (Row), Plan B (Invisible Join), Plan C (+ Between)."""
     seed_val = int(bo_sinh_ngau_nhien) if isinstance(bo_sinh_ngau_nhien, (int, np.integer)) else 42
     ds = lay_bo_du_lieu_chuan(so_dong, seed_val)
@@ -628,6 +628,10 @@ def demo_phan_4_mini_benchmark(so_dong, bo_sinh_ngau_nhien):
         "speedup_b": round(tg_a / max(tg_b, 1e-9), 1), "t_plan_c": round(tg_c * 1000, 1),
         "speedup_c": round(tg_a / max(tg_c, 1e-9), 1),
     }
+
+
+# Alias tương thích ngược cho tên cũ
+demo_phan_4_mini_benchmark = demo_phan_4_benchmark_q31
 
 
 def _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms):
@@ -898,7 +902,7 @@ def chay_demo_cho_web(part="all", rows=6_000_000, seed=42, cols=None, sql=None, 
         "1": lambda: demo_phan_1_layout_hang_va_cot(rows, seed, cols, sql=sql),
         "2": lambda: demo_phan_2_nen_rle(rows, seed, ngay_bd, ngay_kt),
         "3": demo_phan_3_invisible_join,
-        "4": lambda: demo_phan_4_mini_benchmark(rows, seed),
+        "4": lambda: demo_phan_4_benchmark_q31(rows, seed),
     }
     codes = ["1", "2", "3", "4"] if part == "all" else [part]
     merged = {}
