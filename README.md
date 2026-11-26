@@ -1,9 +1,12 @@
-# ColumnStore Lab — Mo Phong He Quan Tri Co So Du Lieu Dang Cot
+# ColumnStore Lab — Mô Phỏng Hệ Quản Trị Cơ Sở Dữ Liệu Dạng Cột (SIGMOD 2008)
 
-Ung dung mo phong tuong tac giao duc ve kien truc Column-Oriented DBMS va thuat toan Invisible Join tren bo du lieu Star Schema Benchmark (SSBM Q3.1).
+Ứng dụng mô phỏng tương tác giáo dục về kiến trúc Column-Oriented DBMS và thuật toán Invisible Join dựa trên bài báo khoa học kinh điển:
+> **"Query Execution in Column-Oriented Database Systems"**  
+> *Daniel J. Abadi, Samuel R. Madden, Nabil Hachem (SIGMOD 2008)*  
+> Thử nghiệm trên bộ dữ liệu chuẩn Star Schema Benchmark (SSBM Q3.1).
 
-- **Tac gia:** Nguyen Thanh Xuan Ngoc
-- **Cong nghe:** Python (NumPy), JavaScript (Vanilla ES6), HTML5 Canvas/Dialog, CSS3 Glassmorphism
+- **Tác giả:** Nguyễn Thanh Xuân Ngọc (MSHV: 2618480104014)
+- **Công nghệ:** Python (NumPy), JavaScript (Vanilla ES6), HTML5 Native `<dialog>`, CSS3 Glassmorphism
 
 ---
 
