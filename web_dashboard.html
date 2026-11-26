@@ -383,11 +383,11 @@
     .main {
       max-width: none;
       margin: 0;
-      padding: 0;
+      padding: 10px 16px 24px 16px;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .sec-panel { display: none; flex-direction: column; gap: 14px; }
@@ -2233,15 +2233,11 @@
     <!-- TAB 0: STAR SCHEMA                                        -->
     <!-- ========================================================= -->
     <section id="sec-0" class="sec-panel visible">
-      <div class="sec-head">
-        <div class="sec-title-wrap">
-          <h1 class="sec-title">0. Cấu Trúc Bảng &amp; Sơ Đồ Star Schema</h1>
-        </div>
-      </div>
-
-      <div class="ctx-box" style="margin-bottom:12px;">
-        <div class="ctx-line">
-          <span>Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ.</span>
+      <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
+      <div style="margin-bottom:10px;">
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Cấu Trúc Bảng &amp; Sơ Đồ Star Schema</h2>
+        <div style="font-size:12px;color:#475569;">
+          Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
         </div>
       </div>
 
@@ -2821,15 +2817,11 @@
     <!-- TAB 1: SAME QUERY, TWO EXECUTION PLANS (SSBM Q1.1)        -->
     <!-- ========================================================= -->
 <section id="sec-1" class="sec-panel">
-      <div class="sec-head">
-        <div class="sec-title-wrap">
-          <h2 class="sec-title">1. Hàng vs Cột — Một Truy Vấn (SSBM Q1.1), Hai Kế Hoạch Thực Thi</h2>
-        </div>
-      </div>
-
-      <div class="ctx-box">
-        <div class="ctx-line">
-          <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) | <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm × 365 ngày: 1992–1998; Fact chứa 2,405 ngày phát sinh đơn)</span>
+      <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
+      <div style="margin-bottom:10px;">
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Hàng vs Cột — Một Truy Vấn (SSBM Q1.1), Hai Kế Hoạch Thực Thi</h2>
+        <div style="font-size:12px;color:#475569;">
+          <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) · <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
         </div>
       </div>
 
@@ -2840,19 +2832,18 @@
 <!-- Section A label removed per user request -->
 
         <div class="card" style="border:1.5px solid #cbd5e1;border-radius:10px;background:#ffffff;box-shadow:0 4px 16px rgba(15,23,42,0.06);overflow:hidden;gap:0;padding:0;">
-          <!-- TOOLBAR: FILE TAB, BADGE & RUN BOTH PLANS BUTTON -->
+          <!-- TOOLBAR: FILE TAB, BADGE & RUN QUERY BUTTON (MATCHING TAB 2) -->
           <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;flex-wrap:wrap;gap:8px;">
-            <div style="display:flex;align-items:center;gap:8px;padding-top:6px;">
+            <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
               <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
                 📄 ssbm_q1_1.sql
               </button>
-<!-- Green pill removed per user request -->
               <span id="p1ModeBadge" style="padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:none;">Chế độ Mô phỏng Chiếu</span>
             </div>
             <!-- ACTION BUTTONS -->
-            <div style="display:flex;align-items:center;gap:8px;padding:4px 0;">
-              <button id="p1RunQueryBtn" type="button" onclick="runP1BothPlans()" style="background:linear-gradient(135deg,#10b981,#059669);color:#ffffff;border:none;border-radius:6px;padding:7px 18px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(16,185,129,0.3);transition:all 0.15s ease;">
-                <span>▶ RUN BOTH PLANS (F5)</span>
+            <div style="padding:4px 0;">
+              <button id="p1RunQueryBtn" type="button" onclick="runP1BothPlans()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
+                <span>▶ Run Query (F5)</span>
               </button>
             </div>
           </div>
@@ -2939,12 +2930,12 @@
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Lãng phí:</div>
                 <div style="font-weight:800;color:#f43f5e;font-size:14px;" title="13 thuộc tính thừa không được dùng: 6M dòng × 52 Bytes = 312.0 MB (76.5% lãng phí)">312.0 MB</div>
               </div>
-              <div style="grid-column:1 / -1;border-top:1px dashed #fecdd3;padding-top:8px;display:flex;justify-content:space-between;align-items:center;">
+              <div style="grid-column:1 / -1;border-top:1px dashed #fecdd3;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
-                  <span style="color:#9f1239;font-weight:700;font-size:12px;">Thời gian xử lý:</span>
+                  <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
                   <span id="p1RowStdSub" style="display:none;"></span>
                 </div>
-                <div id="p1TimeRow" style="font-weight:800;color:#f43f5e;font-size:20px;" class="mono">215.8 ms</div>
+                <div id="p1TimeRow" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;">215.8 ms</div>
               </div>
               <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;background:#fff1f2;padding:6px 10px;border-radius:6px;border:1px solid #fecdd3;">
                 <div>
@@ -2995,12 +2986,12 @@
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Not Loaded:</div>
                 <div style="font-weight:800;color:#059669;font-size:14px;" title="13 cột còn lại hoàn toàn không được nạp vào bộ nhớ (bỏ qua 76.5%)">312.0 MB</div>
               </div>
-              <div style="grid-column:1 / -1;border-top:1px dashed #bfdbfe;padding-top:8px;display:flex;justify-content:space-between;align-items:center;">
+              <div style="grid-column:1 / -1;border-top:1px dashed #bfdbfe;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
-                  <span style="color:#1d4ed8;font-weight:700;font-size:12px;">Thời gian xử lý:</span>
+                  <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
                   <span id="p1ColStdSub" style="display:none;"></span>
                 </div>
-                <div id="p1TimeCol" style="font-weight:800;color:#3b82f6;font-size:20px;" class="mono">76.2 ms</div>
+                <div id="p1TimeCol" class="mono" style="font-size:18px;font-weight:800;color:#059669;">76.2 ms</div>
               </div>
               <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;background:#eff6ff;padding:6px 10px;border-radius:6px;border:1px solid #bfdbfe;">
                 <div>
@@ -3187,7 +3178,7 @@
           </div>
           <div style="padding:4px 0;">
             <button id="p2RunQueryBtn" type="button" onclick="runP2Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
-              <span>▶ Run Both Plans (F5)</span>
+              <span>▶ Run Query (F5)</span>
             </button>
           </div>
         </div>
@@ -3390,17 +3381,12 @@
       </div>
     </section>
 
-                    <section id="sec-3" class="sec-panel">
-      <!-- HEADER & SUBTITLE -->
-      <div class="sec-head" style="margin-bottom:8px;">
-        <div class="sec-title-wrap">
-          <h2 class="sec-title">3. Invisible Join — Thuật Toán Nối Sao Đột Phá (SIGMOD 2008)</h2>
-        </div>
-      </div>
-
-      <div class="ctx-box" style="margin-bottom:10px;">
-        <div class="ctx-line">
-          <span><b>SSBM Q3.1 Star Schema Join:</b> Bảng Fact <b>LINEORDER</b> (6,000,000 dòng) nối 3 bảng Dimension: <b>CUSTOMER</b> (30,000 dòng), <b>SUPPLIER</b> (2,000 dòng), <b>DWDATE</b> (2,555 dòng)</span>
+    <section id="sec-3" class="sec-panel">
+      <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
+      <div style="margin-bottom:10px;">
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Invisible Join — Thuật Toán Nối Sao Đột Phá (SIGMOD 2008)</h2>
+        <div style="font-size:12px;color:#475569;">
+          <b>SSBM Q3.1 Star Schema Join:</b> Bảng Fact <b>LINEORDER</b> (<span class="p3-rows-label">6,000,000</span> dòng) nối 3 bảng Dimension: <b>CUSTOMER</b> (30,000 dòng), <b>SUPPLIER</b> (2,000 dòng), <b>DWDATE</b> (2,555 dòng)
         </div>
       </div>
 
@@ -3642,8 +3628,8 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               • Bảng tạm trung gian: Phải lưu tuple lớn trong RAM (~<span id="p3PlanAIntermMb">408 MB</span> toàn bộ Fact struct)
             </div>
             <div style="background:#ffffff;border:1px solid #fecdd3;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
-              <b id="p3RowTime" class="mono" style="font-size:18px;color:#e11d48;">~345.9 ms</b>
+              <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
+              <b id="p3RowTime" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;">~345.9 ms</b>
             </div>
             <div style="display:none;">
               <span id="p3RowBytes">~408.0 MB</span>
@@ -3669,8 +3655,8 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               • 0 byte bảng tạm trung gian (Late Materialization)
             </div>
             <div style="background:#ffffff;border:1px solid #bbf7d0;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
-              <b id="p3ColTime" class="mono" style="font-size:18px;color:#059669;">~56.8 ms</b>
+              <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
+              <b id="p3ColTime" class="mono" style="font-size:18px;font-weight:800;color:#059669;">~56.8 ms</b>
             </div>
             <div style="display:none;">
               <span id="p3ColBytes">~28.5 MB</span>
@@ -3794,27 +3780,28 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
     <!-- TAB 4: HIEU SUAT SSBM Q3.1                                -->
     <!-- ========================================================= -->
     <section id="sec-4" class="sec-panel">
-      <div class="sec-head">
-        <div class="sec-title-wrap">
-          <h2 class="sec-title">4. Hiệu suất SSBM Q3.1 — Đua tốc độ 3 chiến lược trên toàn bộ Star Schema</h2>
-        </div>
-      </div>
-
-      <div class="ctx-box">
-        <div class="ctx-line">
-          <span>Truy vấn SSBM Q3.1 trên <b id="ctx4-rows" class="mono">6,000,000</b> dòng Fact: Lọc Khách hàng (Asia) + Nhà cung cấp (Asia) + Năm (1992..1997) → Tính tổng doanh thu theo quốc gia &amp; năm.</span>
+      <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
+      <div style="margin-bottom:10px;">
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. Hiệu suất SSBM Q3.1 — Đua tốc độ 3 chiến lược trên toàn bộ Star Schema</h2>
+        <div style="font-size:12px;color:#475569;">
+          Truy vấn SSBM Q3.1 trên <b id="ctx4-rows" class="mono">6,000,000</b> dòng Fact: Lọc Khách hàng (Asia) + Nhà cung cấp (Asia) + Năm (1992..1997) → Tính tổng doanh thu theo quốc gia &amp; năm
         </div>
       </div>
 
       <!-- VS CODE / SSMS QUERY CARD FOR TAB 4 -->
-      <div class="card" style="margin-top:14px;margin-bottom:14px;border:1.5px solid #cbd5e1;border-radius:10px;background:#ffffff;box-shadow:0 4px 16px rgba(15,23,42,0.06);overflow:hidden;">
+      <div class="card" style="margin-bottom:12px;border:1.5px solid #cbd5e1;border-radius:10px;background:#ffffff;box-shadow:0 2px 8px rgba(15,23,42,0.04);overflow:hidden;">
         
         <!-- VS CODE TAB BAR -->
-        <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;padding:0 12px;user-select:none;">
+        <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;">
           <!-- FILE TAB -->
           <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
             <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
               📊 q4_benchmark_q31.sql
+            </button>
+          </div>
+          <div style="padding:4px 0;">
+            <button id="p4RunQueryBtn" type="button" onclick="runP4Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
+              <span>▶ Run Query (F5)</span>
             </button>
           </div>
         </div>
@@ -5552,7 +5539,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (!state.p1Measuring) {
         const p1RunBtn = document.getElementById('p1RunQueryBtn');
         if (p1RunBtn && p1RunBtn.innerHTML.includes('Executing')) {
-          p1RunBtn.innerHTML = '<span>▶ RUN BOTH PLANS (F5)</span>';
+          p1RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
           p1RunBtn.style.opacity = '1';
         }
       }
@@ -5561,7 +5548,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     function runP1BothPlans() {
       const btn = document.getElementById('p1RunQueryBtn');
       if (btn) {
-        btn.innerHTML = '<span>⏳ Running Both Plans...</span>';
+        btn.innerHTML = '<span>⏳ Executing...</span>';
         btn.style.opacity = '0.8';
       }
       const btn2 = document.getElementById('p1RunBothBtn');
@@ -5582,7 +5569,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       runDemo('1', { source: 'sql', sql: sqlText });
       setTimeout(() => {
         if (btn) {
-          btn.innerHTML = '<span>▶ RUN BOTH PLANS (F5)</span>';
+          btn.innerHTML = '<span>▶ Run Query (F5)</span>';
           btn.style.opacity = '1';
         }
         if (btn2) {
@@ -7554,10 +7541,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;`;
     }
 
     function runP4Sql() {
-      const btn = document.getElementById('p4RunBenchmarkBtn');
+      const btn = document.getElementById('p4RunQueryBtn') || document.getElementById('p4RunBenchmarkBtn');
       const statusSuccess = document.getElementById('p4SsmsStatusSuccess');
       if (btn) {
-        btn.innerHTML = '<span>⏳ Benchmarking...</span>';
+        btn.innerHTML = '<span>⏳ Executing...</span>';
         btn.style.opacity = '0.8';
       }
       if (statusSuccess) {
@@ -7567,7 +7554,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;`;
       runDemo('4');
       setTimeout(() => {
         if (btn) {
-          btn.innerHTML = '<span>▶ Run Benchmark (F5)</span>';
+          btn.innerHTML = '<span>▶ Run Query (F5)</span>';
           btn.style.opacity = '1';
         }
         if (statusSuccess) {
@@ -8739,7 +8726,7 @@ WHERE d.year = 1993
         }
         const p1RunBtn = document.getElementById('p1RunQueryBtn');
         if (p1RunBtn) {
-          p1RunBtn.innerHTML = '<span>▶ RUN BOTH PLANS (F5)</span>';
+          p1RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
           p1RunBtn.style.opacity = '1';
         }
         const p1BothBtn = document.getElementById('p1RunBothBtn');
@@ -8751,6 +8738,11 @@ WHERE d.year = 1993
         if (p2RunBtn) {
           p2RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
           p2RunBtn.style.opacity = '1';
+        }
+        const p4RunBtn = document.getElementById('p4RunQueryBtn');
+        if (p4RunBtn) {
+          p4RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p4RunBtn.style.opacity = '1';
         }
       }
     }
