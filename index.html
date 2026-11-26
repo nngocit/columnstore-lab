@@ -188,6 +188,12 @@
       gap: 6px;
     }
     .ctrl-select { cursor: pointer; outline: none; }
+    .ctrl-select:disabled, input:disabled {
+      cursor: not-allowed !important;
+      opacity: 0.65 !important;
+      background-color: #f1f5f9 !important;
+      color: #94a3b8 !important;
+    }
     .ctrl-select:focus { border-color: var(--blue); }
     .ctrl-badge { background: var(--surface-muted); color: var(--text-secondary); }
 
@@ -2164,7 +2170,7 @@
             <option value="6000000" selected>6,000,000 dòng (Chuẩn)</option>
             <option value="3000000">3,000,000 dòng (Nhanh)</option>
           </select>
-          <div style="display:inline-flex;align-items:center;gap:4px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;" title="Seed ngẫu nhiên (chỉnh số để đổi tập dữ liệu)">
+          <div id="seedInputGroup" style="display:inline-flex;align-items:center;gap:4px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;transition:opacity 0.2s, background-color 0.2s;" title="Seed ngẫu nhiên (chỉnh số để đổi tập dữ liệu)">
             <label for="seedInput" style="font-size:12px;font-weight:700;color:#64748b;cursor:pointer;">Seed:</label>
             <input id="seedInput" type="number" min="1" max="999999" value="42" oninput="onSeedChange(this.value)" onchange="onSeedChange(this.value); onSeedCommit();" onkeydown="if(event.key==='Enter'){event.preventDefault(); onSeedChange(this.value); onSeedCommit();}" class="mono" style="width:58px;border:none;background:transparent;font-weight:700;color:#0f172a;font-size:12px;outline:none;" />
           </div>
@@ -9346,6 +9352,31 @@ WHERE d.year = 1993
       }
     }
 
+    function setConfigControlsDisabled(disabled) {
+      const rowsSel = document.getElementById('rowsSelect');
+      if (rowsSel) {
+        rowsSel.disabled = disabled;
+        rowsSel.style.cursor = disabled ? 'not-allowed' : 'pointer';
+        rowsSel.style.opacity = disabled ? '0.6' : '1';
+        rowsSel.title = disabled ? 'Đang chạy đo lường benchmark... Không thể đổi số dòng trong lúc đo.' : 'Số dòng dữ liệu';
+      }
+      const seedIn = document.getElementById('seedInput');
+      if (seedIn) {
+        seedIn.disabled = disabled;
+        seedIn.style.cursor = disabled ? 'not-allowed' : 'text';
+        seedIn.title = disabled ? 'Đang chạy đo lường benchmark... Không thể đổi Seed trong lúc đo.' : '';
+      }
+      const seedGroup = document.getElementById('seedInputGroup') || (seedIn ? seedIn.parentElement : null);
+      if (seedGroup) {
+        seedGroup.style.opacity = disabled ? '0.6' : '1';
+        seedGroup.style.cursor = disabled ? 'not-allowed' : 'default';
+        seedGroup.style.pointerEvents = disabled ? 'none' : 'auto';
+        seedGroup.style.backgroundColor = disabled ? '#e2e8f0' : '#f8fafc';
+        seedGroup.title = disabled ? 'Đang chạy đo lường benchmark... Không thể đổi Seed trong lúc đo.' : 'Seed ngẫu nhiên (chỉnh số để đổi tập dữ liệu)';
+      }
+    }
+    window.setConfigControlsDisabled = setConfigControlsDisabled;
+
     function getRowsAndSeed() {
       const sel = document.getElementById('rowsSelect');
       const rows = sel ? Number(sel.value) || 6000000 : 6000000;
@@ -9355,6 +9386,7 @@ WHERE d.year = 1993
     }
 
     function onSeedChange(val) {
+      if (state.runAbortCtrl) return;
       const s = Math.max(1, Math.min(999999, Math.round(Number(val) || 42)));
       state.seed = s;
       const b = document.getElementById('seedBadge');
@@ -9362,6 +9394,7 @@ WHERE d.year = 1993
     }
 
     function onSeedCommit() {
+      if (state.runAbortCtrl) return;
       const { rows, seed } = getRowsAndSeed();
       state.rows = rows;
       state.seed = seed;
@@ -9374,6 +9407,7 @@ WHERE d.year = 1993
     }
 
     function onConfigChange() {
+      if (state.runAbortCtrl) return;
       const { rows, seed } = getRowsAndSeed();
       clearTimeout(toggleP1Col._deb);
       clearTimeout(setP2DayRange._deb);
@@ -9417,6 +9451,7 @@ WHERE d.year = 1993
       const ctrl = new AbortController();
       state.runAbortCtrl = ctrl;
       const reqSeq = ++state.runSeq;
+      setConfigControlsDisabled(true);
 
       if (part === '1' || part === 'all') {
         state.p1Measuring = true;
@@ -9562,6 +9597,9 @@ WHERE d.year = 1993
       } finally {
         if (state.runAbortCtrl === ctrl) {
           state.runAbortCtrl = null;
+        }
+        if (!state.runAbortCtrl) {
+          setConfigControlsDisabled(false);
         }
         if (touchedBtn && state.btnRunSeq[btn.id] === reqSeq) {
           btn.disabled = false;
