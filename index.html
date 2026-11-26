@@ -2836,22 +2836,35 @@
           <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
               <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
-                📄 ssbm_q1_1.sql
+                📄 SSBM Q1.1 (Logical Query Spec)
               </button>
               <span id="p1ModeBadge" style="padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:none;">Chế độ Mô phỏng Chiếu</span>
             </div>
-            <!-- QUERY LOGICAL SPEC BADGE (VIEW ONLY) -->
             <div style="padding:4px 0;">
-              <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
-                <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
-              </span>
+              <button type="button" onclick="openSqlSpecModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📖 Đặc tả truy vấn logic SSBM (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Khung hiển thị câu truy vấn chuẩn của bài báo để đối chiếu yêu cầu nghiệp vụ.<br>• <b>Không phải SQL Client:</b> Hệ thống không gửi câu lệnh này qua Database RDBMS.<br>• <b>Cơ chế:</b> Nhấn nút <b>▶ Run</b> bên dưới để kích hoạt Engine Python/NumPy chạy trực tiếp trên 6,000,000 dòng trong RAM.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết!</i>">
+                <span style="color:#2563eb;font-size:13px;">ℹ️</span>
+                <span>Đặc tả logic SSBM (Xem giải thích)</span>
+              </button>
             </div>
           </div>
 
           <!-- MONACO SQL EDITOR (DARK SSMS / VS CODE THEME) — compact 150px -->
           <div style="position:relative;background:#1e1e1e;">
-            <div id="p1MonacoEditorContainer" style="height:150px;width:100%;"></div>
+            <div id="p1MonacoEditorContainer" style="height:140px;width:100%;"></div>
             <pre id="p1SqlPre" class="sql-pre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;"></pre>
+          </div>
+          <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
+          <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
+              <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
+              <span style="color:#64748b;">(Đặc tả yêu cầu chuẩn theo SIGMOD 2008)</span>
+            </div>
+            <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
+              <span>Thực thi phần cứng trên RAM: Nhấn</span>
+              <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
+              <span>ở thanh bên dưới</span>
+            </div>
           </div>
 
 <!-- Projection footer removed per user request -->
@@ -2871,15 +2884,17 @@
               <span style="font-weight:700;font-size:12.5px;color:#0f172a;display:flex;align-items:center;gap:6px;">
                 <span>Duyệt từng dòng (Step-by-Step Scan):</span>
               </span>
-              <button class="btn btn-sm" type="button" onclick="stepP1Scan()" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;" title="Chuyển sang dòng kế tiếp (chọn đồng thời cả Row-Store và Column-Store)">
-                <span>Từng bước</span>
-                <span style="font-size:13px;">➔</span>
+              <button class="btn btn-sm" type="button" onclick="stepP1Scan(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;" title="Lùi lại dòng trước">
+                <span>← Back</span>
+              </button>
+              <button class="btn btn-sm btn-primary" type="button" onclick="stepP1Scan(1)" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;" title="Chuyển sang dòng kế tiếp">
+                <span>Next →</span>
               </button>
               <button id="p1AutoScanBtn" class="btn btn-sm" type="button" onclick="toggleP1AutoScan()" style="background:#0f172a;color:#ffffff;font-weight:600;border:none;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Bật/Tắt tự động quét qua 5 dòng">
-                ▶ Quét tự động
+                ▶ Auto
               </button>
               <button class="btn btn-sm" type="button" onclick="resetP1Scan()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Đặt lại về dòng đầu tiên (Row #0 / Index 0)">
-                ↺ Đặt lại
+                ↺ Reset
               </button>
             </div>
             <div>
@@ -3177,20 +3192,34 @@
         <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;">
           <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
             <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
-              📄 q2_rle_count.sql
+              📄 SSBM Q1.1 RLE (Logical Spec)
             </button>
           </div>
           <div style="padding:4px 0;">
-            <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
-              <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
-            </span>
+              <button type="button" onclick="openSqlSpecModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📖 Đặc tả truy vấn logic SSBM (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Khung hiển thị câu truy vấn chuẩn của bài báo để đối chiếu yêu cầu nghiệp vụ.<br>• <b>Không phải SQL Client:</b> Hệ thống không gửi câu lệnh này qua Database RDBMS.<br>• <b>Cơ chế:</b> Nhấn nút <b>▶ Run</b> bên dưới để kích hoạt Engine Python/NumPy chạy trực tiếp trên 6,000,000 dòng trong RAM.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết!</i>">
+                <span style="color:#2563eb;font-size:13px;">ℹ️</span>
+                <span>Đặc tả logic SSBM (Xem giải thích)</span>
+              </button>
           </div>
         </div>
 
         <!-- MONACO SQL CONTAINER -->
         <div style="position:relative;background:#1e1e1e;">
-          <div id="p2MonacoEditorContainer" style="height:105px;width:100%;"></div>
+          <div id="p2MonacoEditorContainer" style="height:100px;width:100%;"></div>
           <pre id="p2SqlPre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;"></pre>
+        </div>
+        <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
+        <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
+            <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
+            <span style="color:#64748b;">(Đặc tả yêu cầu đếm trên cột orderdate)</span>
+          </div>
+          <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
+            <span>Thực thi phần cứng trên RAM: Nhấn</span>
+            <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
+            <span>ở thanh bên dưới</span>
+          </div>
         </div>
       </div>
 
@@ -3409,20 +3438,21 @@
           <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;">
             <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
               <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
-                📄 q3_invisible_join.sql
+                📄 SSBM Q3.1 Star Join (Logical Spec)
               </button>
             </div>
             <div style="padding:4px 0;">
-              <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
-                <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
-              </span>
+              <button type="button" onclick="openSqlSpecModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📖 Đặc tả truy vấn logic SSBM (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Khung hiển thị câu truy vấn chuẩn của bài báo để đối chiếu yêu cầu nghiệp vụ.<br>• <b>Không phải SQL Client:</b> Hệ thống không gửi câu lệnh này qua Database RDBMS.<br>• <b>Cơ chế:</b> Nhấn nút <b>▶ Run</b> bên dưới để kích hoạt Engine Python/NumPy chạy trực tiếp trên 6,000,000 dòng trong RAM.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết!</i>">
+                <span style="color:#2563eb;font-size:13px;">ℹ️</span>
+                <span>Đặc tả logic SSBM (Xem giải thích)</span>
+              </button>
               <span id="p3RunQueryBtn" style="display:none !important;" aria-hidden="true"></span>
             </div>
           </div>
 
           <!-- MONACO SQL CONTAINER (~170px so all 10 lines fit cleanly without vertical scroll clipping) -->
-          <div style="position:relative;background:#1e1e1e;border-bottom:1px solid #334155;">
-            <div id="p3MonacoEditorContainer" style="height:170px;width:100%;"></div>
+          <div style="position:relative;background:#1e1e1e;">
+            <div id="p3MonacoEditorContainer" style="height:165px;width:100%;"></div>
             <pre id="p3SqlPre" class="sql-pre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;">-- SSBM Q3.1: Doanh thu theo cặp quốc gia (Asia x Asia, 1992-1997)
 SELECT c.c_nation, s.s_nation, d.d_year, SUM(l.revenue) AS revenue
 FROM dbo.lineorder l
@@ -3436,9 +3466,18 @@ GROUP BY c.c_nation, s.s_nation, d.d_year
 ORDER BY d.d_year ASC, revenue DESC;</pre>
           </div>
 
-          <!-- SUMMARY BAR (Clean & Compact) -->
-          <div style="background:#0f172a;border-top:1px solid #1e293b;color:#94a3b8;padding:6px 14px;display:flex;align-items:center;justify-content:space-between;font-size:11.5px;">
-            <span>Mục tiêu: Tính tổng doanh thu theo cặp quốc gia &amp; năm (Nối 4 bảng Star Schema)</span>
+          <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
+          <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
+              <span style="color:#cbd5e1;font-weight:600;">Logical Query Spec</span>
+              <span style="color:#64748b;">(Nối 4 bảng Star Schema: Lineorder, Customer, Supplier, Dwdate)</span>
+            </div>
+            <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
+              <span>Thực thi phần cứng trên RAM: Nhấn</span>
+              <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
+              <span>ở thanh bên dưới</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3464,9 +3503,9 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
 
           <!-- STEPPER ACTION BUTTONS -->
           <div style="display:flex;gap:6px;align-items:center;">
-            <button class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" title="Quay lại bước trước">← Pha trước</button>
-            <button class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#fff;border-color:#1d4ed8;" title="Chuyển sang bước tiếp theo">Pha tiếp →</button>
-            <button class="btn btn-sm" type="button" onclick="resetP3Phase()" title="Về lại Phase 1 ban đầu">↺ Đặt lại</button>
+            <button class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;" title="Quay lại bước trước">← Back</button>
+            <button class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;" title="Chuyển sang bước tiếp theo">Next →</button>
+            <button class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Về lại Phase 1 ban đầu">↺ Reset</button>
             <button id="runBtn3" class="run-compare-btn" type="button" onclick="runDemo('3')" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>▶ Run</span></button>
           </div>
         </div>
@@ -3811,25 +3850,39 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <!-- FILE TAB -->
           <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
             <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
-              📊 q4_benchmark_q31.sql
+              📊 SSBM Q3.1 Benchmark Spec
             </button>
           </div>
           <div style="padding:4px 0;">
-            <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
-              <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
-            </span>
+              <button type="button" onclick="openSqlSpecModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📖 Đặc tả truy vấn logic SSBM (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Khung hiển thị câu truy vấn chuẩn của bài báo để đối chiếu yêu cầu nghiệp vụ.<br>• <b>Không phải SQL Client:</b> Hệ thống không gửi câu lệnh này qua Database RDBMS.<br>• <b>Cơ chế:</b> Nhấn nút <b>▶ Run</b> bên dưới để kích hoạt Engine Python/NumPy chạy trực tiếp trên 6,000,000 dòng trong RAM.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết!</i>">
+                <span style="color:#2563eb;font-size:13px;">ℹ️</span>
+                <span>Đặc tả logic SSBM (Xem giải thích)</span>
+              </button>
           </div>
         </div>
 
         <!-- MONACO SQL EDITOR CONTAINER -->
         <div style="position:relative;background:#1e1e1e;">
-          <div id="p4MonacoEditorContainer" style="height:110px;width:100%;"></div>
+          <div id="p4MonacoEditorContainer" style="height:105px;width:100%;"></div>
           <!-- Fallback pre if Monaco is loading -->
           <pre id="p4SqlPre" class="sql-pre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;">-- SSBM Q3.1 Benchmark Engine: So sánh 3 chiến lược thực thi
 -- Plan A: Row-Store (Early Materialization + Hash Join)
 -- Plan B: Standard Column-Store (Hash Join)
 -- Plan C: Column-Store + Invisible Join (Late Materialization)
 EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
+        </div>
+        <!-- BOTTOM STATUS STRIP: LOGICAL SPEC CLARIFICATION -->
+        <div style="background:#111827;border-top:1px solid #1f2937;color:#94a3b8;padding:4px 12px;font-size:11px;display:flex;align-items:center;justify-content:space-between;user-select:none;flex-wrap:wrap;gap:6px;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#38bdf8;"></span>
+            <span style="color:#cbd5e1;font-weight:600;">Benchmark Specification</span>
+            <span style="color:#64748b;">(So sánh 3 Kế hoạch thực thi trên Star Schema)</span>
+          </div>
+          <div style="color:#94a3b8;font-size:11px;display:flex;align-items:center;gap:5px;">
+            <span>Thực thi phần cứng trên RAM: Nhấn</span>
+            <span style="background:rgba(16,185,129,0.2);color:#34d399;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid rgba(16,185,129,0.4);">▶ Run</span>
+            <span>ở bảng đua bên dưới</span>
+          </div>
         </div>
       </div>
 
@@ -5194,9 +5247,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       renderPart1ScanOnly();
     }
 
-    function stepP1Scan() {
+    function stepP1Scan(direction = 1) {
       const len = (Array.isArray(state.data.p1.samples) && state.data.p1.samples.length) ? state.data.p1.samples.length : 5;
-      state.p1ScanIdx = (state.p1ScanIdx + 1) % len;
+      if (direction === -1) {
+        state.p1ScanIdx = (state.p1ScanIdx - 1 + len) % len;
+      } else {
+        state.p1ScanIdx = (state.p1ScanIdx + 1) % len;
+      }
       renderPart1ScanOnly();
     }
 
@@ -5207,7 +5264,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       }
       state.p1ScanIdx = 0;
       const btn = document.getElementById('p1AutoScanBtn');
-      if (btn) btn.textContent = '▶ Quét tự động';
+      if (btn) btn.textContent = '▶ Auto';
       renderPart1ScanOnly();
     }
 
@@ -5216,9 +5273,9 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (state.p1Timer) {
         clearInterval(state.p1Timer);
         state.p1Timer = null;
-        if (btn) btn.textContent = '▶ Quét tự động';
+        if (btn) btn.textContent = '▶ Auto';
       } else {
-        if (btn) btn.textContent = '⏸ Tạm dừng';
+        if (btn) btn.textContent = '⏸ Pause';
         state.p1Timer = setInterval(() => {
           const len = (Array.isArray(state.data.p1.samples) && state.data.p1.samples.length) ? state.data.p1.samples.length : 5;
           state.p1ScanIdx = (state.p1ScanIdx + 1) % len;
@@ -5226,6 +5283,35 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         }, 900);
       }
     }
+
+    // Modal Dialog Controls for SQL Spec Clarification
+    function openSqlSpecModal() {
+      const modal = document.getElementById('academicSpecModal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+    window.openSqlSpecModal = openSqlSpecModal;
+
+    function closeSqlSpecModal() {
+      const modal = document.getElementById('academicSpecModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+    window.closeSqlSpecModal = closeSqlSpecModal;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSqlSpecModal();
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('academicSpecModal');
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeSqlSpecModal();
+        });
+      }
+    });
 
     function formatSSBMDate(od) {
       const num = Math.max(0, Number(od) || 0);
@@ -8615,7 +8701,7 @@ WHERE d.year = 1993
         syncP2ResultBadges(state.data.p2.speedup_2, state.data.p2.res_2);
       }
 
-      const btnMap = { all: 'runAllBtn', '1': 'runBtn1', '2': 'runBtn2', '3': 'runBtn3', '4': 'runBtn4' };
+      const btnMap = { all: 'runAllBtn', '1': 'p1RunQueryBtn', '2': 'p2RunQueryBtn', '3': 'runBtn3', '4': 'p4RunQueryBtn' };
       const defaultLabels = {
         all: '▶ Chạy Benchmark',
         '1': '▶ Run',
@@ -8632,7 +8718,11 @@ WHERE d.year = 1993
       if (touchedBtn) {
         state.btnRunSeq[btn.id] = reqSeq;
         btn.disabled = true;
-        btn.textContent = '⏳ Đang đo...';
+        if (btn.id === 'runAllBtn') {
+          btn.innerHTML = '<span>⏳ Đang đo...</span>';
+        } else {
+          btn.innerHTML = '<span>⏳ Executing...</span>';
+        }
       }
 
       if (part !== 'all' && !state.showAll && !opts.silentNav) {
@@ -8744,25 +8834,23 @@ WHERE d.year = 1993
           btn.disabled = false;
           btn.textContent = origLabel;
         }
-        const p1RunBtn = document.getElementById('p1RunQueryBtn');
-        if (p1RunBtn) {
-          p1RunBtn.innerHTML = '<span>▶ Run</span>';
-          p1RunBtn.style.opacity = '1';
-        }
+        ['p1RunQueryBtn', 'p2RunQueryBtn', 'runBtn3', 'p4RunQueryBtn'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.innerHTML = '<span>▶ Run</span>';
+            el.style.opacity = '1';
+            el.disabled = false;
+          }
+        });
         const p1BothBtn = document.getElementById('p1RunBothBtn');
         if (p1BothBtn) {
           p1BothBtn.innerHTML = '<span style="font-size:18px;">▶</span><span>Chạy cả 2 Plan (Run Both Plans)</span><span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>';
           p1BothBtn.disabled = false;
         }
-        const p2RunBtn = document.getElementById('p2RunQueryBtn');
-        if (p2RunBtn) {
-          p2RunBtn.innerHTML = '<span>▶ Run</span>';
-          p2RunBtn.style.opacity = '1';
-        }
-        const p4RunBtn = document.getElementById('p4RunQueryBtn');
-        if (p4RunBtn) {
-          p4RunBtn.innerHTML = '<span>▶ Run</span>';
-          p4RunBtn.style.opacity = '1';
+        const runAll = document.getElementById('runAllBtn');
+        if (runAll) {
+          runAll.innerHTML = '▶ Chạy Benchmark';
+          runAll.disabled = false;
         }
       }
     }
@@ -8999,5 +9087,50 @@ WHERE d.year = 1993
     })();
 
   </script>
+  <!-- ========================================================================= -->
+  <!-- ACADEMIC SPECIFICATION MODAL DIALOG (EXPLAINS LOGICAL QUERY VS EXECUTION) -->
+  <!-- ========================================================================= -->
+  <div id="academicSpecModal" class="academic-modal-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+    <div class="academic-modal-box" style="background:#ffffff;border-radius:12px;max-width:620px;width:100%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid #cbd5e1;overflow:hidden;display:flex;flex-direction:column;animation:popIn 0.18s ease-out;">
+      <!-- Modal Header -->
+      <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">📖</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;">Bản Chất Khung SQL &amp; Cơ Chế Thực Thi Thực Tế</span>
+        </div>
+        <button type="button" onclick="closeSqlSpecModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
+      </div>
+      <!-- Modal Body -->
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>1. Khung code SQL là gì?</span>
+          </div>
+          <div>Đây là <b>Logical Query Specification (Đặc tả logic)</b> chuẩn của bộ đo <b>Star Schema Benchmark (SSBM)</b> từ bài báo gốc SIGMOD 2008 (GS. Daniel Abadi, Đại học Yale / MIT). Nó cho người xem biết bài toán nghiệp vụ chuẩn cần tính toán cái gì.</div>
+        </div>
+        <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#9f1239;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>2. Hệ thống có kết nối Database SQL (RDBMS) để chạy không?</span>
+          </div>
+          <div><b>HOÀN TOÀN KHÔNG.</b> Hệ thống không gọi SQL Server hay MySQL. Nếu chạy qua RDBMS đóng gói sẵn, toàn bộ dữ liệu chỉ được xử lý như một Row-Store và ta không thể mổ xẻ, đo đạc vi mô độ trễ Cache CPU L1/L2 hay phân tích băng thông I/O thực tế.</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#065f46;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>3. Thực tế hệ thống thực thi bằng cách nào?</span>
+          </div>
+          <div>Khi bạn nhấn nút <b>▶ Run</b> bên dưới, hệ thống kích hoạt <b>Physical Execution Engine</b> viết bằng Python/NumPy thực thi trực tiếp trên mảng cấu trúc bộ nhớ RAM <b>6,000,000 dòng</b>:
+            <ul style="margin:6px 0 0 18px;padding:0;">
+              <li><b>Row-Store:</b> Nạp cả struct tuple AoS 17 cột (68B/dòng), lãng phí 76% bộ nhớ đệm Cache.</li>
+              <li><b>Column-Store:</b> Chỉ nạp đúng các mảng vector SoA cần thiết, lọc trực tiếp trên dữ liệu nén RLE không giải nén, và kết nối bằng thuật toán Invisible Join SIMD bitmap.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Footer -->
+      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
+        <button type="button" onclick="closeSqlSpecModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
