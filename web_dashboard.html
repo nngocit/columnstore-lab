@@ -2840,11 +2840,11 @@
               </button>
               <span id="p1ModeBadge" style="padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:none;">Chế độ Mô phỏng Chiếu</span>
             </div>
-            <!-- ACTION BUTTONS -->
+            <!-- QUERY LOGICAL SPEC BADGE (VIEW ONLY) -->
             <div style="padding:4px 0;">
-              <button id="p1RunQueryBtn" type="button" onclick="runP1BothPlans()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
-                <span>▶ Run Query (F5)</span>
-              </button>
+              <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
+                <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
+              </span>
             </div>
           </div>
 
@@ -2882,7 +2882,11 @@
                 ↺ Đặt lại
               </button>
             </div>
-
+            <div>
+              <button id="p1RunQueryBtn" type="button" onclick="runP1BothPlans()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
+                <span>▶ Run</span>
+              </button>
+            </div>
           </div>
 
           <div id="p1ScanBanner" class="scan-banner miss" style="margin-top:8px;border-radius:6px;padding:8px 12px;font-size:12px;">
@@ -3177,9 +3181,9 @@
             </button>
           </div>
           <div style="padding:4px 0;">
-            <button id="p2RunQueryBtn" type="button" onclick="runP2Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
-              <span>▶ Run Query (F5)</span>
-            </button>
+            <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
+              <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
+            </span>
           </div>
         </div>
 
@@ -3192,8 +3196,15 @@
 
       <!-- 3-STEP RLE ALGORITHM WALKTHROUGH (COMPACT PIPELINE) -->
       <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.03);">
-        <div style="font-weight:700;font-size:12px;color:#1e293b;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.02em;">
-          Quy trình 3 Bước Xử lý RLE Trực tiếp (Zero Decompression):
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+          <div style="font-weight:700;font-size:12px;color:#1e293b;text-transform:uppercase;letter-spacing:0.02em;">
+            Quy trình 3 Bước Xử lý RLE Trực tiếp (Zero Decompression):
+          </div>
+          <div>
+            <button id="p2RunQueryBtn" type="button" onclick="runP2Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
+              <span>▶ Run</span>
+            </button>
+          </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;">
           <!-- BƯỚC 1 -->
@@ -3401,8 +3412,12 @@
                 📄 q3_invisible_join.sql
               </button>
             </div>
-            <!-- Preserved p3RunQueryBtn DOM ID for JS compatibility (hidden as requested) -->
-            <span id="p3RunQueryBtn" style="display:none !important;" aria-hidden="true"></span>
+            <div style="padding:4px 0;">
+              <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
+                <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
+              </span>
+              <span id="p3RunQueryBtn" style="display:none !important;" aria-hidden="true"></span>
+            </div>
           </div>
 
           <!-- MONACO SQL CONTAINER (~170px so all 10 lines fit cleanly without vertical scroll clipping) -->
@@ -3452,7 +3467,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <button class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" title="Quay lại bước trước">← Pha trước</button>
             <button class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#fff;border-color:#1d4ed8;" title="Chuyển sang bước tiếp theo">Pha tiếp →</button>
             <button class="btn btn-sm" type="button" onclick="resetP3Phase()" title="Về lại Phase 1 ban đầu">↺ Đặt lại</button>
-            <button id="runBtn3" class="btn btn-dark btn-sm" type="button" onclick="runDemo('3')">▶ Chạy Invisible Join</button>
+            <button id="runBtn3" class="run-compare-btn" type="button" onclick="runDemo('3')" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>▶ Run</span></button>
           </div>
         </div>
 
@@ -3800,9 +3815,9 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             </button>
           </div>
           <div style="padding:4px 0;">
-            <button id="p4RunQueryBtn" type="button" onclick="runP4Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
-              <span>▶ Run Query (F5)</span>
-            </button>
+            <span style="font-size:11px;color:#475569;font-weight:600;background:#e2e8f0;padding:3px 8px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;">
+              <span>ℹ️</span> Truy vấn logic SSBM (Xem đặc tả)
+            </span>
           </div>
         </div>
 
@@ -3901,8 +3916,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
       <!-- EXECUTION TIME BENCHMARK CARD (FULL WIDTH) -->
       <div class="card" style="width:100%;">
-        <div class="card-head">
+        <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
           <div class="card-title">Thời gian thực thi SSBM Q3.1 (ms)</div>
+          <div>
+            <button id="p4RunQueryBtn" type="button" onclick="runP4Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
+              <span>▶ Run</span>
+            </button>
+          </div>
         </div>
 
         <div class="race-list">
@@ -5539,7 +5559,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (!state.p1Measuring) {
         const p1RunBtn = document.getElementById('p1RunQueryBtn');
         if (p1RunBtn && p1RunBtn.innerHTML.includes('Executing')) {
-          p1RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p1RunBtn.innerHTML = '<span>▶ Run</span>';
           p1RunBtn.style.opacity = '1';
         }
       }
@@ -5569,7 +5589,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       runDemo('1', { source: 'sql', sql: sqlText });
       setTimeout(() => {
         if (btn) {
-          btn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          btn.innerHTML = '<span>▶ Run</span>';
           btn.style.opacity = '1';
         }
         if (btn2) {
@@ -7311,7 +7331,7 @@ WHERE orderdate BETWEEN 0 AND 2;`;
       runDemo('2');
       setTimeout(() => {
         if (btn) {
-          btn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          btn.innerHTML = '<span>▶ Run</span>';
           btn.style.opacity = '1';
         }
         if (statusSuccess) {
@@ -7554,7 +7574,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;`;
       runDemo('4');
       setTimeout(() => {
         if (btn) {
-          btn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          btn.innerHTML = '<span>▶ Run</span>';
           btn.style.opacity = '1';
         }
         if (statusSuccess) {
@@ -8598,10 +8618,10 @@ WHERE d.year = 1993
       const btnMap = { all: 'runAllBtn', '1': 'runBtn1', '2': 'runBtn2', '3': 'runBtn3', '4': 'runBtn4' };
       const defaultLabels = {
         all: '▶ Chạy Benchmark',
-        '1': '▶ Chạy đo tốc độ Phần 1',
-        '2': '▶ Chạy đo tốc độ Phần 2',
-        '3': '▶ Chạy Invisible Join',
-        '4': '▶ Chạy Benchmark Phần 4'
+        '1': '▶ Run',
+        '2': '▶ Run',
+        '3': '▶ Run',
+        '4': '▶ Run'
       };
       const btn = document.getElementById(btnMap[part]);
       if (btn && (!btn.dataset.origLabel || btn.dataset.origLabel.includes('Đang đo'))) {
@@ -8726,7 +8746,7 @@ WHERE d.year = 1993
         }
         const p1RunBtn = document.getElementById('p1RunQueryBtn');
         if (p1RunBtn) {
-          p1RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p1RunBtn.innerHTML = '<span>▶ Run</span>';
           p1RunBtn.style.opacity = '1';
         }
         const p1BothBtn = document.getElementById('p1RunBothBtn');
@@ -8736,12 +8756,12 @@ WHERE d.year = 1993
         }
         const p2RunBtn = document.getElementById('p2RunQueryBtn');
         if (p2RunBtn) {
-          p2RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p2RunBtn.innerHTML = '<span>▶ Run</span>';
           p2RunBtn.style.opacity = '1';
         }
         const p4RunBtn = document.getElementById('p4RunQueryBtn');
         if (p4RunBtn) {
-          p4RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
+          p4RunBtn.innerHTML = '<span>▶ Run</span>';
           p4RunBtn.style.opacity = '1';
         }
       }
