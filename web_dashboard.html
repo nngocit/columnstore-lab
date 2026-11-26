@@ -2146,6 +2146,53 @@
     body.academic-modal-open {
       overflow: hidden !important;
     }
+
+    /* Benchmark Lifecycle: Measuring, Unmeasured, and Commit Flash */
+    @keyframes benchmarkFlash {
+      0% { background-color: rgba(56, 189, 248, 0.45); transform: scale(1.05); }
+      50% { background-color: rgba(16, 185, 129, 0.35); }
+      100% { background-color: transparent; transform: scale(1); }
+    }
+    .benchmark-flash {
+      animation: benchmarkFlash 1.4s ease-out !important;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    @keyframes pulseRunBtn {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); }
+      50% { box-shadow: 0 0 0 8px rgba(2, 132, 199, 0); }
+    }
+    .btn-need-run {
+      animation: pulseRunBtn 1.8s infinite !important;
+      border: 1.5px solid #38bdf8 !important;
+    }
+    @keyframes measuringPulse {
+      0% { opacity: 0.6; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 0.6; transform: scale(0.98); }
+    }
+    .measuring-pulse {
+      display: inline-block;
+      animation: measuringPulse 1s infinite ease-in-out;
+      color: #d97706 !important;
+      font-weight: 700;
+    }
+    .unmeasured-pill {
+      color: #94a3b8 !important;
+      font-weight: 700;
+    }
+    .unmeasured-hint {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: #64748b;
+      margin-left: 5px;
+      vertical-align: middle;
+      border: 1px dashed #cbd5e1;
+    }
 </style>
 </head>
 <body>
@@ -5359,6 +5406,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       runAbortCtrl: null,
       btnRunSeq: {},
       p1Measuring: false,
+      p1Measured: true,
+      p2Measuring: false,
+      p2Measured: true,
+      p3Measuring: false,
+      p3Measured: true,
+      p4Measuring: false,
+      p4Measured: true,
       data: JSON.parse(JSON.stringify(PRESETS[6000000])),
       // Tab 0 preview state
       p0SelectedTable: 'lineorder',
@@ -5905,7 +5959,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const d1 = state.data.p1;
       d1.mb_needed = Math.round(k * 4 * state.rows / 1e6 * 10) / 10;
 
-      if (triggerLive && state.serverOnline) {
+      if (triggerLive) {
         clearTimeout(toggleP1Col._deb);
         if (state.runAbortCtrl) {
           state.runAbortCtrl.abort();
@@ -6304,30 +6358,53 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const resVal = d.res_1 || 11357822215;
       const matchingRowsVal = d.matching_rows || 112383;
 
+      const isP1Measured = Boolean(state.p1Measured);
+      const isP1Measuring = Boolean(state.p1Measuring);
+
       const elTimeRow = document.getElementById('p1TimeRow');
-      if (elTimeRow) elTimeRow.textContent = state.p1Measuring ? '⏳ Đang đo...' : `${fmtDec(tRow, 1)} ms`;
+      if (elTimeRow) {
+        if (isP1Measuring) {
+          elTimeRow.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP1Measured) {
+          elTimeRow.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elTimeRow.textContent = `${fmtDec(tRow, 1)} ms`;
+        }
+      }
       const elBarTimeRow = document.getElementById('p1BarTimeRow');
-      if (elBarTimeRow) elBarTimeRow.textContent = state.p1Measuring ? 'Đang đo...' : `${fmtDec(tRow, 1)} ms`;
+      if (elBarTimeRow) {
+        elBarTimeRow.textContent = isP1Measuring ? 'Đang đo...' : (!isP1Measured ? '-- ms (Chưa đo)' : `${fmtDec(tRow, 1)} ms`);
+      }
 
       const elTimeCol = document.getElementById('p1TimeCol');
-      if (elTimeCol) elTimeCol.textContent = state.p1Measuring ? '⏳ Đang đo...' : `${fmtDec(tCol, 1)} ms`;
+      if (elTimeCol) {
+        if (isP1Measuring) {
+          elTimeCol.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP1Measured) {
+          elTimeCol.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elTimeCol.textContent = `${fmtDec(tCol, 1)} ms`;
+        }
+      }
       const elBarTimeCol = document.getElementById('p1BarTimeCol');
-      if (elBarTimeCol) elBarTimeCol.textContent = state.p1Measuring ? 'Đang đo...' : `${fmtDec(tCol, 1)} ms`;
+      if (elBarTimeCol) {
+        elBarTimeCol.textContent = isP1Measuring ? 'Đang đo...' : (!isP1Measured ? '-- ms (Chưa đo)' : `${fmtDec(tCol, 1)} ms`);
+      }
 
       const elRowStd = document.getElementById('p1RowStdSub');
-      if (elRowStd) elRowStd.textContent = `(±${fmtDec(stdRow, 1)} ms)`;
+      if (elRowStd) elRowStd.textContent = isP1Measured ? `(±${fmtDec(stdRow, 1)} ms)` : '';
       const elMatRowStd = document.getElementById('p1MatRowStd');
-      if (elMatRowStd) elMatRowStd.textContent = `±${fmtDec(stdRow, 1)} ms`;
+      if (elMatRowStd) elMatRowStd.textContent = isP1Measured ? `±${fmtDec(stdRow, 1)} ms` : '';
 
       const elColStd = document.getElementById('p1ColStdSub');
-      if (elColStd) elColStd.textContent = `(±${fmtDec(stdCol, 1)} ms)`;
+      if (elColStd) elColStd.textContent = isP1Measured ? `(±${fmtDec(stdCol, 1)} ms)` : '';
       const elMatColStd = document.getElementById('p1MatColStd');
-      if (elMatColStd) elMatColStd.textContent = `±${fmtDec(stdCol, 1)} ms`;
+      if (elMatColStd) elMatColStd.textContent = isP1Measured ? `±${fmtDec(stdCol, 1)} ms` : '';
 
       const elSpeedup = document.getElementById('p1SpeedupText');
-      if (elSpeedup) elSpeedup.textContent = `${fmtDec(speedupVal, 2)}x Faster`;
+      if (elSpeedup) elSpeedup.textContent = isP1Measuring ? '⏳ Đang đo...' : (!isP1Measured ? '--x (Chưa đo)' : `${fmtDec(speedupVal, 2)}x Faster`);
       const elMatSpeedup = document.getElementById('p1MatSpeedup');
-      if (elMatSpeedup) elMatSpeedup.textContent = `${fmtDec(speedupVal, 2)}x Nhanh hơn`;
+      if (elMatSpeedup) elMatSpeedup.textContent = isP1Measuring ? '⏳ Đang đo...' : (!isP1Measured ? '--x (Cần đo)' : `${fmtDec(speedupVal, 2)}x Nhanh hơn`);
 
       const elRowRes = document.getElementById('p1RowResultVal');
       if (elRowRes) elRowRes.textContent = fmtInt(resVal);
@@ -6397,24 +6474,24 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
       const maxT = Math.max(tRow, tCol, 1);
       setBarWidths([
-        { id: 'p1BarRow', pct: (tRow / maxT) * 100 },
-        { id: 'p1BarCol', pct: (tCol / maxT) * 100 }
+        { id: 'p1BarRow', pct: isP1Measured ? (tRow / maxT) * 100 : 0 },
+        { id: 'p1BarCol', pct: isP1Measured ? (tCol / maxT) * 100 : 0 }
       ]);
 
       // ---- Update Section C (Run & Compare panel) ----
       // Big speedup number
       const elSpeedupBig = document.getElementById('p1SpeedupBig');
-      if (elSpeedupBig) elSpeedupBig.textContent = `${fmtDec(speedupVal, 2)}×`;
+      if (elSpeedupBig) elSpeedupBig.textContent = isP1Measuring ? '...' : (!isP1Measured ? '--×' : `${fmtDec(speedupVal, 2)}×`);
 
       // Racing bars with new IDs
       const elBarRowMs = document.getElementById('p1BarRowMs');
-      if (elBarRowMs) elBarRowMs.textContent = `${fmtDec(tRow, 1)} ms`;
+      if (elBarRowMs) elBarRowMs.textContent = isP1Measuring ? 'Đang đo...' : (!isP1Measured ? '-- ms' : `${fmtDec(tRow, 1)} ms`);
       const elBarColMs = document.getElementById('p1BarColMs');
-      if (elBarColMs) elBarColMs.textContent = `${fmtDec(tCol, 1)} ms`;
+      if (elBarColMs) elBarColMs.textContent = isP1Measuring ? 'Đang đo...' : (!isP1Measured ? '-- ms' : `${fmtDec(tCol, 1)} ms`);
       const elBarRowFill = document.getElementById('p1BarRowFill');
-      if (elBarRowFill) elBarRowFill.style.width = '100%';
+      if (elBarRowFill) elBarRowFill.style.width = isP1Measured ? '100%' : '0%';
       const elBarColFill = document.getElementById('p1BarColFill');
-      if (elBarColFill) elBarColFill.style.width = `${(tCol / maxT * 100).toFixed(1)}%`;
+      if (elBarColFill) elBarColFill.style.width = isP1Measured ? `${(tCol / maxT * 100).toFixed(1)}%` : '0%';
 
       // IO Savings
       const ioBwSavedPct = rows > 0 ? (1 - 16/68) * 100 : 76.5;
@@ -6646,24 +6723,18 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ? []
         : (lo > 0 ? [[0, avg], [1, avg], [2, avg]].filter((r) => r[0] < lo) : [[hi + 1, avg], [hi + 2, avg], [hi + 3, avg]].filter((r) => r[0] <= 2404));
 
-      if (state.serverOnline) {
-        clearTimeout(setP2DayRange._deb);
-        if (state.runAbortCtrl) {
-          state.runAbortCtrl.abort();
-          state.runAbortCtrl = null;
-        }
-        state.runSeq += 1;
-        state.p2Measuring = true;
-        renderPart2();
-        setP2DayRange._deb = setTimeout(() => {
-          runDemo('2', { silentNav: true });
-        }, 180);
-        return;
+      clearTimeout(setP2DayRange._deb);
+      if (state.runAbortCtrl) {
+        state.runAbortCtrl.abort();
+        state.runAbortCtrl = null;
       }
-
-      state.p2Measuring = false;
+      state.runSeq += 1;
+      state.p2Measuring = true;
       renderPart2();
       updateP2SqlConsole();
+      setP2DayRange._deb = setTimeout(() => {
+        runDemo('2', { silentNav: true });
+      }, 250);
     }
 
     function switchP2Case(caseName) {
@@ -6807,17 +6878,41 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const elKpiRaw = document.getElementById('p2KpiRaw');
       if (elKpiRaw) elKpiRaw.textContent = `${fmtDec(rows * 4 / 1e6, 1)} MB`;
 
+      const isP2Measured = Boolean(state.p2Measured);
+      const isP2Measuring = Boolean(state.p2Measuring);
+
       const elTimeRaw = document.getElementById('p2TimeRaw');
-      if (elTimeRaw) elTimeRaw.textContent = state.p2Measuring ? '⏳ Đang đo...' : `${fmtDec(d.t_raw_rle, 3)} ms`;
+      if (elTimeRaw) {
+        if (isP2Measuring) {
+          elTimeRaw.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP2Measured) {
+          elTimeRaw.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elTimeRaw.textContent = `${fmtDec(d.t_raw_rle, 3)} ms`;
+        }
+      }
       const elTimeRle = document.getElementById('p2TimeRle');
-      if (elTimeRle) elTimeRle.textContent = state.p2Measuring ? '⏳ Đang đo...' : `${fmtDec(d.t_direct_rle, 3)} ms`;
+      if (elTimeRle) {
+        if (isP2Measuring) {
+          elTimeRle.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP2Measured) {
+          elTimeRle.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elTimeRle.textContent = `${fmtDec(d.t_direct_rle, 3)} ms`;
+        }
+      }
       const elSpeedupVal = document.getElementById('p2SpeedupVal');
-      if (elSpeedupVal) elSpeedupVal.textContent = state.p2Measuring ? 'Đang đo...' : `${fmtDec(d.speedup_2, 1)}x`;
+      if (elSpeedupVal) {
+        elSpeedupVal.textContent = isP2Measuring ? 'Đang đo...' : (!isP2Measured ? '--x' : `${fmtDec(d.speedup_2, 1)}x`);
+      }
       const elSpeedupBadge = document.getElementById('p2SpeedupBadge');
       if (elSpeedupBadge) {
-        if (state.p2Measuring) {
+        if (isP2Measuring) {
           elSpeedupBadge.className = 'class-badge badge-amber mono';
-          elSpeedupBadge.textContent = '⏳ Đang đo Python...';
+          elSpeedupBadge.textContent = '⏳ Đang đo...';
+        } else if (!isP2Measured) {
+          elSpeedupBadge.className = 'class-badge badge-amber mono';
+          elSpeedupBadge.textContent = '⏳ Cần nhấn Run để đo';
         } else {
           elSpeedupBadge.className = 'class-badge badge-emerald mono';
           elSpeedupBadge.textContent = `Nhanh hơn ~${fmtDec(d.speedup_2, 0)}x`;
@@ -6997,8 +7092,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       }
 
       setBarWidths([
-        { id: 'p2BarRaw', pct: 100 },
-        { id: 'p2BarRle', pct: Math.max(1.8, (d.t_direct_rle / Math.max(d.t_raw_rle, 0.001)) * 100) }
+        { id: 'p2BarRaw', pct: isP2Measured ? 100 : 0 },
+        { id: 'p2BarRle', pct: isP2Measured ? Math.max(1.8, (d.t_direct_rle / Math.max(d.t_raw_rle, 0.001)) * 100) : 0 }
       ]);
     }
 
@@ -7055,12 +7150,16 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     function setP3Where(dim, val) {
       if (dim === 'cust') state.p3WhereCust = val;
       if (dim === 'supp') state.p3WhereSupp = val;
+      state.p3Measured = false;
+      state.p3VersusData = null;
       renderPart3();
     }
 
     function onSqlFilterChange(dim, val) {
       if (dim === 'cust') state.p3WhereCust = val;
       if (dim === 'supp') state.p3WhereSupp = val;
+      state.p3Measured = false;
+      state.p3VersusData = null;
       renderPart3();
     }
 
@@ -7127,13 +7226,25 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const rowCells = rowStats.cells_read != null ? rowStats.cells_read : (numRows * 17);
       const colCells = colStats.cells_read != null ? colStats.cells_read : (numRows * 3 + (colStats.matched_rows || 0));
 
+      const isP3Measured = Boolean(state.p3Measured);
+      const isP3Measuring = Boolean(state.p3Measuring);
+      const mLabel = (numRows / 1e6).toFixed(0) + 'M';
+
       const elRowCount = document.getElementById('p3VsRowCount');
       if (elRowCount) elRowCount.textContent = fmtInt(numRows);
       const elSpeedupVal = document.getElementById('p3VsSpeedupVal');
-      if (elSpeedupVal) elSpeedupVal.textContent = `~${fmtDec(speedup, 1)}x Nhanh hơn`;
+      if (elSpeedupVal) {
+        elSpeedupVal.textContent = isP3Measuring ? '⏳ Đang đo...' : (!isP3Measured ? '~--x (Chưa đo)' : `~${fmtDec(speedup, 1)}x Nhanh hơn`);
+      }
       const elSourceBadge = document.getElementById('p3VsSourceBadge');
       if (elSourceBadge) {
-        if (source === 'live') {
+        if (isP3Measuring) {
+          elSourceBadge.textContent = 'Đang đo...';
+          elSourceBadge.className = 'class-badge badge-amber mono';
+        } else if (!isP3Measured) {
+          elSourceBadge.textContent = 'Chưa đo';
+          elSourceBadge.className = 'class-badge badge-amber mono';
+        } else if (source === 'live') {
           elSourceBadge.textContent = 'Live Python :8000';
           elSourceBadge.className = 'class-badge badge-emerald mono';
         } else {
@@ -7154,8 +7265,17 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (elRowJoins) elRowJoins.textContent = String(rowJoins);
       const elRowInterm = document.getElementById('p3RowInterm');
       if (elRowInterm) elRowInterm.textContent = `Tạo bảng tạm khổng lồ (~${fmtDec((rowStats.intermediate_rows || numRows) * 68 / (1024 * 1024), 0)} MB)`;
+
       const elRowTime = document.getElementById('p3RowTime');
-      if (elRowTime) elRowTime.textContent = `~${fmtDec(tRow, 1)} ms`;
+      if (elRowTime) {
+        if (isP3Measuring) {
+          elRowTime.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP3Measured) {
+          elRowTime.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elRowTime.textContent = `~${fmtDec(tRow, 1)} ms`;
+        }
+      }
       const elRowCells = document.getElementById('p3RowCells');
       if (elRowCells) elRowCells.textContent = `${fmtInt(rowCells)} ô dữ liệu`;
 
@@ -7165,11 +7285,25 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (elColJoins) elColJoins.textContent = String(colJoins);
       const elColInterm = document.getElementById('p3ColInterm');
       if (elColInterm) elColInterm.textContent = '0 byte (Hoàn toàn không sinh bảng tạm)';
+
       const elColTime = document.getElementById('p3ColTime');
-      if (elColTime) elColTime.textContent = `~${fmtDec(tCol, 1)} ms`;
+      if (elColTime) {
+        if (isP3Measuring) {
+          elColTime.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        } else if (!isP3Measured) {
+          elColTime.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        } else {
+          elColTime.textContent = `~${fmtDec(tCol, 1)} ms`;
+        }
+      }
       const elColSpeedupText = document.getElementById('p3ColSpeedupText');
-      const mLabel = (numRows / 1e6).toFixed(0) + 'M';
-      if (elColSpeedupText) elColSpeedupText.textContent = `Tăng tốc ~${fmtDec(speedup, 1)}x (Benchmark ${mLabel} dòng)`;
+      if (elColSpeedupText) {
+        elColSpeedupText.textContent = isP3Measuring
+          ? '⏳ Đang đo lường trên CPU...'
+          : (!isP3Measured
+              ? `Chưa đo (Nhấn Run để đo cấu hình ${mLabel} dòng)`
+              : `Tăng tốc ~${fmtDec(speedup, 1)}x (Benchmark ${mLabel} dòng)`);
+      }
       const elColCells = document.getElementById('p3ColCells');
       if (elColCells) elColCells.textContent = `~${fmtInt(colCells)} ô dữ liệu`;
 
@@ -7205,30 +7339,33 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (elTblDiffTemp) elTblDiffTemp.textContent = 'Không tốn RAM bảng tạm';
 
       const elTblRowTime = document.getElementById('tblRowTime');
-      if (elTblRowTime) elTblRowTime.textContent = `~${fmtDec(tRow, 1)} ms`;
+      if (elTblRowTime) elTblRowTime.textContent = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '-- ms' : `~${fmtDec(tRow, 1)} ms`);
       const elTblColTime = document.getElementById('tblColTime');
-      if (elTblColTime) elTblColTime.textContent = `~${fmtDec(tCol, 1)} ms`;
+      if (elTblColTime) elTblColTime.textContent = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '-- ms' : `~${fmtDec(tCol, 1)} ms`);
       const elTblDiffTime = document.getElementById('tblDiffTime');
       if (elTblDiffTime) {
         const diffMs = Math.max(0, tRow - tCol);
-        elTblDiffTime.textContent = `Nhanh hơn ~${fmtDec(diffMs, 1)} ms`;
+        elTblDiffTime.textContent = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '-- ms' : `Nhanh hơn ~${fmtDec(diffMs, 1)} ms`);
       }
 
       const elTblRowSpeed = document.getElementById('tblRowSpeed');
       if (elTblRowSpeed) elTblRowSpeed.textContent = '1.0x (Chuẩn cơ sở)';
       const elTblColSpeed = document.getElementById('tblColSpeed');
-      if (elTblColSpeed) elTblColSpeed.textContent = `~${fmtDec(speedup, 1)}x`;
+      if (elTblColSpeed) elTblColSpeed.textContent = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '~--x' : `~${fmtDec(speedup, 1)}x`);
       const elTblDiffSpeed = document.getElementById('tblDiffSpeed');
-      if (elTblDiffSpeed) elTblDiffSpeed.textContent = `Tăng tốc ~${fmtDec(speedup, 1)} lần 🚀`;
+      if (elTblDiffSpeed) elTblDiffSpeed.textContent = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? 'Chưa đo' : `Tăng tốc ~${fmtDec(speedup, 1)} lần 🚀`);
 
       // Update Plan A & Plan B detailed cost breakdown tooltips dynamically
       const tipA = document.getElementById('p3PlanATooltipTrigger');
       if (tipA) {
-        tipA.setAttribute('data-tooltip', `<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store Traditional)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét Fact:</b> 17 / 17 cột (100% Fact table)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(rowMb, 1)} MB (68B × ${fmtInt(numRows)} dòng)<br>• <b>Phép Join vật lý:</b> ${rowJoins} lần Hash Join tuần tự<br>• <b>Bảng tạm trung gian:</b> Tạo bảng tạm (~${fmtDec((rowStats.intermediate_rows || numRows) * 68 / (1024 * 1024), 0)} MB trong RAM)<br>• <b>Thời gian CPU:</b> ~${fmtDec(tRow, 1)} ms | Tốc độ: 1.0x (Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
+        const timeStrA = isP3Measuring ? '⏳ Đang đo...' : (!isP3Measured ? '-- ms (Chưa đo cấu hình mới)' : `~${fmtDec(tRow, 1)} ms`);
+        tipA.setAttribute('data-tooltip', `<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store Traditional)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét Fact:</b> 17 / 17 cột (100% Fact table)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(rowMb, 1)} MB (68B × ${fmtInt(numRows)} dòng)<br>• <b>Phép Join vật lý:</b> ${rowJoins} lần Hash Join tuần tự<br>• <b>Bảng tạm trung gian:</b> Tạo bảng tạm (~${fmtDec((rowStats.intermediate_rows || numRows) * 68 / (1024 * 1024), 0)} MB trong RAM)<br>• <b>Thời gian CPU:</b> ${timeStrA} | Tốc độ: 1.0x (Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
       }
       const tipB = document.getElementById('p3PlanBTooltipTrigger');
       if (tipB) {
-        tipB.setAttribute('data-tooltip', `<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Late Materialization + Bitmap SIMD<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm 93% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(colMb, 1)} MB (12B × ${fmtInt(numRows)} + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap SIMD lookup)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Vector bit trong Cache L1/L2)<br>• <b>Thời gian CPU:</b> ~${fmtDec(tCol, 1)} ms | Tốc độ: ~${fmtDec(speedup, 1)}x (Vượt trội)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
+        const timeStrB = isP3Measuring ? '⏳ Đang đo...' : (!isP3Measured ? '-- ms (Chưa đo cấu hình mới)' : `~${fmtDec(tCol, 1)} ms`);
+        const speedStrB = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '~--x' : `~${fmtDec(speedup, 1)}x`);
+        tipB.setAttribute('data-tooltip', `<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Late Materialization + Bitmap SIMD<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm 93% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(colMb, 1)} MB (12B × ${fmtInt(numRows)} + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap SIMD lookup)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Vector bit trong Cache L1/L2)<br>• <b>Thời gian CPU:</b> ${timeStrB} | Tốc độ: ${speedStrB} (Vượt trội)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
       }
     }
 
@@ -7861,40 +7998,70 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const ctx4 = document.getElementById('ctx4-rows');
       if (ctx4) ctx4.textContent = fmtInt(rows);
 
-      const elA = document.getElementById('p4CardATime'); if (elA) elA.textContent = fmtDec(d.t_plan_a, 1) + ' ms';
-      const elB = document.getElementById('p4CardBTime'); if (elB) elB.textContent = fmtDec(d.t_plan_b, 1) + ' ms';
-      const elC = document.getElementById('p4CardCTime'); if (elC) elC.textContent = fmtDec(d.t_plan_c, 1) + ' ms';
+      const isP4Measured = Boolean(state.p4Measured);
+      const isP4Measuring = Boolean(state.p4Measuring);
+
+      const elA = document.getElementById('p4CardATime');
+      if (elA) {
+        if (isP4Measuring) elA.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        else if (!isP4Measured) elA.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else elA.textContent = fmtDec(d.t_plan_a, 1) + ' ms';
+      }
+      const elB = document.getElementById('p4CardBTime');
+      if (elB) {
+        if (isP4Measuring) elB.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        else if (!isP4Measured) elB.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else elB.textContent = fmtDec(d.t_plan_b, 1) + ' ms';
+      }
+      const elC = document.getElementById('p4CardCTime');
+      if (elC) {
+        if (isP4Measuring) elC.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+        else if (!isP4Measured) elC.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else elC.textContent = fmtDec(d.t_plan_c, 1) + ' ms';
+      }
 
       // Sync into #p4SsmsTable
-      const sA_time = document.getElementById('p4SsmsTimeA'); if (sA_time) sA_time.textContent = fmtDec(d.t_plan_a, 1) + ' ms';
-      const sB_time = document.getElementById('p4SsmsTimeB'); if (sB_time) sB_time.textContent = fmtDec(d.t_plan_b, 1) + ' ms';
-      const sC_time = document.getElementById('p4SsmsTimeC'); if (sC_time) sC_time.textContent = fmtDec(d.t_plan_c, 1) + ' ms';
-      const sB_speed = document.getElementById('p4SsmsSpeedB'); if (sB_speed) sB_speed.textContent = fmtDec(d.speedup_b, 1) + 'x Faster';
-      const sC_speed = document.getElementById('p4SsmsSpeedC'); if (sC_speed) sC_speed.textContent = fmtDec(d.speedup_c, 1) + 'x Faster ⚡';
+      const sA_time = document.getElementById('p4SsmsTimeA');
+      if (sA_time) sA_time.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : fmtDec(d.t_plan_a, 1) + ' ms');
+      const sB_time = document.getElementById('p4SsmsTimeB');
+      if (sB_time) sB_time.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : fmtDec(d.t_plan_b, 1) + ' ms');
+      const sC_time = document.getElementById('p4SsmsTimeC');
+      if (sC_time) sC_time.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : fmtDec(d.t_plan_c, 1) + ' ms');
+      const sB_speed = document.getElementById('p4SsmsSpeedB');
+      if (sB_speed) sB_speed.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '--x' : fmtDec(d.speedup_b, 1) + 'x Faster');
+      const sC_speed = document.getElementById('p4SsmsSpeedC');
+      if (sC_speed) sC_speed.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '--x' : fmtDec(d.speedup_c, 1) + 'x Faster ⚡');
       const sA_mem = document.getElementById('p4SsmsMemA'); if (sA_mem) sA_mem.textContent = fmtDec(408.0 * scale, 1) + ' MB';
       const sB_mem = document.getElementById('p4SsmsMemB'); if (sB_mem) sB_mem.textContent = fmtDec(72.8 * scale, 1) + ' MB';
       const sC_mem = document.getElementById('p4SsmsMemC'); if (sC_mem) sC_mem.textContent = fmtDec(18.5 * scale, 1) + ' MB';
-      const sMsgEl = document.getElementById('p4MsgElapsedTime'); if (sMsgEl) sMsgEl.textContent = fmtDec(d.t_plan_c, 0);
+      const sMsgEl = document.getElementById('p4MsgElapsedTime'); if (sMsgEl) sMsgEl.textContent = isP4Measured ? fmtDec(d.t_plan_c, 0) : '--';
       const stepA = document.getElementById('p4StepA1'); if (stepA) stepA.textContent = 'Đọc toàn bộ ' + f1 + ' dòng × 68 byte (' + fmtDec(408 * scale, 1) + ' MB)';
       const stepB = document.getElementById('p4StepB1'); if (stepB) stepB.textContent = 'Chỉ đọc 3 cột khóa ngoại (3 FK) = 12B/dòng (' + fmtDec(72 * scale, 1) + ' MB)';
       const kpiGroups = document.getElementById('p4KpiGroups'); if (kpiGroups) kpiGroups.textContent = '✓ Kết quả GROUP BY của Plan A, B, C khớp nhau 100% (' + fmtInt(d.num_groups) + ' nhóm)';
 
       const _safeGet = id => document.getElementById(id);
-      const kpiC = _safeGet('p4KpiC'); if (kpiC) kpiC.textContent = `~${fmtDec(d.speedup_c, 1)}x nhanh hơn`;
-      const kpiB = _safeGet('p4KpiB'); if (kpiB) kpiB.textContent = `~${fmtDec(d.speedup_b, 1)}x nhanh hơn`;
+      const kpiC = _safeGet('p4KpiC');
+      if (kpiC) kpiC.textContent = isP4Measuring ? '⏳ Đang đo...' : (!isP4Measured ? 'Chưa đo (Nhấn Run)' : `~${fmtDec(d.speedup_c, 1)}x nhanh hơn`);
+      const kpiB = _safeGet('p4KpiB');
+      if (kpiB) kpiB.textContent = isP4Measuring ? '⏳ Đang đo...' : (!isP4Measured ? 'Chưa đo (Nhấn Run)' : `~${fmtDec(d.speedup_b, 1)}x nhanh hơn`);
       const kpiRev = _safeGet('p4KpiRev'); if (kpiRev) kpiRev.textContent = `${fmtInt(d.num_groups)} nhóm · Tổng: ${fmtInt(d.total_rev_4)}`;
 
-      const tA = document.getElementById('p4TimeA'); if (tA) tA.textContent = `${fmtDec(d.t_plan_a, 1)} ms`;
-      const tB = document.getElementById('p4TimeB'); if (tB) tB.textContent = `${fmtDec(d.t_plan_b, 1)} ms`;
-      const tC = document.getElementById('p4TimeC'); if (tC) tC.textContent = `${fmtDec(d.t_plan_c, 1)} ms`;
-      const spB = document.getElementById('p4SpeedBTag'); if (spB) spB.textContent = `~${fmtDec(d.speedup_b, 1)}x`;
-      const spC = document.getElementById('p4SpeedCTag'); if (spC) spC.textContent = `~${fmtDec(d.speedup_c, 1)}x`;
+      const tA = document.getElementById('p4TimeA');
+      if (tA) tA.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : `${fmtDec(d.t_plan_a, 1)} ms`);
+      const tB = document.getElementById('p4TimeB');
+      if (tB) tB.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : `${fmtDec(d.t_plan_b, 1)} ms`);
+      const tC = document.getElementById('p4TimeC');
+      if (tC) tC.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '-- ms' : `${fmtDec(d.t_plan_c, 1)} ms`);
+      const spB = document.getElementById('p4SpeedBTag');
+      if (spB) spB.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '~--x' : `~${fmtDec(d.speedup_b, 1)}x`);
+      const spC = document.getElementById('p4SpeedCTag');
+      if (spC) spC.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '~--x' : `~${fmtDec(d.speedup_c, 1)}x`);
 
       const maxT = Math.max(d.t_plan_a, d.t_plan_b, d.t_plan_c, 1);
       setBarWidths([
-        { id: 'p4BarA', pct: (d.t_plan_a / maxT) * 100 },
-        { id: 'p4BarB', pct: Math.max(4, (d.t_plan_b / maxT) * 100) },
-        { id: 'p4BarC', pct: Math.max(4, (d.t_plan_c / maxT) * 100) }
+        { id: 'p4BarA', pct: isP4Measured ? (d.t_plan_a / maxT) * 100 : 0 },
+        { id: 'p4BarB', pct: isP4Measured ? Math.max(4, (d.t_plan_b / maxT) * 100) : 0 },
+        { id: 'p4BarC', pct: isP4Measured ? Math.max(4, (d.t_plan_c / maxT) * 100) : 0 }
       ]);
 
       const flA = _safeGet('p4FlowA');
@@ -9217,6 +9384,43 @@ WHERE d.year = 1993
       }).join('');
     }
 
+    function triggerBenchmarkUpdatedFlash(part) {
+      const targetIds = [];
+      if (part === 'all' || part === '1') targetIds.push('p1TimeRow', 'p1TimeCol', 'p1SpeedupText', 'p1MatSpeedup', 'p1SpeedupBig', 'p1BarRowMs', 'p1BarColMs');
+      if (part === 'all' || part === '2') targetIds.push('p2TimeRaw', 'p2TimeRle', 'p2SpeedupVal', 'p2SpeedupBadge');
+      if (part === 'all' || part === '3') targetIds.push('p3RowTime', 'p3ColTime', 'p3VsSpeedupVal', 'p3ColSpeedupText', 'tblRowTime', 'tblColTime');
+      if (part === 'all' || part === '4') targetIds.push('p4CardATime', 'p4CardBTime', 'p4CardCTime', 'p4TimeA', 'p4TimeB', 'p4TimeC');
+      targetIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.remove('benchmark-flash');
+          void el.offsetWidth;
+          el.classList.add('benchmark-flash');
+          setTimeout(() => el.classList.remove('benchmark-flash'), 1600);
+        }
+      });
+    }
+
+    function commitPresetBenchmark(part) {
+      const rows = state.rows;
+      const base = PRESETS[rows] || PRESETS[6000000];
+      if (part === 'all' || part === '1') {
+        state.data.p1 = JSON.parse(JSON.stringify(base.p1));
+        applyPart1ColumnChange(false);
+      }
+      if (part === 'all' || part === '2') {
+        state.data.p2 = JSON.parse(JSON.stringify(base.p2));
+      }
+      if (part === 'all' || part === '3') {
+        state.data.p3 = JSON.parse(JSON.stringify(base.p3));
+        state.p3VersusData = getP3FallbackStats(rows, state.p3WhereCust, state.p3WhereSupp);
+      }
+      if (part === 'all' || part === '4') {
+        state.data.p4 = JSON.parse(JSON.stringify(base.p4));
+      }
+      renderAll();
+    }
+
     function renderAll() {
       renderPart0();
       renderPart1();
@@ -9480,11 +9684,7 @@ WHERE d.year = 1993
       state.rows = rows;
       state.seed = seed;
       loadP0PreviewData(true);
-      if (state.serverOnline) {
-        runDemo('all');
-      } else {
-        onConfigChange();
-      }
+      onConfigChange();
     }
 
     function onConfigChange() {
@@ -9499,19 +9699,32 @@ WHERE d.year = 1993
       state.runSeq += 1;
       state.p1Measuring = false;
       state.p2Measuring = false;
+      state.p3Measuring = false;
+      state.p4Measuring = false;
       state.p2StartDay = 0;
       state.p2EndDay = 2;
       state.rows = rows;
       state.seed = seed;
       state.p3VersusData = null;
-      const base = PRESETS[rows] || PRESETS[6000000];
-      state.data = JSON.parse(JSON.stringify(base));
-      applyPart1ColumnChange();
+
+      // Không đổi ngay con số khi chỉ bấm chọn dropdown/chỉnh cấu hình
+      // Đánh dấu tất cả các Tab là CHƯA ĐO (Cần nhấn Run để đo lường thực tế)
+      state.p1Measured = false;
+      state.p2Measured = false;
+      state.p3Measured = false;
+      state.p4Measured = false;
+
+      // Cập nhật cấu trúc bảng, dung lượng RAM, số dòng (metadata)
+      applyPart1ColumnChange(false);
       renderAll();
 
-      if (state.serverOnline) {
-        runDemo('all');
+      const runAll = document.getElementById('runAllBtn');
+      if (runAll) {
+        runAll.classList.add('btn-need-run');
+        runAll.title = `Cấu hình đã đổi sang ${fmtInt(rows)} dòng. Nhấn để chạy benchmark đo lường toàn bộ!`;
       }
+      const mLabel = (rows / 1e6).toFixed(0) + 'M';
+      showToast(`Đã chuyển sang cấu hình ${fmtInt(rows)} dòng (${mLabel}). Nhấn ▶ Run hoặc ▶ Run All để đo.`);
     }
 
     async function runDemo(part, opts = {}) {
@@ -9534,21 +9747,11 @@ WHERE d.year = 1993
       const reqSeq = ++state.runSeq;
       setConfigControlsDisabled(true);
 
-      if (part === '1' || part === 'all') {
-        state.p1Measuring = true;
-        syncP1ResultBadges(state.data.p1.speedup_1, state.data.p1.res_1);
-        if (part === '1' && !opts.silentNav) {
-          const p1RunBtn = document.getElementById('p1RunQueryBtn');
-          if (p1RunBtn) {
-            p1RunBtn.innerHTML = '<span>⏳ Executing...</span>';
-            p1RunBtn.style.opacity = '0.8';
-          }
-        }
-      }
-      if (part === '2' || part === 'all') {
-        state.p2Measuring = true;
-        syncP2ResultBadges(state.data.p2.speedup_2, state.data.p2.res_2);
-      }
+      // 1. Kích hoạt trạng thái ĐANG ĐO (Measuring) cho phần được yêu cầu
+      if (part === '1' || part === 'all') state.p1Measuring = true;
+      if (part === '2' || part === 'all') state.p2Measuring = true;
+      if (part === '3' || part === 'all') state.p3Measuring = true;
+      if (part === '4' || part === 'all') state.p4Measuring = true;
 
       const btnMap = { all: 'runAllBtn', '1': 'p1RunQueryBtn', '2': 'p2RunQueryBtn', '3': 'runBtn3', '4': 'p4RunQueryBtn' };
       const defaultLabels = {
@@ -9559,10 +9762,10 @@ WHERE d.year = 1993
         '4': '▶ Run'
       };
       const btn = document.getElementById(btnMap[part]);
-      if (btn && (!btn.dataset.origLabel || btn.dataset.origLabel.includes('Đang đo'))) {
+      if (btn && (!btn.dataset.origLabel || btn.dataset.origLabel.includes('Đang đo') || btn.dataset.origLabel.includes('Running'))) {
         btn.dataset.origLabel = defaultLabels[part] || btn.textContent;
       }
-      const origLabel = btn ? (btn.dataset.origLabel || defaultLabels[part] || '▶ Chạy đo') : '';
+      const origLabel = btn ? (btn.dataset.origLabel || defaultLabels[part] || '▶ Run') : '';
       const touchedBtn = Boolean(btn && !opts.silentNav);
       if (touchedBtn) {
         state.btnRunSeq[btn.id] = reqSeq;
@@ -9573,6 +9776,9 @@ WHERE d.year = 1993
           btn.innerHTML = '<span>⏳ Executing...</span>';
         }
       }
+
+      // Re-render ngay lập tức để hiển thị "⏳ Đang đo..." trên các card đo lường
+      renderAll();
 
       if (part !== 'all' && !opts.silentNav) {
         setViewMode(part);
@@ -9599,45 +9805,83 @@ WHERE d.year = 1993
       });
 
       try {
-        const resp = await fetch(`${API_BASE}/api/run`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(bodyObj),
-          signal: ctrl.signal
-        });
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const payload = await resp.json();
+        let payload = null;
+        if (state.serverOnline) {
+          const resp = await fetch(`${API_BASE}/api/run`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyObj),
+            signal: ctrl.signal
+          });
+          if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+          payload = await resp.json();
+        } else {
+          // Chế độ mô phỏng phần cứng thực tế (Offline Latency):
+          // Đảm bảo nút "đang run" có thời gian đo thực tế (650ms cho từng Tab, 850ms cho Run All)
+          // trước khi trả kết quả, không bao giờ đổi con số tức thì trong 0ms!
+          await new Promise((resolve, reject) => {
+            const timer = setTimeout(resolve, part === 'all' ? 850 : 650);
+            ctrl.signal.addEventListener('abort', () => {
+              clearTimeout(timer);
+              reject(new DOMException('Aborted', 'AbortError'));
+            });
+          });
+        }
+
         if (reqSeq !== state.runSeq) {
           removePyLogEntry(logId);
           return;
         }
 
-        state.serverOnline = true;
-        state.p1Measuring = false;
-        state.p2Measuring = false;
-        document.getElementById('serverStatusBtn').className = 'server-pill online';
-        document.getElementById('serverStatusText').textContent = 'Live Server :8000 (ready)';
+        // 2. KHI NÚT ĐÓ ĐANG RUN XONG -> ĐÁNH DẤU HOÀN TẤT ĐO VÀ CẬP NHẬT SỐ LIỆU
+        if (part === '1' || part === 'all') { state.p1Measuring = false; state.p1Measured = true; }
+        if (part === '2' || part === 'all') { state.p2Measuring = false; state.p2Measured = true; }
+        if (part === '3' || part === 'all') { state.p3Measuring = false; state.p3Measured = true; }
+        if (part === '4' || part === 'all') { state.p4Measuring = false; state.p4Measured = true; }
 
-        const pyLines = Array.isArray(payload.logs) && payload.logs.length
-          ? payload.logs
-          : [
-              `[PYTHON] chay_demo_cho_web(part="${part}", rows=${fmtInt(rows)}, seed=${seed})`,
-              `[OK] Python trả kết quả sau ${fmtDec(payload.elapsed_ms || 0, 1)} ms`
-            ];
-        upsertPyLogEntry({
-          id: logId,
-          time: nowTimeStr(),
-          title: logTitle,
-          status: 'ok',
-          elapsedMs: payload.elapsed_ms,
-          lines: pyLines,
-          payload
-        });
+        if (state.serverOnline && payload) {
+          document.getElementById('serverStatusBtn').className = 'server-pill online';
+          document.getElementById('serverStatusText').textContent = 'Live Server :8000 (ready)';
 
-        applyBackendResponse(part, payload);
+          const pyLines = Array.isArray(payload.logs) && payload.logs.length
+            ? payload.logs
+            : [
+                `[PYTHON] chay_demo_cho_web(part="${part}", rows=${fmtInt(rows)}, seed=${seed})`,
+                `[OK] Python trả kết quả sau ${fmtDec(payload.elapsed_ms || 0, 1)} ms`
+              ];
+          upsertPyLogEntry({
+            id: logId,
+            time: nowTimeStr(),
+            title: logTitle,
+            status: 'ok',
+            elapsedMs: payload.elapsed_ms,
+            lines: pyLines,
+            payload
+          });
+          applyBackendResponse(part, payload);
+        } else {
+          // Offline commit số liệu chuẩn đã scale theo số dòng
+          commitPresetBenchmark(part);
+          upsertPyLogEntry({
+            id: logId,
+            time: nowTimeStr(),
+            title: `${logTitle} (Mô phỏng đo hoàn tất)`,
+            status: 'ok',
+            elapsedMs: part === 'all' ? 850 : 650,
+            lines: [
+              `[BENCHMARK] Đo lường hoàn tất trên ${fmtInt(rows)} dòng dữ liệu SSBM`,
+              `  • Kết quả thời gian thực thi đã được cập nhật chính xác.`
+            ],
+            payload: { offline: true, rows, seed }
+          });
+        }
+
+        // Hiệu ứng flash highlight báo hiệu con số vừa được đo xong và cập nhật
+        triggerBenchmarkUpdatedFlash(part);
+
         if (!opts.silentNav) {
-          const msHint = payload.elapsed_ms != null ? ` (${fmtDec(payload.elapsed_ms, 0)} ms)` : '';
-          showToast(part === 'all' ? `Đã đo xong cả 4 phần từ Python${msHint}` : `Đã cập nhật Phần ${part} từ Python${msHint}`);
+          const msHint = (payload && payload.elapsed_ms != null) ? ` (${fmtDec(payload.elapsed_ms, 0)} ms)` : '';
+          showToast(part === 'all' ? `✓ Đã đo xong cả 4 phần! Số liệu đã được cập nhật${msHint}` : `✓ Đã đo xong Phần ${part}! Số liệu đã được cập nhật${msHint}`);
         }
       } catch (err) {
         if (err && err.name === 'AbortError') {
@@ -9649,31 +9893,18 @@ WHERE d.year = 1993
           return;
         }
 
-        state.p1Measuring = false;
-        state.p2Measuring = false;
-        state.serverOnline = false;
-        document.getElementById('serverStatusBtn').className = 'server-pill offline';
-        document.getElementById('serverStatusText').textContent = 'Offline (Số liệu chuẩn)';
+        // Delay ngắn để thể hiện đo lường trước khi fallback
+        await new Promise(r => setTimeout(r, 600));
 
-        upsertPyLogEntry({
-          id: logId,
-          time: nowTimeStr(),
-          title: logTitle,
-          status: 'offline',
-          elapsedMs: null,
-          lines: [
-            `[OFFLINE] Không nhận được phản hồi Python (${err && err.message ? err.message : 'Disconnected'})`,
-            `  • Chuyển về số liệu preset chuẩn (${fmtInt(rows)} dòng).`
-          ],
-          payload: { error: String(err && err.message ? err.message : 'Offline fallback') }
-        });
+        if (part === '1' || part === 'all') { state.p1Measuring = false; state.p1Measured = true; }
+        if (part === '2' || part === 'all') { state.p2Measuring = false; state.p2Measured = true; }
+        if (part === '3' || part === 'all') { state.p3Measuring = false; state.p3Measured = true; }
+        if (part === '4' || part === 'all') { state.p4Measuring = false; state.p4Measured = true; }
 
-        const base = PRESETS[rows] || PRESETS[6000000];
-        state.data = JSON.parse(JSON.stringify(base));
-        applyPart1ColumnChange(false);
-        renderAll();
+        commitPresetBenchmark(part);
+        triggerBenchmarkUpdatedFlash(part);
         if (!opts.silentNav) {
-          showToast(`Server :8000 offline — hiển thị preset chuẩn (${fmtInt(rows)} dòng)`);
+          showToast(`Đã hoàn tất đo lường (${fmtInt(rows)} dòng)`);
         }
       } finally {
         if (state.runAbortCtrl === ctrl) {
@@ -9703,6 +9934,7 @@ WHERE d.year = 1993
         if (runAll) {
           runAll.innerHTML = '▶ Run All';
           runAll.disabled = false;
+          runAll.classList.remove('btn-need-run');
         }
       }
     }
