@@ -3480,9 +3480,10 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 <span style="background:#1e40af;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 1</span>
                 <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Dimension Filtering — Lọc 3 Bảng Chiều Độc Lập</span>
               </div>
-              <span class="info-help-btn" data-tooltip="CPU áp dụng độc lập các điều kiện WHERE lên từng bảng Dimension nhỏ. Chỉ trích xuất tập khóa chính hợp lệ vào Hash Set (ht_c, ht_s, ht_d) lưu trong CPU Cache để thăm dò ở Phase 2. Tuyệt đối không trích xuất thuộc tính chuỗi ở bước này (hoãn sang Phase 3 Late Materialization)." style="font-size:11.5px;color:#1e40af;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-                <span>ℹ️ Nguyên lý</span>
-              </span>
+              <button type="button" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;" data-tooltip="<b>🔍 Phase 1: Dimension Filtering (SIGMOD 2008)</b><br>• <b>Cơ chế:</b> CPU áp dụng độc lập các điều kiện WHERE lên từng bảng Dimension nhỏ.<br>• <b>Trích xuất:</b> Chỉ nạp tập khóa chính hợp lệ vào Hash Set (ht_c, ht_s, ht_d) lưu trong CPU Cache L1/L2.<br>• <b>Tối ưu:</b> Tuyệt đối không trích xuất thuộc tính chuỗi ở bước này để tránh lãng phí băng thông.<br><i>👉 Dữ liệu lọc được dùng để thăm dò mảng Fact ở Phase 2!</i>">
+                <span style="color:#2563eb;font-size:12px;">ℹ️</span>
+                <span>Nguyên lý</span>
+              </button>
             </div>
 
             <!-- 3 DIMENSION TABLES (WITH INTEGRATED HASH SET FOOTERS) -->
@@ -3556,9 +3557,10 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 <span class="card-title" id="p3CardTitleFact" style="font-size:11.5px;color:#475569;font-weight:600;">
                   Quét 3 Cột FK Fact lineorder (5 dòng preview RAM · Tổng <span class="p3-rows-label">6M</span> dòng)
                 </span>
-                <span class="info-help-btn" data-tooltip="CPU quét độc lập 3 mảng cột khóa ngoại custkey, suppkey, orderdate. Thăm dò qua 3 Hash Set ở Phase 1 để tạo 3 mảng bit: B_c, B_s, B_d. Thực hiện phép nhân bitwise P = B_c AND B_s AND B_d ở tốc độ SIMD, loại bỏ đến 96.6% dòng rác mà hoàn toàn không tốn phép Join vật lý hay bảng tạm." style="font-size:11.5px;color:#475569;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-                  <span>ℹ️ Nguyên lý</span>
-                </span>
+                <button type="button" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;" data-tooltip="<b>⚡ Phase 2: Fact Probing &amp; Bitmap AND</b><br>• <b>Cơ chế:</b> Quét độc lập 3 mảng cột khóa ngoại (custkey, suppkey, orderdate) của bảng Fact.<br>• <b>Thao tác:</b> Thăm dò qua 3 Hash Set từ Phase 1 để tạo 3 mảng bit (B_c, B_s, B_d).<br>• <b>Bitmap AND:</b> Thực hiện phép bitwise AND trên thanh ghi SIMD để tạo Position List P.<br><i>👉 Xử lý trọn vẹn trong CPU Cache, không tốn RAM cho bảng băm trung gian!</i>">
+                  <span style="color:#2563eb;font-size:12px;">ℹ️</span>
+                  <span>Nguyên lý</span>
+                </button>
               </div>
             </div>
 
@@ -3583,9 +3585,10 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Late Materialization &amp; GROUP BY — Gom Nhóm &amp; Tính Tổng</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
-                <span class="info-help-btn" data-tooltip="Tại các vị trí trong tập P: CPU chỉ đọc duy nhất cột revenue từ FACT. Tra cứu ngược lại bảng Dimension để lấy thuộc tính phục vụ GROUP BY: c_nation từ customer, s_nation từ supplier, d_year từ dwdate. Ghép thuộc tính ở bước cuối cùng, tránh hoàn toàn chi phí tạo bảng tạm khổng lồ!" style="font-size:11.5px;color:#047857;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-                  <span>ℹ️ Nguyên lý</span>
-                </span>
+                <button type="button" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;" data-tooltip="<b>🎯 Phase 3: Late Materialization &amp; GROUP BY</b><br>• <b>Cơ chế:</b> Tại các vị trí trong tập P, CPU chỉ đọc duy nhất cột revenue từ bảng Fact.<br>• <b>Tra cứu ngược:</b> Dùng khóa ngoại trích xuất c_nation, s_nation, d_year để GROUP BY &amp; tính tổng.<br>• <b>Tiết kiệm:</b> Bỏ qua hoàn toàn 13 cột Fact không tham gia tính toán, giảm 93% I/O Fact!<br><i>👉 Hoàn tất truy vấn với tốc độ gấp ~6.1 lần so với Row-Store!</i>">
+                  <span style="color:#2563eb;font-size:12px;">ℹ️</span>
+                  <span>Nguyên lý</span>
+                </button>
               </div>
             </div>
 
@@ -3595,7 +3598,10 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               <div id="p3LateLookupCard" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
                 <div style="font-size:11px;font-weight:700;color:#047857;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
                   <span>Chi tiết Late Materialization</span>
-                  <span class="info-help-btn" onclick="openLateMatModal()" data-tooltip="Late Materialization (Ghép nối muộn - SIGMOD 2008):&#10;• Khái niệm: Khác với Row-Store ghép nối sớm toàn bộ 17 thuộc tính của 6,000,000 dòng tạo bảng tạm khổng lồ (Early Materialization), Column-Store HOÃN việc đọc thuộc tính đến tận bước cuối cùng.&#10;• Quy trình thực thi: Chỉ khi Phase 2 xác định chính xác Position List P, CPU mới đọc dữ liệu:&#10;  1. Đọc duy nhất cột revenue từ Fact tại các vị trí thuộc P (tiết kiệm 93% I/O Fact).&#10;  2. Dùng khóa ngoại tra cứu ngược vào Dimension để lấy c_nation, s_nation, d_year phục vụ GROUP BY.&#10;• Lợi ích vượt trội: Không sinh bảng tạm trung gian (Zero Intermediate Tuples), xử lý trực tiếp trong CPU Cache!&#10;(Nhấp chuột để mở Modal xem sơ đồ chi tiết)" style="font-size:11px;color:#047857;cursor:pointer;display:inline-flex;align-items:center;gap:2px;text-transform:none;letter-spacing:normal;font-weight:700;background:#ffffff;border:1px solid #a7f3d0;padding:1px 6px;border-radius:4px;">ℹ️ Giải thích</span>
+                  <button type="button" onclick="openLateMatModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;text-transform:none;letter-spacing:normal;" data-tooltip="<b>⚡ Nguyên lý Late Materialization (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Khác với Row-Store ghép nối sớm toàn bộ 17 thuộc tính của 6M dòng tạo bảng tạm khổng lồ (Early Materialization), Column-Store HOÃN việc đọc thuộc tính đến tận bước cuối cùng.<br>• <b>Quy trình thực thi:</b> Chỉ khi Phase 2 xác định Position List P, CPU mới nạp dữ liệu:<br>&nbsp;&nbsp;1. Đọc duy nhất cột <b>revenue</b> từ Fact tại các vị trí thuộc P (tiết kiệm 93% I/O Fact).<br>&nbsp;&nbsp;2. Dùng khóa ngoại tra ngược Dimension lấy <b>c_nation</b>, <b>s_nation</b>, <b>d_year</b> phục vụ GROUP BY.<br>• <b>Lợi ích vượt trội:</b> Không sinh bảng tạm trung gian (Zero Intermediate Tuples), xử lý trực tiếp trong CPU Cache!<br><i>👉 Nhấn vào đây để xem phân tích chi tiết!</i>">
+                    <span style="color:#059669;font-size:12.5px;">ℹ️</span>
+                    <span>Late Materialization (Xem giải thích)</span>
+                  </button>
                   <span>tại các vị trí P:</span>
                 </div>
                 <div id="p3LateLookupList" class="mono" style="font-size:11.5px;line-height:1.7;color:#0f172a;"></div>
@@ -3753,41 +3759,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
         </div>
       </div>
 
-            <!-- MODAL: LATE MATERIALIZATION EXPLANATION (SIGMOD 2008) - HTML5 NATIVE <dialog> -->
-      <dialog id="p3LateMatModal" class="academic-dialog">
-        <div class="academic-dialog-card" style="background:#ffffff;border:1px solid #cbd5e1;border-radius:12px;max-width:580px;width:100%;box-shadow:0 25px 50px -12px rgba(15,23,42,0.35);overflow:hidden;">
-          <div style="background:#0f172a;color:#f8fafc;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="background:#047857;color:#ffffff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;">SIGMOD 2008</span>
-              <span style="font-weight:700;font-size:14px;">Nguyên lý Late Materialization (Ghép nối muộn)</span>
-            </div>
-            <button type="button" onclick="closeLateMatModal()" style="background:transparent;border:none;color:#94a3b8;font-size:18px;cursor:pointer;line-height:1;padding:2px 6px;">✕</button>
-          </div>
-          <div style="padding:16px;font-size:12.5px;color:#334155;line-height:1.6;display:flex;flex-direction:column;gap:12px;max-height:80vh;overflow-y:auto;">
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 12px;">
-              <b style="color:#065f46;font-size:13px;">1. Bản chất cốt lõi: Hoãn ghép nối đến bước cuối</b>
-              <div style="margin-top:4px;color:#1e293b;">
-                Trong khi <b>Row-Store ghép nối sớm (Early Materialization)</b> toàn bộ 17 thuộc tính của 6,000,000 dòng tạo bảng tạm khổng lồ (~408 MB), <b>Column-Store</b> tuyệt đối không giải nén thuộc tính chuỗi ở Phase 1 và Phase 2 mà <b>HOÃN việc đọc dữ liệu</b> đến tận bước cuối cùng.
-              </div>
-            </div>
-            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
-              <b style="color:#1e40af;font-size:13px;">2. Quy trình thực thi tại Phase 3 (Dựa trên Position List P):</b>
-              <div style="margin-top:4px;color:#334155;">
-                Khi Phase 2 lọc xong và trả về tập vị trí <b>Position List P</b> (chỉ ~219,000 dòng thỏa mãn thay vì 6M dòng):<br>
-                • <b>Đọc Fact:</b> CPU chỉ đọc đúng 1 cột <code>revenue</code> tại các vị trí thuộc P (tiết kiệm đến 93% I/O Fact).<br>
-                • <b>Tra cứu Dimension:</b> Dùng khóa ngoại (<code>custkey</code>, <code>suppkey</code>, <code>orderdate</code>) tra cứu ngược vào Dimension để lấy thuộc tính chuỗi (<code>c_nation</code>, <code>s_nation</code>, <code>d_year</code>) phục vụ GROUP BY.
-              </div>
-            </div>
-            <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 12px;">
-              <b style="color:#9f1239;font-size:13px;">3. Lợi ích đột phá (Zero Intermediate Tuples):</b>
-              <div style="margin-top:4px;color:#334155;">
-                • <b>0 byte bảng tạm trung gian:</b> Không phải tạo bảng trung gian khổng lồ lưu tuple trong RAM.<br>
-                • <b>Tối ưu bus bộ nhớ:</b> Giảm 93% dung lượng vận chuyển từ RAM vào CPU.<br>
-                • <b>Tận dụng L1/L2 Cache:</b> Thuật toán xử lý trọn vẹn trong bộ nhớ đệm CPU tốc độ nano-giây.
-              </div>
-            </div>
-          </div>
-      </dialog>
+            
     </section>
 
     <!-- ========================================================= -->
@@ -6587,25 +6559,18 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     function openLateMatModal() {
       const modal = document.getElementById('p3LateMatModal');
       if (modal) {
-        if (typeof modal.showModal === 'function') {
-          modal.showModal();
-        } else {
-          modal.style.display = 'flex';
-        }
-        document.body.classList.add('academic-modal-open');
+        modal.style.display = 'flex';
       }
     }
+    window.openLateMatModal = openLateMatModal;
+
     function closeLateMatModal() {
       const modal = document.getElementById('p3LateMatModal');
       if (modal) {
-        if (typeof modal.close === 'function') {
-          modal.close();
-        } else {
-          modal.style.display = 'none';
-        }
-        document.body.classList.remove('academic-modal-open');
+        modal.style.display = 'none';
       }
     }
+    window.closeLateMatModal = closeLateMatModal;
 
     function renderPart3() {
       const phase = state.p3Phase;
@@ -9034,6 +8999,60 @@ WHERE d.year = 1993
     })();
 
   </script>
+  <!-- ========================================================================= -->
+  <!-- MODAL: LATE MATERIALIZATION EXPLANATION (MATCHING ACADEMIC SPEC MODAL STYLE)-->
+  <!-- ========================================================================= -->
+  <div id="p3LateMatModal" class="academic-modal-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+    <div class="academic-modal-box" style="background:#ffffff;border-radius:12px;max-width:620px;width:100%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid #cbd5e1;overflow:hidden;display:flex;flex-direction:column;animation:popIn 0.18s ease-out;">
+      <!-- Modal Header -->
+      <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">⚡</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;">Nguyên Lý Late Materialization (SIGMOD 2008)</span>
+        </div>
+        <button type="button" onclick="closeLateMatModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
+      </div>
+      <!-- Modal Body -->
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>1. Bản chất cốt lõi: Hoãn ghép nối đến bước cuối</span>
+          </div>
+          <div>Trong khi <b>Row-Store ghép nối sớm (Early Materialization)</b> toàn bộ 17 thuộc tính của 6,000,000 dòng tạo bảng tạm khổng lồ (~408 MB), <b>Column-Store</b> tuyệt đối không giải nén thuộc tính chuỗi ở Phase 1 và Phase 2 mà <b>HOÃN việc đọc dữ liệu</b> đến tận bước cuối cùng.</div>
+        </div>
+
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#065f46;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>2. Quy trình thực thi tại Phase 3 (Dựa trên Position List P)</span>
+          </div>
+          <div>Khi Phase 2 lọc xong và trả về tập vị trí <b>Position List P</b> (chỉ ~219,000 dòng thỏa mãn thay vì 6M dòng):
+            <ul style="margin:6px 0 0 18px;padding:0;">
+              <li><b>Đọc Fact:</b> CPU chỉ đọc đúng 1 cột <code>revenue</code> tại các vị trí thuộc P (tiết kiệm đến 93% I/O Fact).</li>
+              <li><b>Tra cứu Dimension:</b> Dùng khóa ngoại (<code>custkey</code>, <code>suppkey</code>, <code>orderdate</code>) tra cứu ngược vào Dimension để lấy thuộc tính chuỗi (<code>c_nation</code>, <code>s_nation</code>, <code>d_year</code>) phục vụ GROUP BY.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
+          <div style="font-weight:800;color:#9f1239;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+            <span>3. Lợi ích đột phá (Zero Intermediate Tuples)</span>
+          </div>
+          <div>
+            <ul style="margin:4px 0 0 18px;padding:0;">
+              <li><b>0 byte bảng tạm trung gian:</b> Không phải tạo bảng trung gian khổng lồ lưu tuple trong RAM.</li>
+              <li><b>Tối ưu bus bộ nhớ:</b> Giảm 93% dung lượng vận chuyển từ RAM vào CPU.</li>
+              <li><b>Tận dụng L1/L2 Cache:</b> Thuật toán xử lý trọn vẹn trong bộ nhớ đệm CPU tốc độ nano-giây.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Footer -->
+      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
+        <button type="button" onclick="closeLateMatModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ========================================================================= -->
   <!-- ACADEMIC SPECIFICATION MODAL DIALOG (EXPLAINS LOGICAL QUERY VS EXECUTION) -->
   <!-- ========================================================================= -->
