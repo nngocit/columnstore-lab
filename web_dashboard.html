@@ -2229,12 +2229,12 @@
 
       <div class="nav-bar">
         <nav class="nav-tabs" aria-label="Điều hướng bài lab">
-          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')" title="0. Sơ Đồ Star Schema — Bối Cảnh Dữ Liệu SSBM (6M dòng)">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
-          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')" title="1. Hàng vs Cột — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)">1. Hàng vs Cột <span class="kbd">1</span></button>
-          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')" title="2. Nén RLE — Thuật Toán Nén Run-Length Encoding">2. Nén RLE <span class="kbd">2</span></button>
-          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')" title="3. Invisible Join — Thuật Toán Nối Sao 3 Pha (SIGMOD 2008)">3. Invisible Join <span class="kbd">3</span></button>
-          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')" title="4. Hiệu Suất Q3.1 — So Sánh 3 Kế Hoạch Thực Thi">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
-          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')" title="5. Mã Nguồn Backend — Engine Thực Tế column_store_demo.py">5. Mã Nguồn Backend <span class="kbd">5</span></button>
+          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
+          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Row-Store vs. Column-Store <span class="kbd">1</span></button>
+          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE <span class="kbd">2</span></button>
+          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Invisible Join <span class="kbd">3</span></button>
+          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
+          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã Nguồn Backend <span class="kbd">5</span></button>
         </nav>
         <div class="nav-actions">
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
@@ -2880,7 +2880,7 @@
 <section id="sec-1" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Hàng vs Cột — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Row-Store vs. Column-Store — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)</h2>
         <div style="font-size:12px;color:#475569;">
           <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) · <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
         </div>
@@ -2932,16 +2932,16 @@
               <span style="font-weight:700;font-size:12.5px;color:#0f172a;display:flex;align-items:center;gap:6px;">
                 <span>Duyệt từng dòng (Step-by-Step Scan):</span>
               </span>
-              <button class="btn btn-sm" type="button" onclick="stepP1Scan(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;" title="Lùi lại dòng trước">
+              <button class="btn btn-sm" type="button" onclick="stepP1Scan(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
                 <span>← Back</span>
               </button>
-              <button class="btn btn-sm btn-primary" type="button" onclick="stepP1Scan(1)" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;" title="Chuyển sang dòng kế tiếp">
+              <button class="btn btn-sm btn-primary" type="button" onclick="stepP1Scan(1)" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
                 <span>Next →</span>
               </button>
-              <button id="p1AutoScanBtn" class="btn btn-sm" type="button" onclick="toggleP1AutoScan()" style="background:#0f172a;color:#ffffff;font-weight:600;border:none;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Bật/Tắt tự động quét qua 5 dòng">
+              <button id="p1AutoScanBtn" class="btn btn-sm" type="button" onclick="toggleP1AutoScan()" style="background:#0f172a;color:#ffffff;font-weight:600;border:none;border-radius:6px;padding:5px 10px;cursor:pointer;">
                 ▶ Auto
               </button>
-              <button class="btn btn-sm" type="button" onclick="resetP1Scan()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Đặt lại về dòng đầu tiên (Row #0 / Index 0)">
+              <button class="btn btn-sm" type="button" onclick="resetP1Scan()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;">
                 ↺ Reset
               </button>
             </div>
@@ -2983,19 +2983,19 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:12px;border-radius:8px;border:1px solid #fecdd3;font-size:12px;">
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Thuộc tính nạp:</div>
-                <div style="font-weight:800;color:#0f172a;font-size:14px;" title="Nạp cả 17 thuộc tính của tuple vào cache (gây lãng phí băng thông)">17 / 17</div>
+                <div style="font-weight:800;color:#0f172a;font-size:14px;" >17 / 17</div>
               </div>
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Kích thước / dòng:</div>
-                <div style="font-weight:800;color:#0f172a;font-size:14px;" title="17 thuộc tính × 4 Bytes = 68 Bytes mỗi dòng">68 B</div>
+                <div style="font-weight:800;color:#0f172a;font-size:14px;" >68 B</div>
               </div>
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Read:</div>
-                <div style="font-weight:800;color:#f43f5e;font-size:14px;" title="6,000,000 dòng × 68 Bytes = 408.0 MB (100% dữ liệu bảng)">408.0 MB</div>
+                <div style="font-weight:800;color:#f43f5e;font-size:14px;" >408.0 MB</div>
               </div>
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Lãng phí:</div>
-                <div style="font-weight:800;color:#f43f5e;font-size:14px;" title="13 thuộc tính thừa không được dùng: 6M dòng × 52 Bytes = 312.0 MB (76.5% lãng phí)">312.0 MB</div>
+                <div style="font-weight:800;color:#f43f5e;font-size:14px;" >312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #fecdd3;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
@@ -3039,19 +3039,19 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:12px;border-radius:8px;border:1px solid #bfdbfe;font-size:12px;">
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Thuộc tính nạp:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" title="Chỉ nạp 4 thuộc tính cần cho truy vấn: quantity, discount, extendedprice, orderdate">4 / 17</div>
+                <div style="font-weight:800;color:#059669;font-size:14px;" >4 / 17</div>
               </div>
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Kích thước / dòng:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" title="4 thuộc tính × 4 Bytes = 16 Bytes mỗi dòng (giảm 76.5% so với Row-Store)">16 B</div>
+                <div style="font-weight:800;color:#059669;font-size:14px;" >16 B</div>
               </div>
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Payload Read:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" title="6,000,000 dòng × 16 Bytes = 96.0 MB (tiết kiệm được 312.0 MB băng thông)">96.0 MB</div>
+                <div style="font-weight:800;color:#059669;font-size:14px;" >96.0 MB</div>
               </div>
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Not Loaded:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" title="13 cột còn lại hoàn toàn không được nạp vào bộ nhớ (bỏ qua 76.5%)">312.0 MB</div>
+                <div style="font-weight:800;color:#059669;font-size:14px;" >312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #bfdbfe;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
@@ -3278,7 +3278,7 @@
         </div>
         <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;">
           <!-- BƯỚC 1 -->
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:12px;" title="Gom toàn bộ 6 triệu dòng thành 2,405 cụm RLE (giá_trị, số_lần_lặp)">
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:12px;" >
             <div style="font-weight:800;color:#2563eb;font-size:11px;margin-bottom:4px;">1. ENCODE (MÃ HÓA)</div>
             <div style="color:#0f172a;font-weight:700;"><span id="p2RealRows">6,000,000</span> dòng → <b id="p2RealRuns" style="color:#2563eb;">2,405</b> cụm</div>
             <div style="font-size:11px;color:#64748b;margin-top:2px;">(value, run_length) · TB <span id="p2RealAvg">2,495</span> dòng/cụm</div>
@@ -3292,15 +3292,15 @@
             </div>
             <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Lọc <code style="color:#1d4ed8;">BETWEEN 0 AND 2</code>:</div>
             <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" title="orderdate = 0 có 2,473 đơn liên tiếp">Ngày 0: 2,473</span>
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" title="orderdate = 1 có 2,506 đơn liên tiếp">Ngày 1: 2,506</span>
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" title="orderdate = 2 có 2,463 đơn liên tiếp">Ngày 2: 2,463</span>
-              <span style="background:#f1f5f9;color:#94a3b8;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;" title="2,402 cụm còn lại (Ngày 3..2404) nằm ngoài khoảng lọc nên được bỏ qua hoàn toàn, không cần nạp hay duyệt">2,402 cụm khác: Bỏ qua</span>
+              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 0: 2,473</span>
+              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 1: 2,506</span>
+              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 2: 2,463</span>
+              <span style="background:#f1f5f9;color:#94a3b8;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;" >2,402 cụm khác: Bỏ qua</span>
             </div>
           </div>
 
           <!-- BƯỚC 3 -->
-          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;" title="Chỉ cộng đúng 3 số run_length của 3 cụm trúng, hoàn toàn không giải nén dữ liệu">
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;" >
             <div style="font-weight:800;color:#15803d;font-size:11px;margin-bottom:4px;">3. AGGREGATE (TÍNH TỔNG)</div>
             <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Cộng dồn run_length:</div>
             <div style="font-size:11.5px;color:#047857;font-weight:800;">
@@ -3324,19 +3324,19 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:10px;border-radius:8px;border:1px solid #fecdd3;font-size:12px;">
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Phần tử duyệt:</div>
-              <div id="p2RawScanRows" style="font-weight:800;color:#0f172a;font-size:14px;" title="Quét tuần tự mảng orderdate thô">6,000,000 dòng</div>
+              <div id="p2RawScanRows" style="font-weight:800;color:#0f172a;font-size:14px;" >6,000,000 dòng</div>
             </div>
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Dung lượng đọc:</div>
-              <div id="p2KpiRaw" style="font-weight:800;color:#e11d48;font-size:14px;" title="6,000,000 dòng × 4 Bytes = 24.0 MB">24.0 MB</div>
+              <div id="p2KpiRaw" style="font-weight:800;color:#e11d48;font-size:14px;" >24.0 MB</div>
             </div>
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Cơ chế:</div>
-              <div style="font-weight:700;color:#334155;" title="CPU nạp và kiểm tra tuần tự từng phần tử trong bộ nhớ">Quét tuần tự</div>
+              <div style="font-weight:700;color:#334155;" >Quét tuần tự</div>
             </div>
             <div>
               <div style="color:#9f1239;font-weight:600;font-size:11px;">Kích thước / dòng:</div>
-              <div style="font-weight:700;color:#334155;" title="Mỗi giá trị orderdate là một số nguyên 32-bit (4 Bytes)">4 B</div>
+              <div style="font-weight:700;color:#334155;" >4 B</div>
             </div>
           </div>
 
@@ -3365,19 +3365,19 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:10px;border-radius:8px;border:1px solid #bbf7d0;font-size:12px;">
             <div>
               <div style="color:#065f46;font-weight:600;font-size:11px;">Phần tử duyệt:</div>
-              <div id="p2KpiRuns" style="font-weight:800;color:#059669;font-size:14px;" title="Chỉ duyệt 3 cụm thỏa mãn BETWEEN 0 AND 2 trên tổng số 2,405 cụm RLE (bỏ qua 2,402 cụm)">3 / 2,405 cụm</div>
+              <div id="p2KpiRuns" style="font-weight:800;color:#059669;font-size:14px;" >3 / 2,405 cụm</div>
             </div>
             <div>
               <div style="color:#065f46;font-weight:600;font-size:11px;">Dung lượng đọc:</div>
-              <div id="p2KpiRle" style="font-weight:800;color:#059669;font-size:14px;" title="2,405 cụm RLE chỉ tốn 28.9 KB trong RAM, giảm 99.88% dung lượng">28.9 KB</div>
+              <div id="p2KpiRle" style="font-weight:800;color:#059669;font-size:14px;" >28.9 KB</div>
             </div>
             <div>
               <div style="color:#065f46;font-weight:600;font-size:11px;">Cơ chế:</div>
-              <div style="font-weight:700;color:#334155;" title="Cộng trực tiếp mảng run_length của 3 cụm trúng, hoàn toàn không giải nén">Cộng run_length</div>
+              <div style="font-weight:700;color:#334155;" >Cộng run_length</div>
             </div>
             <div>
               <div style="color:#065f46;font-weight:600;font-size:11px;">Tối ưu I/O:</div>
-              <div style="font-weight:700;color:#15803d;" title="Zero Decompression: Đếm chính xác trên dữ liệu nén, tiết kiệm 100% chi phí giải nén">Không giải nén</div>
+              <div style="font-weight:700;color:#15803d;" >Không giải nén</div>
             </div>
           </div>
 
@@ -3530,9 +3530,9 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
 
           <!-- STEPPER ACTION BUTTONS -->
           <div style="display:flex;gap:6px;align-items:center;">
-            <button id="p3BackBtn" class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;" title="Quay lại bước trước">← Back</button>
-            <button id="p3NextBtn" class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;" title="Chuyển sang bước tiếp theo">Next →</button>
-            <button id="p3ResetBtn" class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Về lại Phase 1 ban đầu">↺ Reset</button>
+            <button id="p3BackBtn" class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;">← Back</button>
+            <button id="p3NextBtn" class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;">Next →</button>
+            <button id="p3ResetBtn" class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;">↺ Reset</button>
             <button id="runBtn3" class="run-compare-btn" type="button" onclick="runDemo('3')" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>▶ Run</span></button>
           </div>
         </div>
@@ -5860,18 +5860,20 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       } else if (tblKey === 'dwdate') {
         thead.innerHTML = `
           <tr>
-            <th class="num" style="width:90px;">datekey (PK)</th>
-            <th class="num" style="background:#fffbeb;color:#92400e;">d_year</th>
-            <th class="num">d_yearmonthnum</th>
-            <th>d_dayofweek</th>
+            <th class="num" style="width:95px;text-align:center;">datekey (PK)</th>
+            <th style="width:125px;background:#eff6ff;color:#1e40af;text-align:center;">d_date</th>
+            <th class="num" style="width:95px;background:#fffbeb;color:#92400e;text-align:center;">d_year</th>
+            <th class="num" style="width:125px;text-align:center;">d_yearmonthnum</th>
+            <th style="text-align:left;">d_dayofweek</th>
           </tr>
         `;
-        tbody.innerHTML = tbl.rows.map((r) => `
+        tbody.innerHTML = tbl.rows.map((r, idx) => `
           <tr>
-            <td class="num mono" style="font-weight:700;color:#d97706;">${r.datekey}</td>
-            <td class="num mono font-bold" style="background:#fffbeb;color:#92400e;">${r.year}</td>
-            <td class="num mono">${r.yearmonth}</td>
-            <td>${r.dayofweek}</td>
+            <td class="num mono" style="font-weight:700;color:#d97706;text-align:center;">${r.datekey}</td>
+            <td class="mono font-bold" style="background:#f0f9ff;color:#1d4ed8;text-align:center;">${r.d_date || r.date || ('0' + (idx+1) + '/01/1992')}</td>
+            <td class="num mono font-bold" style="background:#fffbeb;color:#92400e;text-align:center;">${r.year}</td>
+            <td class="num mono" style="text-align:center;">${r.yearmonth}</td>
+            <td style="text-align:left;">${r.dayofweek}</td>
           </tr>
         `).join('');
       }
@@ -5934,11 +5936,11 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             total_rows: 2555,
             desc: "Bảng chiều Ngày đặt hàng (2,555 dòng ~ 7 năm).",
             rows: [
-              { datekey: 0, year: 1992, yearmonth: "199201", dayofweek: "Wednesday" },
-              { datekey: 1, year: 1992, yearmonth: "199201", dayofweek: "Thursday" },
-              { datekey: 2, year: 1992, yearmonth: "199201", dayofweek: "Friday" },
-              { datekey: 3, year: 1992, yearmonth: "199201", dayofweek: "Saturday" },
-              { datekey: 4, year: 1992, yearmonth: "199201", dayofweek: "Sunday" }
+              { datekey: 0, d_date: "01/01/1992", date: "01/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Wednesday" },
+              { datekey: 1, d_date: "02/01/1992", date: "02/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Thursday" },
+              { datekey: 2, d_date: "03/01/1992", date: "03/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Friday" },
+              { datekey: 3, d_date: "04/01/1992", date: "04/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Saturday" },
+              { datekey: 4, d_date: "05/01/1992", date: "05/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Sunday" }
             ]
           }
         }
@@ -6267,7 +6269,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             let tip = `${c}=${fmtInt(v)} (${isUseful ? 'Hữu ích: nạp và tính toán' : 'Thừa: lãng phí bộ nhớ'})`;
             if (c === 'orderdate') {
               const dt = formatSSBMDate(v);
-              tip = `orderdate=${v} (FK trỏ date.datekey=${v} · Ngày ${dt.dateStr} · d.year=${dt.yr})`;
+              label = `<span style="font-size:7px;letter-spacing:-0.5px;font-weight:800;white-space:nowrap;">${dt.dateStr}</span>`;
+              tip = `Ngày đặt hàng: ${dt.dateStr} (Năm ${dt.yr})`;
             }
             return `<span class="ram-cell ${isUseful ? 'useful' : 'waste'}" title="${tip}">${label}</span>`;
           }).join('');
@@ -6308,20 +6311,18 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
               formatted = fmtInt(v);
             } else if (isDateCol) {
               const dt = formatSSBMDate(v);
-              formatted = `<span style="font-weight:700;">${v}</span><span style="font-size:9.5px;color:${rIdx === idx ? '#e0f2fe' : '#0284c7'};font-weight:600;margin-left:4px;">(${dt.dateStr})</span>`;
-              tip = `orderdate=${v} (FK trỏ dwdate.datekey=${v} · Ngày ${dt.dateStr} · d.year=${dt.yr})`;
+              formatted = `<span style="font-weight:700;font-size:11.5px;color:${rIdx === idx ? '#ffffff' : '#0369a1'};">${dt.dateStr}</span>`;
+              tip = `Ngày đặt hàng: ${dt.dateStr} (Năm ${dt.yr})`;
             }
             return `<div class="soa-cell val ${rIdx === idx ? 'scanning' : ''}" onclick="selectP1Row(${rIdx})" style="cursor:pointer;" title="${tip} · Bấm để chọn dòng ${rIdx}">${formatted}</div>`;
           }).join('');
 
-          const headerTitle = isDateCol ? 'Khóa ngoại lo.orderdate trỏ d.datekey' : c;
-          const headerBadge = isDateCol ? 'int32 · FK date' : 'int32 · 4B';
+          const headerTitle = isDateCol ? 'Ngày đặt hàng (orderdate)' : c;
 
           colHtml += `
-            <div class="soa-column selected" ${isDateCol ? 'style="min-width:130px;"' : ''}>
-              <div class="soa-header">
-                <span class="soa-header-name" title="${headerTitle}">${c}</span>
-                <span class="soa-header-badge">${headerBadge}</span>
+            <div class="soa-column selected" ${isDateCol ? 'style="min-width:110px;"' : ''}>
+              <div class="soa-header" style="justify-content:center;padding:7px 8px;">
+                <span class="soa-header-name" style="font-size:12.5px;font-weight:700;color:#1e293b;">${c}</span>
               </div>
               <div class="soa-cells">
                 ${cells}
@@ -8168,7 +8169,7 @@ FROM dbo.supplier;`,
       dwdate: `-- SSBM Dimension: Thời gian DWDATE (2,555 dòng · 1992 - 1998)
 -- Khóa chính datekey (0..2404) ánh xạ với orderdate của LINEORDER
 SELECT TOP 5 
-    datekey, d_year, d_yearmonthnum, d_dayofweek
+    datekey, d_date, d_year, d_yearmonthnum, d_dayofweek
 FROM dbo.dwdate;`
     };
 
@@ -9058,19 +9059,21 @@ WHERE d.year = 1993
         thead.innerHTML = `
           <tr>
             <th class="ssms-row-hdr" style="width:36px;text-align:center;"></th>
-            <th class="num" style="width:110px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;">datekey <span style="font-size:10px;color:#b45309;font-weight:normal;">(PK, int)</span></th>
-            <th class="num" style="background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;">d_year <span style="font-size:10px;color:#b45309;font-weight:normal;">(int)</span></th>
-            <th class="num">d_yearmonthnum <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(int)</span></th>
-            <th>d_dayofweek <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:105px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">datekey <span style="font-size:10px;color:#b45309;font-weight:normal;">(PK, int)</span></th>
+            <th style="width:125px;background:linear-gradient(180deg,#eff6ff 0%,#dbeafe 100%) !important;color:#1e40af;text-align:center;">d_date <span style="font-size:10px;color:#3b82f6;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:95px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">d_year <span style="font-size:10px;color:#b45309;font-weight:normal;">(int)</span></th>
+            <th class="num" style="width:130px;text-align:center;">d_yearmonthnum <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(int)</span></th>
+            <th style="text-align:left;">d_dayofweek <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
           </tr>
         `;
         tbody.innerHTML = tbl.rows.map((r, idx) => `
           <tr onclick="selectSsmsRow(${idx})" class="${idx === 0 ? 'ssms-selected' : ''}" style="cursor:pointer;">
             <td class="ssms-row-hdr">${idx+1}</td>
-            <td class="num mono" style="font-weight:700;color:#d97706;text-align:right;">${r.datekey}</td>
-            <td class="num mono font-bold" style="color:#b45309;text-align:right;">${r.year}</td>
-            <td class="num mono" style="color:#475569;text-align:right;">${r.yearmonth}</td>
-            <td style="color:#334155;">${r.dayofweek}</td>
+            <td class="num mono" style="font-weight:700;color:#d97706;text-align:center;">${r.datekey}</td>
+            <td class="mono" style="font-weight:700;color:#1d4ed8;background:#f0f9ff;text-align:center;">${r.d_date || r.date || ('0' + (idx+1) + '/01/1992')}</td>
+            <td class="num mono font-bold" style="color:#b45309;text-align:center;">${r.year}</td>
+            <td class="num mono" style="color:#475569;text-align:center;">${r.yearmonth}</td>
+            <td style="color:#334155;text-align:left;">${r.dayofweek}</td>
           </tr>
         `).join('');
       }
@@ -10190,21 +10193,21 @@ async function runDemo(part, opts = {}) {
         scheduleHide();
       });
 
-      // Global event delegation
+      // Global event delegation - ONLY for elements explicitly declaring data-tooltip
       document.addEventListener('mouseover', (e) => {
-        const target = e.target.closest('[data-tooltip], [data-academic-title], [title]');
-        if (!target) return;
-        
-        // Convert title to data-academic-title to suppress native browser slow tooltip
-        if (target.hasAttribute('title')) {
-          const val = target.getAttribute('title');
-          if (!target.hasAttribute('data-tooltip') && !target.hasAttribute('data-academic-title')) {
-            target.setAttribute('data-academic-title', val);
-          }
-          target.removeAttribute('title');
+        // Suppress tooltips on tabs, cards, steppers, metrics and navigation
+        if (e.target.closest('.nav-tab, .nav-tabs, #tabBar, .card, .scan-controls, #p3BackBtn, #p3NextBtn, #p3ResetBtn, #p1AutoScanBtn, [onclick*="stepP1Scan"], [onclick*="resetP1Scan"]')) {
+          instantHide();
+          return;
         }
-        
-        const text = target.getAttribute('data-tooltip') || target.getAttribute('data-academic-title');
+        // Only target elements with explicit data-tooltip
+        const target = e.target.closest('[data-tooltip]');
+        if (!target) return;
+        if (target.closest('.nav-tab, .nav-tabs, #tabBar, .scan-controls')) {
+          instantHide();
+          return;
+        }
+        const text = target.getAttribute('data-tooltip');
         if (text) showTooltip(target, text);
       }, true);
 

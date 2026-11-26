@@ -339,11 +339,16 @@ def lay_du_lieu_preview(rows: int = 6_000_000, seed: int = 42) -> dict:
 
     # 4. DWDATE (5 dòng đầu)
     date_rows = []
+    from datetime import datetime, timedelta
+    base_date = datetime(1992, 1, 1)
     for i in range(5):
+        cur_dt = base_date + timedelta(days=i)
         yr = int(chieu["d_year"][i])
         dow = DAYS[(2 + i) % 7]
         date_rows.append({
             "datekey": i,
+            "d_date": cur_dt.strftime("%d/%m/%Y"),
+            "date": cur_dt.strftime("%d/%m/%Y"),
             "year": yr,
             "yearmonth": f"{yr}01",
             "dayofweek": dow
