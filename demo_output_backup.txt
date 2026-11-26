@@ -1,0 +1,196 @@
+numpy 2.4.3, rows = 6,000,000, seed = 42, part = all
+
+==============================================================================
+GIỚI THIỆU DATABASE DEMO (Lược đồ hình sao SSBM trong RAM)
+==============================================================================
+So do Star Schema (custkey/suppkey/orderdate noi tu lineorder ra 3 chieu):
++-----------+-------------+-----------+--------------------------------+
+| Bang      | Vai tro     | So dong   | Cau truc cot chinh             |
++-----------+-------------+-----------+--------------------------------+
+| lineorder | Fact (tam)  | 6,000,000 | 17 cot int32 (68B = 408 MB)    |
+| customer  | Chieu (1:N) |    30,000 | custkey(PK), region, nation    |
+| supplier  | Chieu (1:N) |     2,000 | suppkey(PK), region, nation    |
+| dwdate    | Chieu (1:N) |     2,555 | datekey(PK), year (1992..1998) |
++-----------+-------------+-----------+--------------------------------+
+  • Phan 1 & 2: truy van don bang lineorder (P1: 3/17 cot; P2: orderdate RLE).
+  • Phan 3 & 4: JOIN ca 4 bang Star Schema (c_region=s_region='ASIA', 1992-1997).
+
+==============================================================================
+PHẦN 1. [KIẾN TRÚC LƯU TRỮ: AoS vs SoA] Lọc & SUM trên bảng rộng
+==============================================================================
+• Bối cảnh      : Bảng đơn hàng LINEORDER gồm 6,000,000 dòng × 17 cột (68 byte/dòng = 408 MB).
+• Câu hỏi query : SELECT SUM(extendedprice * discount) WHERE discount BETWEEN 1 AND 3 AND quantity < 25
+• Điểm mấu chốt : Query chỉ cần 3/17 cột (72 MB). Row-store phải lướt qua 14 cột thừa; Column-store chỉ đọc 3 mảng độc lập.
+
+[Bước 1] Nạp mảng RAM: Row (AoS 68B/dòng) vs Column (SoA 17 mảng 1D độc lập)
+Chung minh nap truc tiep vao RAM (khong dung DBMS / file dia):
++-----------------------+-------------------------------------------+
+| Chi so kiem chung     | Gia tri thuc te                           |
++-----------------------+-------------------------------------------+
+| Mang NumPy trong RAM  | Row 408.0 MB + Col 408.0 MB = 816.0 MB    |
+| Dia chi RAM Row-store | 0x1cda4c2e040 (bang_theo_hang)            |
+| Dia chi RAM Col-store | 0x1cda3533040 (bang_theo_cot['discount']) |
++-----------------------+-------------------------------------------+
+
+Bang logic LINEORDER (5 dong dau / 17 cot; query chi can 3 cot dau):
++------+----------+----------+---------------+------------------------+
+| Dong | quantity | discount | extendedprice | c03..c16 (14 cot thua) |
++------+----------+----------+---------------+------------------------+
+|    1 |        4 |        0 |        89,966 | 36, 13, ..., 24        |
+|    2 |       38 |        8 |        26,411 | 20, 11, ..., 1         |
+|    3 |       32 |        4 |        88,149 | 26, 24, ..., 12        |
+|    4 |       21 |        4 |        48,018 | 18, 24, ..., 46        |
+|    5 |       21 |        9 |        14,963 | 39, 21, ..., 5         |
++------+----------+----------+---------------+------------------------+
+
+So sanh cach 2 kien truc xep du lieu thuc te trong RAM:
+[1] Row layout (1 mang struct, 17 cot xep lien tuc 68 byte/dong):
+    Dong 1 (68B): [qty: 4, disc: 0, price: 89966 | c03..c16: 36, 13..24]
+    Dong 2 (68B): [qty:38, disc: 8, price: 26411 | c03..c16: 20, 11..1]
+    Dong 3 (68B): [qty:32, disc: 4, price: 88149 | c03..c16: 26, 24..12]
+    => CPU nạp cả khối 68 byte nên phải kéo theo 14 cột thừa kề bên!
+
+[2] Column layout (17 mang 1D rieng biet, query chi nap 3 mang can dung):
+    Mang quantity      : [4, 38, 32, 21, 21] ... (Nap doc)
+    Mang discount      : [0, 8, 4, 4, 9] ... (Nap doc)
+    Mang extendedprice : [89966, 26411, 88149, 48018, 14963] ... (Nap doc)
+    14 mang con lai (c03..c16): Bo qua hoan toan (0 byte RAM/I-O)!
+
+[Bước 2] Lọc vector mask: (1 <= discount <= 3) & (quantity < 25)
+[Bước 3] Nhân extendedprice * discount & tính SUM -> so sánh tốc độ:
+
+Số dòng: 6,000,000   |   dữ liệu query cần: 72 MB / toàn bảng: 408 MB
+Row layout   :    192.8 ms  (mỗi dòng 68 byte nằm liền nhau, phải lướt qua cả 17 cột)
+Column layout:     77.1 ms  (3 mảng liên tục)
+=> column nhanh hơn ~2.5x, kết quả giống nhau: 82,678,909,175
+
+==============================================================================
+PHẦN 2. [GIẢI THUẬT NÉN RLE & THỰC THI TRỰC TIẾP] Đếm trên cột đã sort
+==============================================================================
+• Bối cảnh      : Cột orderdate (6,000,000 dòng) sắp xếp tăng dần -> hàng nghìn đơn trùng ngày nằm liền kề.
+• Câu hỏi query : SELECT COUNT(*) FROM lineorder WHERE orderdate BETWEEN 1000 AND 1364
+• Điểm mấu chốt : RLE gom các ngày trùng thành cụm (ngày × số_lượng), nén 24 MB -> ~29 KB và cộng thẳng trên cụm nén.
+
+[Bước 1] Sort cột orderdate tăng dần -> các giá trị trùng ngày nằm kề nhau
+[Bước 2] Mã hóa RLE: gom thành các cụm (gia_tri x so_lan_lap)
+Mau 12 gia tri dau (cot tho da sort): [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...]
+5 run RLE dau tien (gia_tri x so_lan_lap):
++-----+---------+------------+--------------+
+| Run | gia_tri | so_lan_lap | Dang nen RLE |
++-----+---------+------------+--------------+
+|   1 |       0 |      2,516 | (0 x 2,516)  |
+|   2 |       1 |      2,412 | (1 x 2,412)  |
+|   3 |       2 |      2,463 | (2 x 2,463)  |
+|   4 |       3 |      2,495 | (3 x 2,495)  |
+|   5 |       4 |      2,462 | (4 x 2,462)  |
++-----+---------+------------+--------------+
+
+Ví dụ minh họa của bài báo:  1,1,1,2,2  ->  (1 x 3), (2 x 2)
+  encode thử: [(1, 3), (2, 2)]
+
+Cột orderdate: 24.0 MB thô  ->  RLE: 28.9 KB  (2,405 run, độ dài run trung bình ~2,495)
+
+[Bước 3] Cộng trực tiếp trên 2,405 cụm nén (không giải nén 6,000,000 dòng):
+
+COUNT(*) WHERE orderdate BETWEEN 1000 AND 1364
+  Giải nén / duyệt từng giá trị :   20.389 ms
+  Thao tác trực tiếp trên RLE   :    0.025 ms   (~812x)   kết quả giống nhau: 910,390
+
+==============================================================================
+PHẦN 3. [THUẬT TOÁN INVISIBLE JOIN 3 PHA] Kết nối 4 bảng Figure 2-4
+==============================================================================
+• Bối cảnh      : Star Schema gồm 1 bảng sự kiện (lineorder - 7 dòng) nối 3 bảng danh mục (customer, supplier, dwdate).
+• Câu hỏi query : Tổng doanh thu theo (c_nation, s_nation, d_year) với khách & nhà cung cấp ở ASIA (1992-1997).
+• Điểm mấu chốt : Lọc bằng dãy bit 0/1 (Bitmap) qua 3 pha; bước cuối chỉ tra cứu tên quốc gia cho 2/7 dòng thỏa mãn.
+
+Luồng 4 bước: Pha 1 (Lọc bảng chiều) -> Pha 2 (AND Bitmap -> P) -> Pha 3 (Late Materialization) -> Between Rewriting
+
+Bang customer (3 dong):
++---------+--------+--------+
+| custkey | region | nation |
++---------+--------+--------+
+|       1 | Asia   | China  |
+|       2 | Europe | France |
+|       3 | Asia   | India  |
++---------+--------+--------+
+Bang supplier (2 dong):
++---------+--------+--------+
+| suppkey | region | nation |
++---------+--------+--------+
+|       1 | Asia   | Russia |
+|       2 | Europe | Spain  |
++---------+--------+--------+
+Bang dwdate (3 dong):
++---------+------+
+| datekey | year |
++---------+------+
+| 1011997 | 1997 |
+| 1021997 | 1997 |
+| 1031997 | 1997 |
++---------+------+
+Bang lineorder (7 dong - doi chieu Idx 0..6 voi position list P):
++------+-----+---------+---------+-----------+---------+
+| Dong | Idx | custkey | suppkey | orderdate | revenue |
++------+-----+---------+---------+-----------+---------+
+|    1 |   0 |       3 |       1 |   1011997 |  43,256 |
+|    2 |   1 |       3 |       2 |   1011997 |  33,333 |
+|    3 |   2 |       2 |       1 |   1021997 |  12,121 |
+|    4 |   3 |       1 |       1 |   1021997 |  23,233 |
+|    5 |   4 |       2 |       2 |   1021997 |  45,456 |
+|    6 |   5 |       1 |       2 |   1031997 |  43,251 |
+|    7 |   6 |       3 |       2 |   1031997 |  34,235 |
++------+-----+---------+---------+-----------+---------+
+
+PHA 1 (lọc bảng chiều): customer=[1, 3], supplier=[1], dwdate=[1011997, 1021997, 1031997]
+
+PHA 2 (AND bitmap): cust=[1, 1, 0, 1, 0, 1, 1] & supp=[1, 0, 1, 1, 0, 0, 0] & date=[1, 1, 1, 1, 1, 1, 1]
+  => AND = [1, 0, 0, 1, 0, 0, 0]   -> position list P = [0, 3]
+
+PHA 3 (Late Materialization — chỉ trích xuất dữ liệu cho 2/7 dòng thỏa mãn):
+Ket qua GROUP BY sau Invisible Join:
++----------+----------+--------+---------+
+| c_nation | s_nation | d_year | revenue |
++----------+----------+--------+---------+
+| China    | Russia   |   1997 |  23,233 |
+| India    | Russia   |   1997 |  43,256 |
++----------+----------+--------+---------+
+  -> China | Russia | 1997 -> 23,233
+  -> India | Russia | 1997 -> 43,256
+
+BETWEEN-PREDICATE REWRITING: khóa cũ [1, 3] (liên tục? False)
+  -> đánh lại khóa theo region: [1, 2] (liên tục? True)
+  => viết lại thành: 1 <= lo.custkey <= 2 (không cần hash table)
+
+==============================================================================
+PHẦN 4. [BENCHMARK 3 CHIẾN LƯỢC Q3.1] Đua tốc độ tổng hợp trên 6,000,000 dòng
+==============================================================================
+• Bối cảnh      : Chạy truy vấn Phần 3 trên 6,000,000 dòng fact, 30,000 khách hàng, 2,000 nhà cung cấp, 2,555 ngày.
+• Câu hỏi query : So sánh 3 chiến lược thực thi (Plan A: Row-store | Plan B: Invisible Join | Plan C: + Between-predicate).
+• Điểm mấu chốt : Thay vì bê vác bản ghi 68B qua từng bước lọc (A), lọc bằng bitmap (B) và so sánh khoảng min <= key <= max (C).
+
+Quy mo 4 bang trong luoc do sao Q3.1:
++-----------+---------+-----------+-----------------------------------+
+| Bang      | Vai tro | So dong   | Ghi chu                           |
++-----------+---------+-----------+-----------------------------------+
+| lineorder | Fact    | 6,000,000 | 4 cot dung + 13 cot dem = 17 cot  |
+| customer  | Chieu   |    30,000 | sort theo region (5), nation (25) |
+| supplier  | Chieu   |     2,000 | sort theo region (5), nation (25) |
+| dwdate    | Chieu   |     2,555 | 7 nam x 365 ngay (1992..1998)     |
++-----------+---------+-----------+-----------------------------------+
+3 dong mau dau cua lineorder (kem + 13 cot dem):
++------+---------+---------+-----------+---------+-----------------+
+| Dong | custkey | suppkey | orderdate | revenue | + 13 cot dem    |
++------+---------+---------+-----------+---------+-----------------+
+|    1 |   20907 |    1333 |      2080 |   9,318 | pad0..pad12 = 0 |
+|    2 |   11285 |    1910 |       947 |  56,577 | pad0..pad12 = 0 |
+|    3 |   14990 |     467 |      1403 |  27,668 | pad0..pad12 = 0 |
++------+---------+---------+-----------+---------+-----------------+
+
+Luồng 3 chiến lược: Plan A (Copy 68B từng bước) | Plan B (AND 3 Bitmap + Late Mat.) | Plan C (+ Between min<=key<=max)
+
+Số dòng fact: 6,000,000  |  số nhóm kết quả: 150  |  3 plan cho kết quả GIỐNG NHAU (tổng doanh thu: 10,305,805,202)
+  A. Kiểu row-store (copy cả tuple 68B qua từng join) :    463.6 ms
+  B. Invisible join, predicate = tra bảng (late mat.)  :    125.0 ms   ( 3.7x so với A)
+  C. Invisible join + between-predicate rewriting      :     82.8 ms   ( 5.6x so với A)
+
+Lưu ý: mô hình trong bộ nhớ bằng numpy, không phải C-Store/System X; xem docstring đầu file.

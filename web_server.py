@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""Minimal zero-dependency HTTP server (port 8000) calling the pure-Python demo engine in-process."""
+import json, threading, mimetypes
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import urlsplit, parse_qs
+from column_store_demo_de_hieu import chay_demo_cho_web, chay_invisible_join_cho_web, lay_du_lieu_preview
+
+DASHBOARD = Path(__file__).resolve().parent / "web_dashboard.html"
+CORS = (("Access-Control-Allow-Origin", "*"), ("Access-Control-Allow-Methods", "GET, POST, OPTIONS"), ("Access-Control-Allow-Headers", "Content-Type, Accept"), ("Cache-Control", "no-store"))
+_RUN_LOCK = threading.Lock()
+
+
+class DemoHandler(BaseHTTPRequestHandler):
+    """HTTP handler for web_dashboard.html, /api/status, /api/run, and /api/invisible-join."""
+    protocol_version = "HTTP/1.1"
+
+    def _reply(self, code: int, body, ctype: str = "application/json; charset=utf-8"):
+        try:
+            data = json.dumps(body, ensure_ascii=False).encode("utf-8") if isinstance(body, dict) else body
+            self.send_response(code)
+            for k, v in CORS:
+                self.send_header(k, v)
+            if code != 204:
+                self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            if data:
+                self.wfile.write(data)
+        except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, OSError):
+            pass
+        except Exception:
+            pass
+
+    def log_message(self, format, *args):
+        # Silence default stderr logging to prevent pipe break on Windows
+        pass
+
+    def do_OPTIONS(self): self._reply(204, b"")
+
+    def do_GET(self):
+        route = urlsplit(self.path).path
+        if route in ("/", "/index.html", "/web_dashboard.html") and DASHBOARD.is_file():
+            return self._reply(200, DASHBOARD.read_bytes(), "text/html; charset=utf-8")
+        if route == "/api/status":
+            return self._reply(200, {"status": "ready"})
+        if route.startswith("/monaco/"):
+            rel = route[len("/monaco/"):]
+            local_file = (DASHBOARD.parent / "monaco" / rel).resolve()
+            if local_file.is_file() and str(local_file).startswith(str((DASHBOARD.parent / "monaco").resolve())):
+                ct = mimetypes.guess_type(local_file.name)[0] or ("font/ttf" if rel.endswith(".ttf") else "application/octet-stream")
+                return self._reply(200, local_file.read_bytes(), ct)
+        if route == "/api/preview-data":
+            try:
+                query = parse_qs(urlsplit(self.path).query)
+                seed = int(query.get("seed", [42])[0])
+                rows = int(query.get("rows", [6_000_000])[0])
+                data = lay_du_lieu_preview(rows=rows, seed=seed)
+                return self._reply(200, data)
+            except Exception as exc:
+                return self._reply(500, {"ok": False, "error": str(exc)})
+        self._reply(204 if route == "/favicon.ico" else 404, b"" if route == "/favicon.ico" else {"error": f"Unknown route: {route}"})
+
+    def do_POST(self):
+        route = urlsplit(self.path).path
+        if route not in {"/api/run", "/api/invisible-join", "/api/preview-data"}:
+            return self._reply(404, {"error": f"Unknown route: {route}"})
+
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            req = json.loads(self.rfile.read(n).decode("utf-8")) if n > 0 else {}
+            if not isinstance(req, dict):
+                raise ValueError("JSON body must be an object")
+        except (ValueError, UnicodeDecodeError, TypeError, json.JSONDecodeError) as exc:
+            return self._reply(400, {"ok": False, "error": str(exc)})
+
+        if route == "/api/run":
+            try:
+                part = str(req.get("part", "all")).strip().lower()
+                rows_raw, seed_raw = req.get("rows", 6_000_000), req.get("seed", 42)
+                if isinstance(rows_raw, bool) or isinstance(seed_raw, bool):
+                    raise ValueError("rows and seed must be integers")
+                rows, seed = int(rows_raw), int(seed_raw)
+                cols = req.get("cols")
+                if cols is not None and not isinstance(cols, list):
+                    raise ValueError("cols must be a list of column names")
+                sql = req.get("sql")
+                if sql is not None and not isinstance(sql, str):
+                    raise ValueError("sql must be a string")
+                rle_start_raw, rle_end_raw = req.get("rle_start"), req.get("rle_end")
+                if isinstance(rle_start_raw, bool) or isinstance(rle_end_raw, bool):
+                    raise ValueError("rle_start and rle_end must be integers")
+                rle_start = int(rle_start_raw) if rle_start_raw is not None else None
+                rle_end = int(rle_end_raw) if rle_end_raw is not None else None
+                if part not in {"1", "2", "3", "4", "all"} or not (1 <= rows <= 30_000_000):
+                    raise ValueError("Invalid part or rows (1..30,000,000)")
+            except (ValueError, TypeError) as exc:
+                return self._reply(400, {"ok": False, "error": str(exc)})
+            try:
+                with _RUN_LOCK:
+                    return self._reply(200, chay_demo_cho_web(part=part, rows=rows, seed=seed, cols=cols, sql=sql, rle_start=rle_start, rle_end=rle_end))
+            except Exception as exc:
+                return self._reply(500, {"ok": False, "error": str(exc)})
+
+        elif route == "/api/preview-data":
+            try:
+                rows_raw = req.get("rows", 6_000_000)
+                seed_raw = req.get("seed", 42)
+                rows = 6_000_000 if rows_raw is None else int(rows_raw)
+                seed = 42 if seed_raw is None else int(seed_raw)
+                with _RUN_LOCK:
+                    return self._reply(200, lay_du_lieu_preview(rows=rows, seed=seed))
+            except Exception as exc:
+                return self._reply(500, {"ok": False, "error": str(exc)})
+
+        elif route == "/api/invisible-join":
+            try:
+                cust_region = str(req.get("cust_region", "Asia") or "Asia").strip()
+                supp_region = str(req.get("supp_region", "Asia") or "Asia").strip()
+                ys_raw = req.get("year_start", 1992)
+                ye_raw = req.get("year_end", 1997)
+                rows_raw = req.get("rows", 6_000_000)
+                seed_raw = req.get("seed", 42)
+
+                if any(isinstance(v, bool) for v in (ys_raw, ye_raw, rows_raw, seed_raw)):
+                    raise ValueError("Numeric fields must not be boolean")
+
+                year_start = 1992 if ys_raw is None else int(ys_raw)
+                year_end = 1997 if ye_raw is None else int(ye_raw)
+                rows = 6_000_000 if rows_raw is None else int(rows_raw)
+                seed = 42 if seed_raw is None else int(seed_raw)
+
+                if not (1 <= rows <= 30_000_000):
+                    raise ValueError("rows must be between 1 and 30,000,000")
+                if year_start > year_end:
+                    raise ValueError("year_start must be <= year_end")
+            except (ValueError, TypeError) as exc:
+                return self._reply(400, {"ok": False, "error": str(exc)})
+            try:
+                with _RUN_LOCK:
+                    return self._reply(200, chay_invisible_join_cho_web(
+                        cust_region=cust_region,
+                        supp_region=supp_region,
+                        year_start=year_start,
+                        year_end=year_end,
+                        rows=rows,
+                        seed=seed
+                    ))
+            except Exception as exc:
+                return self._reply(500, {"ok": False, "error": str(exc)})
+
+
+if __name__ == "__main__":
+    ThreadingHTTPServer.allow_reuse_address, ThreadingHTTPServer.daemon_threads = True, True
+    with ThreadingHTTPServer(("127.0.0.1", 8000), DemoHandler) as srv:
+        print("Serving http://127.0.0.1:8000 (Ctrl+C to stop)")
+        try: srv.serve_forever()
+        except KeyboardInterrupt: pass

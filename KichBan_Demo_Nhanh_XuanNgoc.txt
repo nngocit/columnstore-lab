@@ -1,0 +1,78 @@
+================================================================================
+KỊCH BẢN NÓI DEMO ONLINE (1 TRANG GỌN DỄ NHÌN) - NGUYỄN THANH XUÂN NGỌC
+================================================================================
+
+1. LÚC BẮT ĐẦU NHẬN LƯỢT (KHI BẤM SHARE MÀN HÌNH TERMINAL):
+   "Cảm ơn bạn Hiếu. Em là Nguyễn Thanh Xuân Ngọc, em xin phép chia sẻ màn hình
+    để chạy demo mô phỏng 4 kỹ thuật của bài báo...
+    Dạ thầy và các bạn đã thấy rõ màn hình Terminal của em chưa ạ?"
+   --> Bấm chạy lệnh: python column_store_demo.py (hoặc đúp chuột run_demo.bat)
+
+2. TRONG LÚC CHỜ MÁY CHẠY (khoảng 4-5 giây):
+   "Demo này là mô hình thu nhỏ bằng NumPy trên 6 triệu dòng bảng fact, chạy trong
+    RAM. Nó không phải C-Store hay System X và không đo I/O đĩa, nên số tuyệt đối
+    sẽ khác bài báo, nhưng cho thấy rất trực quan cơ chế và xu hướng."
+
+3. CUỘN LÊN PHẦN 1 - LAYOUT HÀNG VS CỘT (AoS vs SoA):
+   "Phần 1 phân biệt 2 cách lưu trữ: AoS (Array of Structs — theo dòng) vs SoA (Struct of Arrays — theo cột).
+    - AoS là Row-Store: gom trọn vẹn từng dòng [ID, Tên, Tuổi] xếp ngang liền nhau.
+      Khi tính tuổi trung bình, CPU buộc phải nạp cả ID và Tên vào Cache Line (bị rác bộ nhớ).
+    - SoA là Column-Store: tách thành từng mảng riêng [ID], [Tên], [Tuổi] xếp dọc.
+      Khi tính tuổi, CPU chỉ nạp đúng mảng Tuổi, 100% Cache Line toàn là số hữu ích.
+    Áp dụng vào bảng LINEORDER 17 cột: với 6 triệu dòng, cả bảng nặng 408 MB nhưng query chỉ cần 72 MB.
+    Layout hàng phải lướt qua cả 17 cột (68 byte/dòng). Layout cột chỉ nạp đúng 3 mảng liên tục (12 byte/dòng).
+    Trên máy em, cột nhanh hơn ~2.4 lần và kết quả hai bên khớp nhau 100%."
+
+4. CUỘN XUỐNG PHẦN 2 - NÉN RLE:
+   "Phần 2 là nén RLE trên cột orderdate đã sort. Cột thô 24 MB, nén RLE chỉ còn
+    khoảng 29 KB, gồm 2.405 run.
+    Quan trọng nhất ở dòng cuối: COUNT(*) trực tiếp trên các run nén nhanh hơn
+    duyệt từng giá trị hơn 1.200 lần (0.012 ms so với 15 ms), mà kết quả vẫn ra đúng 910.390.
+    Đây chính là ý 'thao tác trực tiếp trên dữ liệu nén' mà không cần giải nén."
+
+5. CUỘN XUỐNG PHẦN 3 - INVISIBLE JOIN:
+   "Phần 3 chạy lại đúng ví dụ 7 dòng ở Slide 16 của bạn Hiếu:
+    - Pha 1: lọc bảng chiều ra tập khóa khách hàng [1, 3], nhà cung cấp [1].
+    - Pha 2: probe khóa ngoại fact ra bitmap, AND lại ra dòng thỏa là dòng 1 và 4
+      (trong Python đánh số từ 0 nên in ra P = [0, 3]).
+    - Pha 3: chỉ lấy dữ liệu cho 2 dòng này ra China, India, Russia với doanh thu khớp hoàn toàn.
+    Chỉ phải lấy dữ liệu cho 2 trên 7 dòng."
+   [Chỉ xuống Between-predicate]:
+   "Phần dưới là Between-predicate: ban đầu khóa [1, 3] không liên tục thì phải tra hash table.
+    Nhưng sau khi đánh lại khóa theo region, nó thành [1, 2] liên tục, nên query viết lại
+    thành khoảng: 1 <= custkey <= 2, bỏ luôn hash table."
+
+6. CUỘN XUỐNG PHẦN 4 - MINI-BENCHMARK:
+   "Phần 4 benchmark trên 6 triệu dòng fact, so 3 plan cho cùng 150 nhóm kết quả:
+    - Plan A (kiểu row-store copy cả tuple 68B): chậm nhất, mất ~360 ms.
+    - Plan B (invisible join dùng tra bảng): nhanh hơn A khoảng 3.5 lần.
+    - Plan C (invisible join + between-predicate): nhanh hơn A tới 6.4 lần!
+    Thứ tự A chậm hơn B chậm hơn C khớp hoàn toàn với bài báo."
+
+7. CHỐT DEMO & CHUYỂN SANG SLIDE 22:
+   "Em xin kết thúc demo để chuyển sang phần Đánh giá hạn chế & Liên hệ thực tế..."
+
+================================================================================
+8. CÂU HỎI PHẢN BIỆN "TỦ" THẦY DỄ HỎI NHẤT (CHUẨN BỊ SẴN ĐỂ TRẢ LỜI 30 GIÂY):
+================================================================================
+Hỏi: "Tại sao lấy 3 cột, còn 14 cột kia bỏ? Demo đang truy vấn cái gì?"
+Đáp:
+"Dạ thưa Thầy, demo Phần 1 lấy nguyên mẫu từ truy vấn Q1.1 của Star Schema Benchmark (SSBM)
+trong bài báo gốc SIGMOD 2008. Bảng LINEORDER là bảng Fact 17 cột mô phỏng chi tiết hóa đơn.
+Truy vấn này trả lời câu hỏi nghiệp vụ của Ban Giám đốc:
+  'Tính tổng số tiền chiết khấu (giảm giá) đã áp dụng cho các đơn hàng mua lẻ (quantity < 25)
+   có mức giảm giá nhẹ (discount từ 1% đến 3%) trong toàn bộ lịch sử bán hàng'.
+
+Để tính ra kết quả, máy tính BẮT BUỘC chỉ cần đúng 3 cột:
+  1. quantity      : lọc đơn hàng mua lẻ (< 25)
+  2. discount      : lọc mức giảm giá (1% - 3%) và dùng để nhân tỷ lệ chiết khấu
+  3. extendedprice : giá niêm yết để nhân tính tiền giảm
+
+14 cột còn lại là: phương thức vận chuyển (tàu/máy bay), mã nhà cung cấp, mức thuế VAT,
+độ ưu tiên đơn hàng, ngày hẹn giao... Vì sếp chỉ hỏi tiền giảm giá, hoàn toàn không hỏi
+đơn này đi bằng xe gì hay ai giao hàng, nên 14 cột đó không tham gia tính toán.
+
+Đây chính là bản chất của hệ thống OLAP (Kho dữ liệu): bảng có hàng chục cột nhưng mỗi query
+chỉ cần 2-5 cột. Row-store bắt buộc phải nạp cả dòng 68 byte kéo theo 14 cột rác vào RAM,
+lãng phí 82% tài nguyên. Column-store chỉ lấy đúng 3 cột cần dùng (12 byte), tiết kiệm 82% I/O!"
+================================================================================
