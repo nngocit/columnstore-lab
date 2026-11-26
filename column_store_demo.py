@@ -312,32 +312,42 @@ def lay_du_lieu_preview(rows: int = 6_000_000, seed: int = 42) -> dict:
         "date_rows": sorted(list(unique_date.values()), key=lambda x: x["datekey"])
     }
 
-    # 2. CUSTOMER (5 dòng đầu)
+    # 2. CUSTOMER (5 dòng đầu - Đủ 8 cột chuẩn SSBM khớp Diagram)
     cust_rows = []
     for i in range(5):
         r_id = int(chieu["c_region"][i])
         n_id = int(chieu["c_nation"][i])
+        reg_str = REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f"Region#{r_id}"
+        nat_str = NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f"Nation#{n_id}"
         cust_rows.append({
             "custkey": i + 1,
             "name": f"Customer#{i + 1:09d}",
-            "region": REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f"Region#{r_id}",
-            "nation": NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f"Nation#{n_id}",
+            "address": f"Address#{i + 1:05d}, St.{i + 1}",
+            "city": f"City-{nat_str[:3].upper()}{i + 1}",
+            "nation": nat_str,
+            "region": reg_str,
+            "phone": f"011-84-{i + 1:04d}",
             "mktsegment": MKT_SEGMENTS[i % len(MKT_SEGMENTS)]
         })
 
-    # 3. SUPPLIER (5 dòng đầu)
+    # 3. SUPPLIER (5 dòng đầu - Đủ 7 cột chuẩn SSBM khớp Diagram)
     supp_rows = []
     for i in range(5):
         r_id = int(chieu["s_region"][i])
         n_id = int(chieu["s_nation"][i])
+        reg_str = REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f"Region#{r_id}"
+        nat_str = NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f"Nation#{n_id}"
         supp_rows.append({
             "suppkey": i + 1,
             "name": f"Supplier#{i + 1:09d}",
-            "region": REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f"Region#{r_id}",
-            "nation": NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f"Nation#{n_id}"
+            "address": f"Factory#{i + 1:05d}, Ind.Park",
+            "city": f"City-{nat_str[:3].upper()}{i + 1}",
+            "nation": nat_str,
+            "region": reg_str,
+            "phone": f"011-84-{i + 500:04d}"
         })
 
-    # 4. DWDATE (5 dòng đầu)
+    # 4. DWDATE (5 dòng đầu - Khớp các cột hiển thị)
     date_rows = []
     from datetime import datetime, timedelta
     base_date = datetime(1992, 1, 1)
@@ -347,11 +357,13 @@ def lay_du_lieu_preview(rows: int = 6_000_000, seed: int = 42) -> dict:
         dow = DAYS[(2 + i) % 7]
         date_rows.append({
             "datekey": i,
-            "d_date": cur_dt.strftime("%d/%m/%Y"),
             "date": cur_dt.strftime("%d/%m/%Y"),
+            "d_date": cur_dt.strftime("%d/%m/%Y"),
+            "dayofweek": dow,
+            "month": cur_dt.strftime("%B"),
             "year": yr,
             "yearmonth": f"{yr}01",
-            "dayofweek": dow
+            "yearmonthnum": int(f"{yr}01")
         })
 
     return {

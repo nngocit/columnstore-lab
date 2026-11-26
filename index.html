@@ -5908,26 +5908,26 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             name: "CUSTOMER",
             label: "CUSTOMER (Chiều khách hàng)",
             total_rows: 30000,
-            desc: "Bảng chiều Khách hàng (30,000 dòng).",
+            desc: "Bảng chiều Khách hàng (30,000 dòng · 8 cột).",
             rows: [
-              { custkey: 1, name: "Customer#000000001", region: "AMERICA", nation: "UNITED STATES", mktsegment: "AUTOMOBILE" },
-              { custkey: 2, name: "Customer#000000002", region: "AMERICA", nation: "UNITED STATES", mktsegment: "BUILDING" },
-              { custkey: 3, name: "Customer#000000003", region: "AMERICA", nation: "UNITED STATES", mktsegment: "FURNITURE" },
-              { custkey: 4, name: "Customer#000000004", region: "AMERICA", nation: "UNITED STATES", mktsegment: "HOUSEHOLD" },
-              { custkey: 5, name: "Customer#000000005", region: "AMERICA", nation: "UNITED STATES", mktsegment: "MACHINERY" }
+              { custkey: 1, name: "Customer#000000001", address: "Address#00001, St.1", city: "City-USA1", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0001", mktsegment: "AUTOMOBILE" },
+              { custkey: 2, name: "Customer#000000002", address: "Address#00002, St.2", city: "City-USA2", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0002", mktsegment: "BUILDING" },
+              { custkey: 3, name: "Customer#000000003", address: "Address#00003, St.3", city: "City-USA3", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0003", mktsegment: "FURNITURE" },
+              { custkey: 4, name: "Customer#000000004", address: "Address#00004, St.4", city: "City-USA4", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0004", mktsegment: "HOUSEHOLD" },
+              { custkey: 5, name: "Customer#000000005", address: "Address#00005, St.5", city: "City-USA5", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0005", mktsegment: "MACHINERY" }
             ]
           },
           supplier: {
             name: "SUPPLIER",
             label: "SUPPLIER (Chiều nhà cung cấp)",
             total_rows: 2000,
-            desc: "Bảng chiều Nhà cung cấp (2,000 dòng).",
+            desc: "Bảng chiều Nhà cung cấp (2,000 dòng · 7 cột).",
             rows: [
-              { suppkey: 1, name: "Supplier#000000001", region: "AMERICA", nation: "UNITED STATES" },
-              { suppkey: 2, name: "Supplier#000000002", region: "AMERICA", nation: "UNITED STATES" },
-              { suppkey: 3, name: "Supplier#000000003", region: "AMERICA", nation: "UNITED STATES" },
-              { suppkey: 4, name: "Supplier#000000004", region: "AMERICA", nation: "UNITED STATES" },
-              { suppkey: 5, name: "Supplier#000000005", region: "AMERICA", nation: "UNITED STATES" }
+              { suppkey: 1, name: "Supplier#000000001", address: "Factory#00001, Ind.Park", city: "City-USA1", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0501" },
+              { suppkey: 2, name: "Supplier#000000002", address: "Factory#00002, Ind.Park", city: "City-USA2", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0502" },
+              { suppkey: 3, name: "Supplier#000000003", address: "Factory#00003, Ind.Park", city: "City-USA3", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0503" },
+              { suppkey: 4, name: "Supplier#000000004", address: "Factory#00004, Ind.Park", city: "City-USA4", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0504" },
+              { suppkey: 5, name: "Supplier#000000005", address: "Factory#00005, Ind.Park", city: "City-USA5", region: "AMERICA", nation: "UNITED STATES", phone: "011-84-0505" }
             ]
           },
           dwdate: {
@@ -5936,11 +5936,11 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             total_rows: 2555,
             desc: "Bảng chiều Ngày đặt hàng (2,555 dòng ~ 7 năm).",
             rows: [
-              { datekey: 0, d_date: "01/01/1992", date: "01/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Wednesday" },
-              { datekey: 1, d_date: "02/01/1992", date: "02/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Thursday" },
-              { datekey: 2, d_date: "03/01/1992", date: "03/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Friday" },
-              { datekey: 3, d_date: "04/01/1992", date: "04/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Saturday" },
-              { datekey: 4, d_date: "05/01/1992", date: "05/01/1992", year: 1992, yearmonth: "199201", dayofweek: "Sunday" }
+              { datekey: 0, date: "01/01/1992", d_date: "01/01/1992", dayofweek: "Wednesday", month: "January", year: 1992, yearmonth: "199201", yearmonthnum: 199201 },
+              { datekey: 1, date: "02/01/1992", d_date: "02/01/1992", dayofweek: "Thursday", month: "January", year: 1992, yearmonth: "199201", yearmonthnum: 199201 },
+              { datekey: 2, date: "03/01/1992", d_date: "03/01/1992", dayofweek: "Friday", month: "January", year: 1992, yearmonth: "199201", yearmonthnum: 199201 },
+              { datekey: 3, date: "04/01/1992", d_date: "04/01/1992", dayofweek: "Saturday", month: "January", year: 1992, yearmonth: "199201", yearmonthnum: 199201 },
+              { datekey: 4, date: "05/01/1992", d_date: "05/01/1992", dayofweek: "Sunday", month: "January", year: 1992, yearmonth: "199201", yearmonthnum: 199201 }
             ]
           }
         }
@@ -8154,22 +8154,22 @@ SELECT TOP 5
     c03, c04, c05, c06, c07, c08, c09, c10, c11, c12, c13, c14, c15, c16
 FROM dbo.lineorder;`,
 
-      customer: `-- SSBM Dimension: Khách hàng CUSTOMER (30,000 dòng)
--- Khóa chính custkey · Phân bổ theo 5 khu vực (Asia, America...) và 25 quốc gia
+      customer: `-- SSBM Dimension: Khách hàng CUSTOMER (30,000 dòng · Đủ 8 cột chuẩn SSBM)
+-- Khóa chính custkey · Đầy đủ các trường thuộc tính khớp 1:1 với sơ đồ Star Schema
 SELECT TOP 5 
-    custkey, c_name, c_region, c_nation, c_mktsegment
+    custkey, name, address, city, nation, region, phone, mktsegment
 FROM dbo.customer;`,
 
-      supplier: `-- SSBM Dimension: Nhà cung cấp SUPPLIER (2,000 dòng)
--- Khóa chính suppkey · Phân bổ theo 5 khu vực và 25 quốc gia
+      supplier: `-- SSBM Dimension: Nhà cung cấp SUPPLIER (2,000 dòng · Đủ 7 cột chuẩn SSBM)
+-- Khóa chính suppkey · Đầy đủ các trường thuộc tính khớp 1:1 với sơ đồ Star Schema
 SELECT TOP 5 
-    suppkey, s_name, s_region, s_nation
+    suppkey, name, address, city, nation, region, phone
 FROM dbo.supplier;`,
 
       dwdate: `-- SSBM Dimension: Thời gian DWDATE (2,555 dòng · 1992 - 1998)
--- Khóa chính datekey (0..2404) ánh xạ với orderdate của LINEORDER
+-- Khóa chính datekey (0..2404) ánh xạ với orderdate của LINEORDER để nén RLE
 SELECT TOP 5 
-    datekey, d_date, d_year, d_yearmonthnum, d_dayofweek
+    datekey, date, dayofweek, month, year, yearmonthnum
 FROM dbo.dwdate;`
     };
 
@@ -9019,11 +9019,14 @@ WHERE d.year = 1993
         thead.innerHTML = `
           <tr>
             <th class="ssms-row-hdr" style="width:36px;text-align:center;"></th>
-            <th class="num" style="width:110px;background:linear-gradient(180deg,#faf5ff 0%,#f3e8ff 100%) !important;color:#6b21a8;">custkey <span style="font-size:10px;color:#a855f7;font-weight:normal;">(PK, int)</span></th>
-            <th>c_name <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
-            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">c_region <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
-            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">c_nation <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
-            <th>c_mktsegment <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:90px;background:linear-gradient(180deg,#faf5ff 0%,#f3e8ff 100%) !important;color:#6b21a8;">custkey <span style="font-size:10px;color:#a855f7;font-weight:normal;">(PK, int)</span></th>
+            <th>name <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th>address <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th>city <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">nation <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
+            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">region <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
+            <th>phone <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th>mktsegment <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
           </tr>
         `;
         tbody.innerHTML = tbl.rows.map((r, idx) => `
@@ -9031,8 +9034,11 @@ WHERE d.year = 1993
             <td class="ssms-row-hdr">${idx+1}</td>
             <td class="num mono" style="font-weight:700;color:#7c3aed;text-align:right;">${r.custkey}</td>
             <td class="font-bold" style="color:#0f172a;">${r.name}</td>
-            <td style="color:#1d4ed8;font-weight:600;">${r.region}</td>
+            <td style="color:#475569;font-size:11px;">${r.address || ('Address#' + (idx+1) + ', St.' + (idx+1))}</td>
+            <td style="color:#475569;">${r.city || ('City-' + (r.nation ? r.nation.substring(0,3).toUpperCase() : 'USA') + (idx+1))}</td>
             <td style="color:#1d4ed8;font-weight:600;">${r.nation}</td>
+            <td style="color:#1d4ed8;font-weight:600;">${r.region}</td>
+            <td class="mono" style="color:#64748b;font-size:11px;">${r.phone || ('011-84-000' + (idx+1))}</td>
             <td style="color:#475569;">${r.mktsegment}</td>
           </tr>
         `).join('');
@@ -9040,10 +9046,13 @@ WHERE d.year = 1993
         thead.innerHTML = `
           <tr>
             <th class="ssms-row-hdr" style="width:36px;text-align:center;"></th>
-            <th class="num" style="width:110px;background:linear-gradient(180deg,#faf5ff 0%,#f3e8ff 100%) !important;color:#6b21a8;">suppkey <span style="font-size:10px;color:#a855f7;font-weight:normal;">(PK, int)</span></th>
-            <th>s_name <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
-            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">s_region <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
-            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">s_nation <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:90px;background:linear-gradient(180deg,#faf5ff 0%,#f3e8ff 100%) !important;color:#6b21a8;">suppkey <span style="font-size:10px;color:#a855f7;font-weight:normal;">(PK, int)</span></th>
+            <th>name <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th>address <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th>city <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">nation <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
+            <th style="background:linear-gradient(180deg,#f0f7ff 0%,#e0effe 100%) !important;color:#1e40af;">region <span style="font-size:10px;color:#60a5fa;font-weight:normal;">(varchar)</span></th>
+            <th>phone <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
           </tr>
         `;
         tbody.innerHTML = tbl.rows.map((r, idx) => `
@@ -9051,29 +9060,34 @@ WHERE d.year = 1993
             <td class="ssms-row-hdr">${idx+1}</td>
             <td class="num mono" style="font-weight:700;color:#7c3aed;text-align:right;">${r.suppkey}</td>
             <td class="font-bold" style="color:#0f172a;">${r.name}</td>
-            <td style="color:#1d4ed8;font-weight:600;">${r.region}</td>
+            <td style="color:#475569;font-size:11px;">${r.address || ('Factory#' + (idx+1) + ', Ind.Park')}</td>
+            <td style="color:#475569;">${r.city || ('City-' + (r.nation ? r.nation.substring(0,3).toUpperCase() : 'USA') + (idx+1))}</td>
             <td style="color:#1d4ed8;font-weight:600;">${r.nation}</td>
+            <td style="color:#1d4ed8;font-weight:600;">${r.region}</td>
+            <td class="mono" style="color:#64748b;font-size:11px;">${r.phone || ('011-84-050' + (idx+1))}</td>
           </tr>
         `).join('');
       } else if (tblKey === 'dwdate') {
         thead.innerHTML = `
           <tr>
             <th class="ssms-row-hdr" style="width:36px;text-align:center;"></th>
-            <th class="num" style="width:105px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">datekey <span style="font-size:10px;color:#b45309;font-weight:normal;">(PK, int)</span></th>
-            <th style="width:125px;background:linear-gradient(180deg,#eff6ff 0%,#dbeafe 100%) !important;color:#1e40af;text-align:center;">d_date <span style="font-size:10px;color:#3b82f6;font-weight:normal;">(varchar)</span></th>
-            <th class="num" style="width:95px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">d_year <span style="font-size:10px;color:#b45309;font-weight:normal;">(int)</span></th>
-            <th class="num" style="width:130px;text-align:center;">d_yearmonthnum <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(int)</span></th>
-            <th style="text-align:left;">d_dayofweek <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:95px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">datekey <span style="font-size:10px;color:#b45309;font-weight:normal;">(PK, int)</span></th>
+            <th style="width:115px;background:linear-gradient(180deg,#eff6ff 0%,#dbeafe 100%) !important;color:#1e40af;text-align:center;">date <span style="font-size:10px;color:#3b82f6;font-weight:normal;">(varchar)</span></th>
+            <th style="text-align:center;">dayofweek <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th style="text-align:center;">month <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(varchar)</span></th>
+            <th class="num" style="width:85px;background:linear-gradient(180deg,#fffbeb 0%,#fef3c7 100%) !important;color:#92400e;text-align:center;">year <span style="font-size:10px;color:#b45309;font-weight:normal;">(int)</span></th>
+            <th class="num" style="width:115px;text-align:center;">yearmonthnum <span style="font-size:10px;color:#94a3b8;font-weight:normal;">(int)</span></th>
           </tr>
         `;
         tbody.innerHTML = tbl.rows.map((r, idx) => `
           <tr onclick="selectSsmsRow(${idx})" class="${idx === 0 ? 'ssms-selected' : ''}" style="cursor:pointer;">
             <td class="ssms-row-hdr">${idx+1}</td>
             <td class="num mono" style="font-weight:700;color:#d97706;text-align:center;">${r.datekey}</td>
-            <td class="mono" style="font-weight:700;color:#1d4ed8;background:#f0f9ff;text-align:center;">${r.d_date || r.date || ('0' + (idx+1) + '/01/1992')}</td>
+            <td class="mono font-bold" style="background:#f0f9ff;color:#1d4ed8;text-align:center;">${r.date || r.d_date || ('0' + (idx+1) + '/01/1992')}</td>
+            <td style="color:#334155;text-align:center;">${r.dayofweek || 'Wednesday'}</td>
+            <td style="color:#334155;text-align:center;">${r.month || 'January'}</td>
             <td class="num mono font-bold" style="color:#b45309;text-align:center;">${r.year}</td>
-            <td class="num mono" style="color:#475569;text-align:center;">${r.yearmonth}</td>
-            <td style="color:#334155;text-align:left;">${r.dayofweek}</td>
+            <td class="num mono" style="color:#475569;text-align:center;">${r.yearmonthnum || (r.year ? r.year * 100 + 1 : 199201)}</td>
           </tr>
         `).join('');
       }
