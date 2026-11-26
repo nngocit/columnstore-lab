@@ -2187,7 +2187,7 @@
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
             <span style="font-size:12px;">📋</span> Log Python <span class="kbd">L</span>
           </button>
-          <button id="showAllBtn" class="nav-pill-btn" type="button" onclick="toggleAllMode()" title="Hiển thị nối tiếp Phần 0 đến 4">Xem Tất Cả (0–4) <span class="kbd">A</span></button>
+          
           <button id="fullscreenBtn" class="nav-pill-btn" type="button" onclick="toggleFullscreen()" title="Toàn màn hình">⛶ <span class="kbd">F</span></button>
         </div>
       </div>
@@ -5418,12 +5418,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       for (let i = 0; i <= 5; i++) {
         const sec = document.getElementById(`sec-${i}`);
         const tab = document.getElementById(`tab-${i}`);
-        const isVisible = state.showAll ? (i <= 4) : (String(i) === state.activeTab);
+        const isVisible = (String(i) === state.activeTab);
         if (sec) sec.classList.toggle('visible', isVisible);
-        if (tab) tab.classList.toggle('active', !state.showAll && String(i) === state.activeTab);
+        if (tab) tab.classList.toggle('active', isVisible);
       }
-      const allBtn = document.getElementById('showAllBtn');
-      if (allBtn) allBtn.classList.toggle('active', state.showAll);
     }
 
     
@@ -9460,7 +9458,7 @@ WHERE d.year = 1993
         }
       }
 
-      if (part !== 'all' && !state.showAll && !opts.silentNav) {
+      if (part !== 'all' && !opts.silentNav) {
         setViewMode(part);
       }
 
@@ -9601,8 +9599,6 @@ WHERE d.year = 1993
       const k = e.key.toLowerCase();
       if (['0', '1', '2', '3', '4', '5'].includes(k)) {
         setViewMode(k);
-      } else if (k === 'a') {
-        toggleAllMode();
       } else if (k === 'f') {
         e.preventDefault();
         toggleFullscreen();
