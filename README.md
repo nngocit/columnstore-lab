@@ -7,6 +7,9 @@
 
 - **Tác giả:** Nguyễn Thanh Xuân Ngọc (MSHV: 2618480104014)
 - **Công nghệ:** Python (NumPy), JavaScript (Vanilla ES6), HTML5 Native `<dialog>`, CSS3 Glassmorphism
+- **Live Demo Cloudflare Pages:** [https://cs-lab-a3k.pages.dev](https://cs-lab-a3k.pages.dev)
+- **Live Demo GitHub Pages:** [https://nngocit.github.io/columnstore-lab/](https://nngocit.github.io/columnstore-lab/)
+- **Mã nguồn GitHub:** [https://github.com/nngocit/columnstore-lab](https://github.com/nngocit/columnstore-lab)
 
 ---
 
