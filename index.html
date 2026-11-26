@@ -3530,9 +3530,9 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
 
           <!-- STEPPER ACTION BUTTONS -->
           <div style="display:flex;gap:6px;align-items:center;">
-            <button class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;" title="Quay lại bước trước">← Back</button>
-            <button class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;" title="Chuyển sang bước tiếp theo">Next →</button>
-            <button class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Về lại Phase 1 ban đầu">↺ Reset</button>
+            <button id="p3BackBtn" class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;" title="Quay lại bước trước">← Back</button>
+            <button id="p3NextBtn" class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;" title="Chuyển sang bước tiếp theo">Next →</button>
+            <button id="p3ResetBtn" class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;" title="Về lại Phase 1 ban đầu">↺ Reset</button>
             <button id="runBtn3" class="run-compare-btn" type="button" onclick="runDemo('3')" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>▶ Run</span></button>
           </div>
         </div>
@@ -6531,17 +6531,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
 
     function runP1BothPlans() {
-      const btn = document.getElementById('p1RunQueryBtn');
-      if (btn) {
-        btn.innerHTML = '<span>⏳ Executing...</span>';
-        btn.style.opacity = '0.8';
-      }
-      const btn2 = document.getElementById('p1RunBothBtn');
-      if (btn2) {
-        btn2.innerHTML = '<span style="font-size:18px;">⏳</span><span>Đang chạy cả 2 Plan...</span>';
-        btn2.disabled = true;
-      }
-      // Update status indicators to running
+      if (state.runAbortCtrl) return;
       const statusRowEl = document.getElementById('p1RunStatusRow');
       const statusColEl = document.getElementById('p1RunStatusCol');
       if (statusRowEl) { statusRowEl.className = 'status-indicator status-running'; statusRowEl.textContent = '⏳ Đang chạy Row...'; }
@@ -6552,16 +6542,6 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         sqlText = (window.p1MonacoEditorInstance || p1MonacoEditorInstance).getValue();
       }
       runDemo('1', { source: 'sql', sql: sqlText });
-      setTimeout(() => {
-        if (btn) {
-          btn.innerHTML = '<span>▶ Run</span>';
-          btn.style.opacity = '1';
-        }
-        if (btn2) {
-          btn2.innerHTML = '<span style="font-size:18px;">▶</span><span>Chạy cả 2 Plan (Run Both Plans)</span><span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>';
-          btn2.disabled = false;
-        }
-      }, 750);
     }
 
     function runP1Sql() {
@@ -7108,12 +7088,20 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
 
     function setP3Phase(p, isAuto = false) {
+      if (!isAuto && (state.p3Measuring || state.runAbortCtrl)) {
+        showToast('Đang đo lường benchmark... Vui lòng đợi hoàn tất!');
+        return;
+      }
       if (!isAuto) clearP3SeqTimers();
       state.p3Phase = Math.max(1, Math.min(3, Number(p)));
       renderPart3();
     }
 
     function stepP3Phase(delta) {
+      if (state.p3Measuring || state.runAbortCtrl) {
+        showToast('Đang đo lường benchmark... Vui lòng đợi hoàn tất!');
+        return;
+      }
       clearP3SeqTimers();
       if (state.p3Timer) toggleP3AutoPlay();
       let next = state.p3Phase + delta;
@@ -7124,6 +7112,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
 
     function resetP3Phase() {
+      if (state.p3Measuring || state.runAbortCtrl) {
+        showToast('Đang đo lường benchmark... Vui lòng đợi hoàn tất!');
+        return;
+      }
       clearP3SeqTimers();
       if (state.p3Timer) toggleP3AutoPlay();
       state.p3Phase = 1;
@@ -8366,27 +8358,13 @@ WHERE orderdate BETWEEN 0 AND 2;`;
     }
 
     function runP2Sql() {
-      const btn = document.getElementById('p2RunQueryBtn');
+      if (state.runAbortCtrl) return;
       const statusSuccess = document.getElementById('p2SsmsStatusSuccess');
-      if (btn) {
-        btn.innerHTML = '<span>⏳ Executing...</span>';
-        btn.style.opacity = '0.8';
-      }
       if (statusSuccess) {
         statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#0284c7;"></span> Executing query...';
         statusSuccess.style.color = '#0284c7';
       }
       runDemo('2');
-      setTimeout(() => {
-        if (btn) {
-          btn.innerHTML = '<span>▶ Run</span>';
-          btn.style.opacity = '1';
-        }
-        if (statusSuccess) {
-          statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Query executed successfully.';
-          statusSuccess.style.color = '#059669';
-        }
-      }, 500);
     }
 
     function switchP2SsmsPane(pane) {
@@ -8495,18 +8473,13 @@ ORDER BY d.d_year ASC, revenue DESC;`;
     }
 
     function runP3Sql() {
+      if (state.runAbortCtrl) return;
       const statusSuccess = document.getElementById('p3SsmsStatusSuccess');
       if (statusSuccess) {
         statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#0284c7;"></span> Executing Invisible Join...';
         statusSuccess.style.color = '#0284c7';
       }
       runDemo('3');
-      setTimeout(() => {
-        if (statusSuccess) {
-          statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Query executed successfully.';
-          statusSuccess.style.color = '#059669';
-        }
-      }, 500);
     }
 
     function switchP3SsmsPane(pane) {
@@ -8609,27 +8582,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;`;
     }
 
     function runP4Sql() {
-      const btn = document.getElementById('p4RunQueryBtn') || document.getElementById('p4RunBenchmarkBtn');
+      if (state.runAbortCtrl) return;
       const statusSuccess = document.getElementById('p4SsmsStatusSuccess');
-      if (btn) {
-        btn.innerHTML = '<span>⏳ Executing...</span>';
-        btn.style.opacity = '0.8';
-      }
       if (statusSuccess) {
         statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#0284c7;"></span> Running benchmark...';
         statusSuccess.style.color = '#0284c7';
       }
       runDemo('4');
-      setTimeout(() => {
-        if (btn) {
-          btn.innerHTML = '<span>▶ Run</span>';
-          btn.style.opacity = '1';
-        }
-        if (statusSuccess) {
-          statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Benchmark completed successfully.';
-          statusSuccess.style.color = '#059669';
-        }
-      }, 600);
     }
 
     function switchP4SsmsPane(pane) {
@@ -9727,7 +9686,106 @@ WHERE d.year = 1993
       showToast(`Đã chuyển sang cấu hình ${fmtInt(rows)} dòng (${mLabel}). Nhấn ▶ Run hoặc ▶ Run All để đo.`);
     }
 
-    async function runDemo(part, opts = {}) {
+        function setAllExecutionButtonsDisabled(disabled, activePart = null) {
+      const EXEC_BUTTONS = [
+        { id: 'runAllBtn', part: 'all', activeHtml: '<span>⏳ Running All...</span>', defaultHtml: '▶ Run All' },
+        { id: 'runBtn3', part: '3', activeHtml: '<span>⏳ Executing...</span>', defaultHtml: '<span>▶ Run</span>' },
+        { id: 'p1RunQueryBtn', part: '1', activeHtml: '<span>⏳ Executing...</span>', defaultHtml: '<span>▶ Run</span>' },
+        { id: 'p1RunBothBtn', part: '1', activeHtml: '<span style="font-size:18px;">⏳</span><span>Đang chạy cả 2 Plan...</span>', defaultHtml: '<span style="font-size:18px;">▶</span><span>Chạy cả 2 Plan (Run Both Plans)</span><span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>' },
+        { id: 'p2RunQueryBtn', part: '2', activeHtml: '<span>⏳ Executing...</span>', defaultHtml: '<span>▶ Run</span>' },
+        { id: 'p4RunQueryBtn', part: '4', activeHtml: '<span>⏳ Executing...</span>', defaultHtml: '<span>▶ Run</span>' },
+        { id: 'p4RunBenchmarkBtn', part: '4', activeHtml: '<span>⏳ Executing...</span>', defaultHtml: '<span>▶ Run</span>' }
+      ];
+
+      const STEPPER_IDS = [
+        'p3BackBtn',
+        'p3NextBtn',
+        'p3ResetBtn',
+        'p3PhaseBtn0',
+        'p3PhaseBtn1',
+        'p3PhaseBtn2',
+        'p3PhaseBtn3'
+      ];
+
+      if (disabled) {
+        EXEC_BUTTONS.forEach(({ id, part, activeHtml }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.disabled = true;
+          if (activePart === 'all') {
+            if (id === 'runAllBtn') {
+              el.innerHTML = activeHtml;
+              el.style.opacity = '1';
+              el.style.cursor = 'wait';
+              el.classList.remove('btn-need-run');
+            } else {
+              el.innerHTML = '<span>⏳ Executing...</span>';
+              el.style.opacity = '0.6';
+              el.style.cursor = 'wait';
+              el.style.pointerEvents = 'none';
+            }
+          } else if (part === activePart) {
+            el.innerHTML = activeHtml;
+            el.style.opacity = '1';
+            el.style.cursor = 'wait';
+            el.style.pointerEvents = 'none';
+          } else {
+            el.style.opacity = '0.45';
+            el.style.cursor = 'not-allowed';
+            el.style.pointerEvents = 'none';
+          }
+        });
+
+        STEPPER_IDS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = true;
+            el.style.opacity = '0.45';
+            el.style.cursor = 'not-allowed';
+            el.style.pointerEvents = 'none';
+            el.title = 'Đang đo lường benchmark... Vui lòng đợi hoàn tất!';
+          }
+        });
+
+        setConfigControlsDisabled(true);
+      } else {
+        EXEC_BUTTONS.forEach(({ id, defaultHtml }) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.disabled = false;
+          el.style.opacity = '1';
+          el.style.cursor = 'pointer';
+          el.style.pointerEvents = 'auto';
+
+          if (id === 'runAllBtn') {
+            el.textContent = el.dataset.origLabel || '▶ Run All';
+            if (state.needRunAll) {
+              el.classList.add('btn-need-run');
+            } else {
+              el.classList.remove('btn-need-run');
+            }
+          } else {
+            el.innerHTML = defaultHtml;
+          }
+        });
+
+        STEPPER_IDS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.disabled = false;
+            el.style.opacity = '1';
+            el.style.cursor = 'pointer';
+            el.style.pointerEvents = 'auto';
+            el.title = '';
+          }
+        });
+
+        setConfigControlsDisabled(false);
+      }
+    }
+    window.setAllExecutionButtonsDisabled = setAllExecutionButtonsDisabled;
+
+async function runDemo(part, opts = {}) {
       const { rows, seed } = getRowsAndSeed();
       state.rows = rows;
       state.seed = seed;
@@ -9753,29 +9811,8 @@ WHERE d.year = 1993
       if (part === '3' || part === 'all') state.p3Measuring = true;
       if (part === '4' || part === 'all') state.p4Measuring = true;
 
-      const btnMap = { all: 'runAllBtn', '1': 'p1RunQueryBtn', '2': 'p2RunQueryBtn', '3': 'runBtn3', '4': 'p4RunQueryBtn' };
-      const defaultLabels = {
-        all: '▶ Run All',
-        '1': '▶ Run',
-        '2': '▶ Run',
-        '3': '▶ Run',
-        '4': '▶ Run'
-      };
-      const btn = document.getElementById(btnMap[part]);
-      if (btn && (!btn.dataset.origLabel || btn.dataset.origLabel.includes('Đang đo') || btn.dataset.origLabel.includes('Running'))) {
-        btn.dataset.origLabel = defaultLabels[part] || btn.textContent;
-      }
-      const origLabel = btn ? (btn.dataset.origLabel || defaultLabels[part] || '▶ Run') : '';
-      const touchedBtn = Boolean(btn && !opts.silentNav);
-      if (touchedBtn) {
-        state.btnRunSeq[btn.id] = reqSeq;
-        btn.disabled = true;
-        if (btn.id === 'runAllBtn') {
-          btn.innerHTML = '<span>⏳ Running All...</span>';
-        } else {
-          btn.innerHTML = '<span>⏳ Executing...</span>';
-        }
-      }
+      // Khóa toàn bộ các nút Run và Stepper trong lúc đo lường
+      setAllExecutionButtonsDisabled(true, part);
 
       // Re-render ngay lập tức để hiển thị "⏳ Đang đo..." trên các card đo lường
       renderAll();
@@ -9838,6 +9875,28 @@ WHERE d.year = 1993
         if (part === '2' || part === 'all') { state.p2Measuring = false; state.p2Measured = true; }
         if (part === '3' || part === 'all') { state.p3Measuring = false; state.p3Measured = true; }
         if (part === '4' || part === 'all') { state.p4Measuring = false; state.p4Measured = true; }
+
+        const status2 = document.getElementById('p2SsmsStatusSuccess');
+        if (status2 && (part === '2' || part === 'all')) {
+          status2.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Query executed successfully.';
+          status2.style.color = '#059669';
+        }
+        const status3 = document.getElementById('p3SsmsStatusSuccess');
+        if (status3 && (part === '3' || part === 'all')) {
+          status3.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Query executed successfully.';
+          status3.style.color = '#059669';
+        }
+        const status4 = document.getElementById('p4SsmsStatusSuccess');
+        if (status4 && (part === '4' || part === 'all')) {
+          status4.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Benchmark completed successfully.';
+          status4.style.color = '#059669';
+        }
+        const statusRowEl = document.getElementById('p1RunStatusRow');
+        const statusColEl = document.getElementById('p1RunStatusCol');
+        if (part === '1' || part === 'all') {
+          if (statusRowEl) { statusRowEl.className = 'status-indicator status-complete'; statusRowEl.textContent = '✓ Hoàn tất'; }
+          if (statusColEl) { statusColEl.className = 'status-indicator status-complete'; statusColEl.textContent = '✓ Hoàn tất'; }
+        }
 
         if (state.serverOnline && payload) {
           document.getElementById('serverStatusBtn').className = 'server-pill online';
@@ -9911,30 +9970,7 @@ WHERE d.year = 1993
           state.runAbortCtrl = null;
         }
         if (!state.runAbortCtrl) {
-          setConfigControlsDisabled(false);
-        }
-        if (touchedBtn && state.btnRunSeq[btn.id] === reqSeq) {
-          btn.disabled = false;
-          btn.textContent = origLabel;
-        }
-        ['p1RunQueryBtn', 'p2RunQueryBtn', 'runBtn3', 'p4RunQueryBtn'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) {
-            el.innerHTML = '<span>▶ Run</span>';
-            el.style.opacity = '1';
-            el.disabled = false;
-          }
-        });
-        const p1BothBtn = document.getElementById('p1RunBothBtn');
-        if (p1BothBtn) {
-          p1BothBtn.innerHTML = '<span style="font-size:18px;">▶</span><span>Chạy cả 2 Plan (Run Both Plans)</span><span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>';
-          p1BothBtn.disabled = false;
-        }
-        const runAll = document.getElementById('runAllBtn');
-        if (runAll) {
-          runAll.innerHTML = '▶ Run All';
-          runAll.disabled = false;
-          runAll.classList.remove('btn-need-run');
+          setAllExecutionButtonsDisabled(false);
         }
       }
     }
