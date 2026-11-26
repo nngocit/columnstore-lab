@@ -8589,10 +8589,12 @@ WHERE d.year = 1993
       if (part === '1' || part === 'all') {
         state.p1Measuring = true;
         syncP1ResultBadges(state.data.p1.speedup_1, state.data.p1.res_1);
-        const p1RunBtn = document.getElementById('p1RunQueryBtn');
-        if (p1RunBtn) {
-          p1RunBtn.innerHTML = '<span>⏳ Executing...</span>';
-          p1RunBtn.style.opacity = '0.8';
+        if (part === '1' && !opts.silentNav) {
+          const p1RunBtn = document.getElementById('p1RunQueryBtn');
+          if (p1RunBtn) {
+            p1RunBtn.innerHTML = '<span>⏳ Executing...</span>';
+            p1RunBtn.style.opacity = '0.8';
+          }
         }
       }
       if (part === '2' || part === 'all') {
