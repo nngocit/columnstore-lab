@@ -3415,12 +3415,8 @@
                 📄 q3_invisible_join.sql
               </button>
             </div>
-            <!-- Clean status badge preserving p3RunQueryBtn DOM ID for JS compatibility -->
-            <div style="padding:4px 0;display:flex;align-items:center;gap:8px;">
-              <span id="p3RunQueryBtn" style="font-size:11px;color:#64748b;background:#e2e8f0;padding:3px 9px;border-radius:4px;font-weight:600;display:inline-flex;align-items:center;gap:4px;" title="Nhấn F5 hoặc Ctrl+Enter trong trình soạn thảo để chạy truy vấn">
-                <span>F5 / Ctrl+Enter</span>
-              </span>
-            </div>
+            <!-- Preserved p3RunQueryBtn DOM ID for JS compatibility (hidden as requested) -->
+            <span id="p3RunQueryBtn" style="display:none !important;" aria-hidden="true"></span>
           </div>
 
           <!-- MONACO SQL CONTAINER (~170px so all 10 lines fit cleanly without vertical scroll clipping) -->
@@ -7444,22 +7440,13 @@ ORDER BY d.d_year ASC, revenue DESC;`;
     }
 
     function runP3Sql() {
-      const btn = document.getElementById('p3RunQueryBtn');
       const statusSuccess = document.getElementById('p3SsmsStatusSuccess');
-      if (btn) {
-        btn.innerHTML = '<span>⏳ Executing...</span>';
-        btn.style.opacity = '0.8';
-      }
       if (statusSuccess) {
         statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#0284c7;"></span> Executing Invisible Join...';
         statusSuccess.style.color = '#0284c7';
       }
       runDemo('3');
       setTimeout(() => {
-        if (btn) {
-          btn.innerHTML = '<span>▶ Chạy Invisible Join (F5)</span>';
-          btn.style.opacity = '1';
-        }
         if (statusSuccess) {
           statusSuccess.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#059669;"></span> Query executed successfully.';
           statusSuccess.style.color = '#059669';
@@ -8764,11 +8751,6 @@ WHERE d.year = 1993
         if (p2RunBtn) {
           p2RunBtn.innerHTML = '<span>▶ Run Query (F5)</span>';
           p2RunBtn.style.opacity = '1';
-        }
-        const p3RunBtn = document.getElementById('p3RunQueryBtn');
-        if (p3RunBtn) {
-          p3RunBtn.innerHTML = '<span>▶ Chạy Invisible Join (F5)</span>';
-          p3RunBtn.style.opacity = '1';
         }
       }
     }
