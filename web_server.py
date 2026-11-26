@@ -4,7 +4,8 @@ import json, threading, mimetypes
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qs
-from column_store_demo_de_hieu import chay_demo_cho_web, chay_invisible_join_cho_web, lay_du_lieu_preview
+from datetime import datetime
+from column_store_demo import chay_demo_cho_web, chay_invisible_join_cho_web, lay_du_lieu_preview
 
 DASHBOARD = Path(__file__).resolve().parent / "web_dashboard.html"
 CORS = (("Access-Control-Allow-Origin", "*"), ("Access-Control-Allow-Methods", "GET, POST, OPTIONS"), ("Access-Control-Allow-Headers", "Content-Type, Accept"), ("Cache-Control", "no-store"))
@@ -40,17 +41,22 @@ class DemoHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         route = urlsplit(self.path).path
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] [SERVER GET] {route} (path: {self.path})")
         if route in ("/", "/index.html", "/web_dashboard.html") and DASHBOARD.is_file():
             return self._reply(200, DASHBOARD.read_bytes(), "text/html; charset=utf-8")
         if route == "/api/status":
             return self._reply(200, {"status": "ready"})
+        if route in ("/column_store_demo.py", "/column_store_demo_de_hieu.py"):
+            target_f = DASHBOARD.parent / route.lstrip("/")
+            if target_f.is_file():
+                return self._reply(200, target_f.read_bytes(), "text/plain; charset=utf-8")
         if route.startswith("/monaco/"):
             rel = route[len("/monaco/"):]
             local_file = (DASHBOARD.parent / "monaco" / rel).resolve()
             if local_file.is_file() and str(local_file).startswith(str((DASHBOARD.parent / "monaco").resolve())):
                 ct = mimetypes.guess_type(local_file.name)[0] or ("font/ttf" if rel.endswith(".ttf") else "application/octet-stream")
                 return self._reply(200, local_file.read_bytes(), ct)
-        if route == "/api/preview-data":
+        if route in ("/api/preview-data", "/api/preview"):
             try:
                 query = parse_qs(urlsplit(self.path).query)
                 seed = int(query.get("seed", [42])[0])
@@ -63,7 +69,7 @@ class DemoHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in {"/api/run", "/api/invisible-join", "/api/preview-data"}:
+        if route not in {"/api/run", "/api/invisible-join", "/api/preview-data", "/api/preview"}:
             return self._reply(404, {"error": f"Unknown route: {route}"})
 
         try:
@@ -75,6 +81,7 @@ class DemoHandler(BaseHTTPRequestHandler):
             return self._reply(400, {"ok": False, "error": str(exc)})
 
         if route == "/api/run":
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [SERVER POST] /api/run part={req.get('part')} rows={req.get('rows')} seed={req.get('seed')}")
             try:
                 part = str(req.get("part", "all")).strip().lower()
                 rows_raw, seed_raw = req.get("rows", 6_000_000), req.get("seed", 42)
@@ -102,7 +109,8 @@ class DemoHandler(BaseHTTPRequestHandler):
             except Exception as exc:
                 return self._reply(500, {"ok": False, "error": str(exc)})
 
-        elif route == "/api/preview-data":
+        elif route in {"/api/preview-data", "/api/preview"}:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [SERVER POST] /api/preview-data rows={req.get('rows')} seed={req.get('seed')}")
             try:
                 rows_raw = req.get("rows", 6_000_000)
                 seed_raw = req.get("seed", 42)
@@ -114,6 +122,7 @@ class DemoHandler(BaseHTTPRequestHandler):
                 return self._reply(500, {"ok": False, "error": str(exc)})
 
         elif route == "/api/invisible-join":
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] [SERVER POST] /api/invisible-join cust={req.get('cust_region')} supp={req.get('supp_region')} rows={req.get('rows')} seed={req.get('seed')}")
             try:
                 cust_region = str(req.get("cust_region", "Asia") or "Asia").strip()
                 supp_region = str(req.get("supp_region", "Asia") or "Asia").strip()

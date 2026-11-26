@@ -2043,7 +2043,7 @@
 
   
     /* USER REFINEMENT: HIDE RED-BOXED ITEMS & SIMPLIFY UI */
-    .nav-actions, #pyLogMiniTrigger, #p1PassBadge {
+    #p1PassBadge {
       display: none !important;
     }
     .nav-tab .kbd {
@@ -2183,7 +2183,7 @@
           <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu suất (Q3.1) <span class="kbd">4</span></button>
           <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Code Python <span class="kbd">5</span></button>
         </nav>
-        <div class="nav-actions" style="display:none !important;" aria-hidden="true">
+        <div class="nav-actions">
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
             <span style="font-size:12px;">📋</span> Log Python <span class="kbd">L</span>
           </button>
@@ -2195,7 +2195,7 @@
   </header>
 
   <!-- MINI DOCKED TRIGGER FOR PYTHON LOG WHEN COLLAPSED -->
-  <button id="pyLogMiniTrigger" class="py-log-mini-trigger" style="display:none !important;" aria-hidden="true" type="button" onclick="togglePyLogSidebar()" title="Mở bảng Log Python (Phím tắt: L)">
+  <button id="pyLogMiniTrigger" class="py-log-mini-trigger" type="button" onclick="togglePyLogSidebar()" title="Mở bảng Log Python (Phím tắt: L)">
     <span class="py-log-dot"></span>
     <span class="py-log-mini-text">📋 Log Python</span>
     <span id="pyLogMiniBadge" class="py-log-mini-badge">0</span>
@@ -2237,7 +2237,13 @@
         <div class="sec-title-wrap">
           <h1 class="sec-title">0. Cấu Trúc Bảng &amp; Sơ Đồ Star Schema</h1>
         </div>
-              </div>
+      </div>
+
+      <div class="ctx-box" style="margin-bottom:12px;">
+        <div class="ctx-line">
+          <span>Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ.</span>
+        </div>
+      </div>
 
       <div class="star-wrap" id="starWrapContainer" style="position:relative;overflow:hidden;background:#ffffff;border:1.5px solid var(--border);border-radius:var(--radius);height:470px;cursor:grab;user-select:none;display:flex;align-items:center;justify-content:center;">
         <!-- Floating Zoom Toolbar -->
@@ -3552,7 +3558,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
                 <span class="card-title" id="p3CardTitleFact" style="font-size:11.5px;color:#475569;font-weight:600;">
-                  Quét 3 Cột FK Fact lineorder (5 dòng preview RAM · Tổng 6M dòng)
+                  Quét 3 Cột FK Fact lineorder (5 dòng preview RAM · Tổng <span class="p3-rows-label">6M</span> dòng)
                 </span>
                 <span class="info-help-btn" data-tooltip="CPU quét độc lập 3 mảng cột khóa ngoại custkey, suppkey, orderdate. Thăm dò qua 3 Hash Set ở Phase 1 để tạo 3 mảng bit: B_c, B_s, B_d. Thực hiện phép nhân bitwise P = B_c AND B_s AND B_d ở tốc độ SIMD, loại bỏ đến 96.6% dòng rác mà hoàn toàn không tốn phép Join vật lý hay bảng tạm." style="font-size:11.5px;color:#475569;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
                   <span>ℹ️ Nguyên lý</span>
@@ -3640,7 +3646,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               • Bảng tạm trung gian: Phải lưu tuple lớn trong RAM (~408 MB toàn bộ Fact struct)
             </div>
             <div style="background:#ffffff;border:1px solid #fecdd3;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (6M dòng):</span>
+              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
               <b id="p3RowTime" class="mono" style="font-size:18px;color:#e11d48;">~345.9 ms</b>
             </div>
             <div style="display:none;">
@@ -3667,7 +3673,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               • 0 byte bảng tạm trung gian (Late Materialization)
             </div>
             <div style="background:#ffffff;border:1px solid #bbf7d0;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (6M dòng):</span>
+              <span style="font-size:11.5px;color:#64748b;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
               <b id="p3ColTime" class="mono" style="font-size:18px;color:#059669;">~56.8 ms</b>
             </div>
             <div style="display:none;">
@@ -4069,12 +4075,12 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     </section>
 
     <!-- ========================================================= -->
-    <!-- TAB 5: CODE PYTHON (column_store_demo_de_hieu.py)         -->
+    <!-- TAB 5: CODE PYTHON (column_store_demo.py)         -->
     <!-- ========================================================= -->
     <section id="sec-5" class="sec-panel">
       <div class="sec-head">
         <div class="sec-title-wrap">
-          <h2 class="sec-title">5. Code Python — column_store_demo_de_hieu.py</h2>
+          <h2 class="sec-title">5. Code Python — column_store_demo.py</h2>
         </div>
         <button id="copyCodeBtn" class="btn btn-dark" type="button" onclick="copyCurrentCode()">📋 Sao chép Code</button>
       </div>
@@ -4094,7 +4100,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
               <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
               <span style="width:10px;height:10px;border-radius:50%;background:#10b981;display:inline-block;"></span>
             </span>
-            <span id="codeFileTitle" style="color:#94a3b8;font-family:var(--font-mono);font-size:12.5px;font-weight:600;">column_store_demo_de_hieu.py</span>
+            <span id="codeFileTitle" style="color:#94a3b8;font-family:var(--font-mono);font-size:12.5px;font-weight:600;">column_store_demo.py</span>
           </div>
           <div style="display:flex;align-items:center;gap:14px;">
             <span style="font-size:11.5px;color:#64748b;font-family:var(--font-mono);display:inline-flex;align-items:center;gap:5px;">
@@ -4193,12 +4199,24 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         p1: {
           mb_hang_ram: 204.0,
           mb_cot_ram: 204.0,
-          mb_needed: 36,
-          mb_total: 204,
-          t_row: 80.2,
-          t_col: 32.4,
-          speedup_1: 2.5,
-          res_1: 41223643455,
+          mb_needed: 48.0,
+          mb_total: 204.0,
+          mb_hang_read: 204.0,
+          mb_cot_read: 48.0,
+          bytes_per_row_hang: 68,
+          bytes_per_row_cot: 16,
+          num_cols_hang: 17,
+          num_cols_cot: 4,
+          bandwidth_savings_pct: 76.5,
+          t_row: 110.3,
+          t_col: 35.7,
+          t_row_median: 110.3,
+          t_row_std: 4.1,
+          t_col_median: 35.7,
+          t_col_std: 1.5,
+          speedup_1: 3.09,
+          res_1: 5678911107,
+          matching_rows: 56191,
           samples: [
             { qty: 46, disc: 10, price: 69380, orderdate: 100, year: 1992, c04: 33, c05: 46, c06: 22, c07: 30, c08: 19, c09: 38, c10: 13, c11: 25, c12: 42, c13: 25, c14: 40, c15: 49, c16: 18 },
             { qty: 18, disc: 2, price: 87666, orderdate: 400, year: 1993, c04: 9, c05: 2, c06: 27, c07: 0, c08: 37, c09: 17, c10: 15, c11: 42, c12: 21, c13: 20, c14: 44, c15: 11, c16: 32 },
@@ -4214,14 +4232,14 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           avg_run: 1247,
           t_raw_rle: 7.459,
           t_direct_rle: 0.010,
-          speedup_2: 738.5,
+          speedup_2: 745.9,
           res_2: 455127,
-          rle_start: 1000,
-          rle_end: 1364,
+          rle_start: 0,
+          rle_end: 2,
           first_runs: [[0, 1248], [1, 1195], [2, 1276]],
-          skipped_sample_runs: [[0, 1248], [1, 1195], [2, 1276]],
-          matched_runs_count: 365,
-          matched_edge_runs: [[1000, 1201], [1001, 1291], [1364, 1244]]
+          skipped_sample_runs: [[3, 1233], [4, 1210], [5, 1270]],
+          matched_runs_count: 3,
+          matched_edge_runs: [[0, 1248], [1, 1195], [2, 1276]]
         },
         p3: {
           p1_cust: [1, 3],
@@ -4241,11 +4259,11 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         p4: {
           num_groups: 150,
           total_rev_4: 5134808496,
-          t_plan_a: 172.4,
-          t_plan_b: 51.1,
-          speedup_b: 3.4,
-          t_plan_c: 31.3,
-          speedup_c: 5.5
+          t_plan_a: 179.3,
+          t_plan_b: 49.9,
+          speedup_b: 3.6,
+          t_plan_c: 28.5,
+          speedup_c: 6.3
         }
       }
     };
@@ -4534,7 +4552,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         title: 'Toàn bộ file · Dòng 1–194',
         start: 1,
         end: 194,
-        traceTitle: 'Kiến trúc tổng thể column_store_demo_de_hieu.py (194 dòng)',
+        traceTitle: 'Kiến trúc tổng thể column_store_demo.py (194 dòng)',
         traces: [
           ['Dòng 1–11', 'Imports & constants từ demo_helpers.py', '14 hằng số + 8 hàm tạo dữ liệu'],
           ['Dòng 14–48', 'Phần 1: AoS vs SoA (tinh_doanh_thu_giam_gia)', 'Lọc k/17 cột linh hoạt (+ samples)'],
@@ -4840,7 +4858,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     // =========================================================================
     function renderPart0() {
       const rows = state.rows;
-      const totalMb = state.data.p1.mb_total || Math.round(68 * rows / 1e6);
+      const totalMb = Math.round(68 * rows / 1e6);
       const mLabel = rows === 6000000 ? '6M' : (rows === 3000000 ? '3M' : `${(rows / 1e6).toFixed(1)}M`);
 
       const elCtx0Rows = document.getElementById('ctx0-rows');
@@ -5120,11 +5138,19 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       }
 
       state.p1Measuring = false;
-      if (k === 3 && selCols.includes('quantity') && selCols.includes('discount') && selCols.includes('extendedprice')) {
+      const isDefaultQ11 = (k === 4 && selCols.includes('quantity') && selCols.includes('discount') && selCols.includes('extendedprice') && selCols.includes('orderdate'))
+        || (k === 3 && selCols.includes('quantity') && selCols.includes('discount') && selCols.includes('extendedprice'));
+
+      if (isDefaultQ11) {
         d1.t_row = baseP1.t_row;
         d1.t_col = baseP1.t_col;
+        d1.t_row_median = baseP1.t_row_median || baseP1.t_row;
+        d1.t_col_median = baseP1.t_col_median || baseP1.t_col;
+        d1.t_row_std = baseP1.t_row_std || 0;
+        d1.t_col_std = baseP1.t_col_std || 0;
         d1.speedup_1 = baseP1.speedup_1;
         d1.res_1 = baseP1.res_1;
+        d1.matching_rows = baseP1.matching_rows || Math.round(state.rows * (112383 / 6000000));
       } else {
         const hasPrice = selCols.includes('extendedprice');
         const hasDisc = selCols.includes('discount');
@@ -5876,6 +5902,17 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       document.getElementById('p2RealRuns').textContent = fmtInt(d.num_runs);
       document.getElementById('p2RealAvg').textContent = fmtInt(d.avg_run);
 
+      const elTimeRaw = document.getElementById('p2TimeRaw');
+      if (elTimeRaw) elTimeRaw.textContent = `${fmtDec(d.t_raw_rle, 3)} ms`;
+      const elTimeRle = document.getElementById('p2TimeRle');
+      if (elTimeRle) elTimeRle.textContent = `${fmtDec(d.t_direct_rle, 3)} ms`;
+      const elSpeedupVal = document.getElementById('p2SpeedupVal');
+      if (elSpeedupVal) elSpeedupVal.textContent = `${fmtDec(d.speedup_2, 1)}x`;
+      const elSpeedupBadge = document.getElementById('p2SpeedupBadge');
+      if (elSpeedupBadge && !state.p2Measuring) {
+        elSpeedupBadge.textContent = `Nhanh hơn ~${fmtDec(d.speedup_2, 0)}x`;
+      }
+
       const matchedCount = numVal(d.matched_runs_count, rangeCnt);
       const condEl = document.getElementById('p2AlgoCond');
       const algoHead2 = document.getElementById('p2AlgoStep2Title');
@@ -6214,7 +6251,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const elColTime = document.getElementById('p3ColTime');
       if (elColTime) elColTime.textContent = `~${fmtDec(tCol, 1)} ms`;
       const elColSpeedupText = document.getElementById('p3ColSpeedupText');
-      if (elColSpeedupText) elColSpeedupText.textContent = `Tăng tốc ~${fmtDec(speedup, 1)}x (Benchmark 6M dòng)`;
+      const mLabel = (numRows / 1e6).toFixed(0) + 'M';
+      if (elColSpeedupText) elColSpeedupText.textContent = `Tăng tốc ~${fmtDec(speedup, 1)}x (Benchmark ${mLabel} dòng)`;
       const elColCells = document.getElementById('p3ColCells');
       if (elColCells) elColCells.textContent = `~${fmtInt(colCells)} ô dữ liệu`;
 
@@ -6510,6 +6548,9 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     function renderPart3() {
       const phase = state.p3Phase;
       const sc = computeP3Scenario();
+
+      const mLabel = state.rows === 6000000 ? '6M' : (state.rows === 3000000 ? '3M' : `${(state.rows / 1e6).toFixed(1)}M`);
+      document.querySelectorAll('.p3-rows-label').forEach(el => { el.textContent = mLabel; });
 
       for (let i = 0; i <= 3; i++) {
         const btn = document.getElementById(`p3PhaseBtn${i}`);
@@ -8082,7 +8123,7 @@ WHERE d.year = 1993
       const codeText = slice.join('\n');
 
       const fileTitleElem = document.getElementById('codeFileTitle');
-      if (fileTitleElem) fileTitleElem.textContent = `column_store_demo_de_hieu.py · ${spec.title}`;
+      if (fileTitleElem) fileTitleElem.textContent = `column_store_demo.py · ${spec.title}`;
       const badgeElem = document.getElementById('codeLineBadge');
       if (badgeElem) badgeElem.textContent = `${slice.length} dòng`;
 
@@ -8439,7 +8480,7 @@ WHERE d.year = 1993
           elapsedMs: null,
           lines: [
             `[PYTHON] GET ${API_BASE || window.location.origin}/api/status -> 200 OK`,
-            `  • status = "${info.status || 'ready'}" (kết nối in-process column_store_demo_de_hieu.py)`
+            `  • status = "${info.status || 'ready'}" (kết nối in-process column_store_demo.py)`
           ],
           payload: info
         });
@@ -8508,6 +8549,7 @@ WHERE d.year = 1993
       state.p2EndDay = 2;
       state.rows = rows;
       state.seed = seed;
+      state.p3VersusData = null;
       const base = PRESETS[rows] || PRESETS[6000000];
       state.data = JSON.parse(JSON.stringify(base));
       applyPart1ColumnChange();
