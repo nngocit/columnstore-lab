@@ -10843,10 +10843,6 @@ async function runDemo(part, opts = {}) {
           </ul>
         </div>
       </div>
-      <!-- Footer -->
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;">
-        <button type="button" onclick="closeAllModals()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">Đã hiểu</button>
-      </div>
     </div>
   </div>
 
@@ -10875,9 +10871,6 @@ async function runDemo(part, opts = {}) {
           <div style="font-weight:800;color:#065f46;font-size:13px;margin-bottom:4px;">Phase 3: Late Materialization &amp; GROUP BY (Ghép Nối Muộn)</div>
           <div>Chỉ tại các vị trí trong Position List P, CPU mới nạp duy nhất cột <code>revenue</code> từ Fact để tính tổng, đồng thời dùng khóa ngoại tra cứu ngược vào Dimension lấy tên quốc gia và năm phục vụ GROUP BY. Tiết kiệm ~82%–83% I/O Fact (chỉ ~69.4–72.8 MB so với 408 MB của Row-Store, vượt mức 76.5% của Column-Store projection) và hoàn toàn không sinh bảng tạm trung gian.</div>
         </div>
-      </div>
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;">
-        <button type="button" onclick="closeAllModals()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">Đã hiểu</button>
       </div>
     </div>
   </div>
@@ -10913,9 +10906,6 @@ async function runDemo(part, opts = {}) {
           <div>Sự chênh lệch quy mô (Dimension chỉ vài ngàn dòng trong khi Fact hàng triệu dòng) là tiền đề hoàn hảo để Invisible Join đưa toàn bộ Hash Set của Dimension vào <b>CPU L1/L2 Cache</b>, biến phép Join phức tạp thành các phép quét mảng số nguyên siêu tốc.</div>
         </div>
       </div>
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;">
-        <button type="button" onclick="closeAllModals()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">Đã hiểu</button>
-      </div>
     </div>
   </div>
 
@@ -10944,9 +10934,6 @@ async function runDemo(part, opts = {}) {
           <div style="font-weight:800;color:#9f1239;margin-bottom:4px;">3. Zero Decompression Execution (Tính Toán Không Giải Nén)</div>
           <div>Điểm đột phá của C-Store/Column-Store: CPU thực thi phép lọc <code>WHERE orderdate BETWEEN 0 AND 2</code> trực tiếp trên các bộ ba nén. Chỉ các vị trí thỏa mãn mới được sinh ra dưới dạng khoảng vị trí (Position Range), hoàn toàn không giải nén 6M dòng.</div>
         </div>
-      </div>
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;">
-        <button type="button" onclick="closeAllModals()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;">Đã hiểu</button>
       </div>
     </div>
   </div>
@@ -11033,9 +11020,6 @@ async function runDemo(part, opts = {}) {
         </div>
 
       </div>
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
-        <button type="button" onclick="closeAllModals()" style="background:#10b981;color:#ffffff;font-weight:700;font-size:12px;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đã hiểu</button>
-      </div>
     </div>
   </div>
 
@@ -11085,10 +11069,6 @@ async function runDemo(part, opts = {}) {
           </div>
         </div>
       </div>
-      <!-- Modal Footer -->
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
-        <button type="button" onclick="closeLateMatModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đã hiểu</button>
-      </div>
     </div>
   </div>
 
@@ -11130,10 +11110,6 @@ async function runDemo(part, opts = {}) {
             </ul>
           </div>
         </div>
-      </div>
-      <!-- Modal Footer -->
-      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
-        <button type="button" onclick="closeSqlSpecModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đã hiểu</button>
       </div>
     </div>
   </div>
