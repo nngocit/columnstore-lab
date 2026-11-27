@@ -449,6 +449,7 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
     speedup = round(tg_hang / max(tg_cot, 1e-9), 2)
     mb_total_val = round(SO_COT_LINEORDER * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)  # 408.0 MB
     mb_needed_val = round(4 * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)               # 96.0 MB
+    mb_wasted_val = round(mb_total_val - mb_needed_val, 1)                        # 312.0 MB
 
     default_sql = (
         "-- SSBM Query 1.1: Aggregation & Star Join (Abadi et al., SIGMOD 2008)\n"
@@ -463,10 +464,10 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
     return {
         "mb_hang_ram": round(bang_hang.nbytes / 1e6, 1),
         "mb_cot_ram": round(sum(c.nbytes for c in bang_cot.values()) / 1e6, 1),
-        "mb_needed": 96.0,
-        "mb_total": 408.0,
-        "mb_hang_read": 408.0,
-        "mb_cot_read": 96.0,
+        "mb_needed": mb_needed_val,
+        "mb_total": mb_total_val,
+        "mb_hang_read": mb_total_val,
+        "mb_cot_read": mb_needed_val,
         "bytes_per_row_hang": 68,
         "bytes_per_row_cot": 16,
         "num_cols_hang": 17,
@@ -498,9 +499,9 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
             "strategy": "Full Tuple Scan & Early Materialization",
             "cols_read": 17,
             "bytes_per_row": 68,
-            "total_mb": 408.0,
+            "total_mb": mb_total_val,
             "wasted_b": 52,
-            "wasted_mb": 312.0,
+            "wasted_mb": mb_wasted_val,
             "wasted_pct": 76.5,
             "time_ms": round(tg_hang, 1),
             "std_ms": round(bench_hang["std"], 2),
@@ -514,8 +515,8 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
             "cols_list": ["quantity", "discount", "extendedprice", "orderdate"],
             "not_loaded_cols": 13,
             "bytes_per_row": 16,
-            "total_mb": 96.0,
-            "savings_mb": 312.0,
+            "total_mb": mb_needed_val,
+            "savings_mb": mb_wasted_val,
             "savings_pct": 76.5,
             "time_ms": round(tg_cot, 1),
             "std_ms": round(bench_cot["std"], 2),
@@ -633,7 +634,7 @@ def demo_phan_4_benchmark_q31(so_dong, bo_sinh_ngau_nhien):
         vi_tri = np.flatnonzero(c_asia[fact_cot["custkey"]] & s_asia[fact_cot["suppkey"]] & ngay_thoa[fact_cot["orderdate"]])
         return tinh_tong_theo_nhom(chieu["c_nation"][fact_cot["custkey"][vi_tri]], chieu["s_nation"][fact_cot["suppkey"][vi_tri]], chieu["d_year"][fact_cot["orderdate"][vi_tri]], fact_cot["revenue"][vi_tri])
 
-    # PLAN C: Column-Store + Between Predicate (đổi tra bảng băm thành so sánh khoảng trên CPU ALU/SIMD)
+    # PLAN C: Column-Store + Between Predicate (đổi tra bảng băm thành so sánh khoảng trên CPU)
     def ke_hoach_c():
         (c_min, c_max), (s_min, s_max), (d_min, d_max) = (tim_khoang_khoa_lien_tuc(m) for m in (c_asia, s_asia, ngay_thoa))
         ck, sk, dk = fact_cot["custkey"], fact_cot["suppkey"], fact_cot["orderdate"]
