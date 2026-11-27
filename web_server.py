@@ -159,9 +159,94 @@ class DemoHandler(BaseHTTPRequestHandler):
                 return self._reply(500, {"ok": False, "error": str(exc)})
 
 
+def check_port_open(host="127.0.0.1", port=8000):
+    try:
+        import socket
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(0.5)
+            return s.connect_ex((host, port)) == 0
+    except Exception:
+        return False
+
+def check_server_healthy(host="127.0.0.1", port=8000):
+    try:
+        import urllib.request
+        req = urllib.request.Request(f"http://{host}:{port}/api/status", headers={"User-Agent": "HealthCheck"})
+        with urllib.request.urlopen(req, timeout=1.0) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+def kill_process_on_port(port=8000):
+    import os, subprocess, time
+    try:
+        out = subprocess.check_output(f'netstat -aon | findstr ":{port}" | findstr "LISTENING"', shell=True, text=True)
+        for line in out.strip().splitlines():
+            parts = line.strip().split()
+            if len(parts) >= 5:
+                pid = parts[-1]
+                if pid and pid != str(os.getpid()):
+                    print(f"[*] Giai phong tien trinh cu chiem cong {port} (PID: {pid})...")
+                    subprocess.run(f'taskkill /F /PID {pid}', shell=True, capture_output=True)
+        time.sleep(1.0)
+    except Exception:
+        pass
+
 if __name__ == "__main__":
+    import sys, time, webbrowser
+    host, port = "127.0.0.1", 8000
+
+    # 1. Neu server da dang chay va phan hoi tot:
+    if check_server_healthy(host, port):
+        print("=" * 75)
+        print(f"  [OK] MAY CHU DEMO DA DANG CHAY SAN TAI: http://{host}:{port}")
+        print("  >> Dang tu dong mo trinh duyet web...")
+        print("=" * 75)
+        webbrowser.open(f"http://{host}:{port}")
+        print("\n>> Nhan Enter de thoat (may chu van tiep tuc chay ngam)...")
+        try: input()
+        except Exception: pass
+        sys.exit(0)
+
+    # 2. Neu cong 8000 bi chiem boi tien trinh khac / tien trinh cu bi treo:
+    if check_port_open(host, port):
+        print(f"[*] Phat hien cong {port} dang ban, dang giai phong...")
+        kill_process_on_port(port)
+
+    # 3. Khoi dong server voi co che Retry 5 lan:
     ThreadingHTTPServer.allow_reuse_address, ThreadingHTTPServer.daemon_threads = True, True
-    with ThreadingHTTPServer(("127.0.0.1", 8000), DemoHandler) as srv:
-        print("Serving http://127.0.0.1:8000 (Ctrl+C to stop)")
-        try: srv.serve_forever()
-        except KeyboardInterrupt: pass
+    srv = None
+    for attempt in range(1, 6):
+        try:
+            srv = ThreadingHTTPServer((host, port), DemoHandler)
+            break
+        except OSError as e:
+            if attempt < 5:
+                print(f"[*] Cong {port} dang duoc Windows giai phong... Thu lai lan {attempt}/5 sau 1.2s...")
+                kill_process_on_port(port)
+                time.sleep(1.2)
+            else:
+                print(f"[LOI] Khong the mo cong {port} sau 5 lan thu: {e}")
+                sys.exit(1)
+
+    # 4. Tu dong mo trinh duyet web sau 0.8s
+    def _open_browser():
+        time.sleep(0.8)
+        print(f">> Da mo trinh duyet web tai: http://{host}:{port}")
+        webbrowser.open(f"http://{host}:{port}")
+
+    threading.Thread(target=_open_browser, daemon=True).start()
+
+    print("=" * 75)
+    print(f"  MAY CHU DEMO COLUMN-STORE (SIGMOD 2008) DANG CHAY:")
+    print(f"  URL: http://{host}:{port}")
+    print("  De dung web server: Nhan Ctrl + C hoac dong cua so nay.")
+    print("=" * 75)
+
+    try:
+        srv.serve_forever()
+    except KeyboardInterrupt:
+        print("\nMay chu da dung theo yeu cau.")
+    finally:
+        try: srv.server_close()
+        except Exception: pass
