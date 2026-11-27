@@ -3568,7 +3568,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#1e40af;display:flex;align-items:center;justify-content:space-between;">
                   <span style="font-weight:600;"><span id="p3CustMatchCount">2 / 5</span> mẫu hợp lệ (Toàn bảng: 6,000 / 30,000 khách ASIA)</span>
-                  <span class="info-help-btn" data-tooltip="Tập khóa chính custkey thỏa mãn điều kiện c_region = 'ASIA' lưu trong CPU Cache: {13,166; 15,396}" id="p3CustKeysTooltip" style="font-size:11px;color:#1e40af;cursor:pointer;">ℹ️ Xem chi tiết</span>
+                  <button type="button" onclick="openDimKeysModal('cust')" class="spec-info-btn" data-tooltip="Tập khóa chính custkey thỏa mãn điều kiện c_region = 'ASIA' lưu trong CPU Cache: {13,166; 15,396}" id="p3CustKeysTooltip" style="background:#ffffff;color:#1e40af;border:1px solid #93c5fd;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;">ℹ️ Xem chi tiết</button>
                   <code id="p3FooterCustKeys" class="mono" style="display:none;">{13,166; 15,396}</code>
                 </div>
               </div>
@@ -3586,7 +3586,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#334155;display:flex;align-items:center;justify-content:space-between;">
                   <span style="font-weight:600;"><span id="p3SuppMatchCount">3 / 5</span> mẫu hợp lệ (Toàn bảng: 400 / 2,000 NCC ASIA)</span>
-                  <span class="info-help-btn" data-tooltip="Tập khóa chính suppkey thỏa mãn điều kiện s_region = 'ASIA' lưu trong CPU Cache: {1,056; 1,123; 1,160}" id="p3SuppKeysTooltip" style="font-size:11px;color:#475569;cursor:pointer;">ℹ️ Xem chi tiết</span>
+                  <button type="button" onclick="openDimKeysModal('supp')" class="spec-info-btn" data-tooltip="Tập khóa chính suppkey thỏa mãn điều kiện s_region = 'ASIA' lưu trong CPU Cache: {1,056; 1,123; 1,160}" id="p3SuppKeysTooltip" style="background:#ffffff;color:#334155;border:1px solid #cbd5e1;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;">ℹ️ Xem chi tiết</button>
                   <code id="p3FooterSuppKeys" class="mono" style="display:none;">{1,056; 1,123; 1,160}</code>
                 </div>
               </div>
@@ -3604,7 +3604,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#78350f;display:flex;align-items:center;justify-content:space-between;">
                   <span style="font-weight:600;"><span id="p3DateMatchCount">1 / 2</span> mẫu hợp lệ (Toàn bảng: 2,191 / 2,555 ngày 1992–1997)</span>
-                  <span class="info-help-btn" data-tooltip="Tập khóa chính datekey thỏa mãn điều kiện d_year BETWEEN 1992 AND 1997: {0}" id="p3DateKeysTooltip" style="font-size:11px;color:#92400e;cursor:pointer;">ℹ️ Xem chi tiết</span>
+                  <button type="button" onclick="openDimKeysModal('date')" class="spec-info-btn" data-tooltip="Tập khóa chính datekey thỏa mãn điều kiện d_year BETWEEN 1992 AND 1997: {0}" id="p3DateKeysTooltip" style="background:#ffffff;color:#78350f;border:1px solid #fde68a;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;">ℹ️ Xem chi tiết</button>
                   <code id="p3FooterDateKeys" class="mono" style="display:none;">{0}</code>
                 </div>
               </div>
@@ -6106,6 +6106,102 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
     window.openPlanComparisonModal = openPlanComparisonModal;
 
+    
+    function openDimKeysModal(dim) {
+      const modal = document.getElementById('academicDimKeyModal');
+      if (!modal) return;
+      const title = document.getElementById('academicDimKeyTitle');
+      const icon = document.getElementById('academicDimKeyIcon');
+      const body = document.getElementById('academicDimKeyBody');
+
+      if (dim === 'cust') {
+        if (icon) icon.textContent = '👤';
+        if (title) title.textContent = 'Chi Tiết Bảng Chiều CUSTOMER (Pha 1 - Invisible Join)';
+        if (body) {
+          body.innerHTML = `
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#1e40af;margin-bottom:6px;font-size:13px;">1. Điều Kiện Lọc & Mẫu Hiển Thị</div>
+              <div>• <b>Vị từ lọc:</b> <code>c_region = 'ASIA'</code></div>
+              <div>• <b>Mẫu trên giao diện:</b> <b>2 / 5 dòng mẫu thỏa mãn</b>: khóa <code>custkey</code> = <span class="mono" style="background:#dbeafe;color:#1e40af;padding:1px 5px;border-radius:3px;font-weight:700;">{13,166; 15,396}</span> (Quốc gia: China, Indonesia).</div>
+              <div>• <b>Các dòng bị loại:</b> Khóa 45, 2,677, 19,637 (America, Europe).</div>
+            </div>
+
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#065f46;margin-bottom:6px;font-size:13px;">2. Quy Mô Toàn Kho Dữ Liệu SSBM (6,000,000 dòng Fact)</div>
+              <div>• <b>Toàn bảng CUSTOMER:</b> Có <b>30,000 khách hàng</b>.</div>
+              <div>• <b>Số khách hàng ASIA hợp lệ:</b> Đúng <b>6,000 khách hàng</b> (chiếm tỷ lệ chọn lọc 20%).</div>
+              <div>• <b>Cấu trúc lưu trong RAM:</b> Tập 6,000 số nguyên <code>custkey</code> được đưa vào một <b>Hash Set (Bảng băm)</b>.</div>
+            </div>
+
+            <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#6b21a8;margin-bottom:6px;font-size:13px;">3. Tối Ưu Hóa Bộ Nhớ CPU Cache L1/L2 & Vai Trò Tại Pha 2</div>
+              <div>• <b>Dung lượng Bảng băm:</b> <code>6,000 khóa × 4 byte = ~24 KB</code>. Con số này <b>nhỏ hơn 32 KB</b>, tức nằm trọn 100% trong <b>L1 Data Cache</b> của CPU!</div>
+              <div>• <b>Tác dụng ở Pha 2:</b> Khi duyệt cột khóa ngoại <code>custkey</code> của Fact (12 byte/dòng), CPU chỉ tra cứu khóa vào L1 Cache với độ trễ ~1 nano-giây để ghi nhận bit <code>1</code> hoặc <code>0</code> trong Bitmap Customer. Hoàn toàn không tốn một byte băng thông nào để nạp các thuộc tính thừa <code>c_name</code>, <code>c_address</code>!</div>
+            </div>
+          `;
+        }
+      } else if (dim === 'supp') {
+        if (icon) icon.textContent = '🏭';
+        if (title) title.textContent = 'Chi Tiết Bảng Chiều SUPPLIER (Pha 1 - Invisible Join)';
+        if (body) {
+          body.innerHTML = `
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#1e40af;margin-bottom:6px;font-size:13px;">1. Điều Kiện Lọc & Mẫu Hiển Thị</div>
+              <div>• <b>Vị từ lọc:</b> <code>s_region = 'ASIA'</code></div>
+              <div>• <b>Mẫu trên giao diện:</b> <b>3 / 5 dòng mẫu thỏa mãn</b>: khóa <code>suppkey</code> = <span class="mono" style="background:#dbeafe;color:#1e40af;padding:1px 5px;border-radius:3px;font-weight:700;">{1,056; 1,123; 1,160}</span> (Quốc gia: Japan, Vietnam).</div>
+              <div>• <b>Các dòng bị loại:</b> Khóa 160, 1,935 (America, Middle East).</div>
+            </div>
+
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#065f46;margin-bottom:6px;font-size:13px;">2. Quy Mô Toàn Kho Dữ Liệu SSBM (6,000,000 dòng Fact)</div>
+              <div>• <b>Toàn bảng SUPPLIER:</b> Có <b>2,000 nhà cung cấp</b>.</div>
+              <div>• <b>Số nhà cung cấp ASIA hợp lệ:</b> Đúng <b>400 nhà cung cấp</b> (chiếm tỷ lệ chọn lọc 20%).</div>
+              <div>• <b>Cấu trúc lưu trong RAM:</b> Tập 400 số nguyên <code>suppkey</code> được lưu trong <b>Hash Set</b>.</div>
+            </div>
+
+            <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#6b21a8;margin-bottom:6px;font-size:13px;">3. Tối Ưu Hóa Bộ Nhớ CPU Cache L1/L2 & Vai Trò Tại Pha 2</div>
+              <div>• <b>Dung lượng Bảng băm:</b> <code>400 khóa × 4 byte = vỏn vẹn ~1.6 KB</code>. Cực kỳ nhỏ, chiếm chưa đầy 5% dung lượng L1 Cache.</div>
+              <div>• <b>Tác dụng ở Pha 2:</b> Tra cứu siêu tốc kiểm tra từng dòng khóa ngoại <code>suppkey</code> của Fact để sinh Bitmap Supplier mà không cần tạo bảng ghép nối trung gian nào.</div>
+            </div>
+          `;
+        }
+      } else if (dim === 'date') {
+        if (icon) icon.textContent = '📅';
+        if (title) title.textContent = 'Chi Tiết Bảng Chiều DWDATE (Pha 1 - Invisible Join)';
+        if (body) {
+          body.innerHTML = `
+            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:13px;">1. Điều Kiện Lọc & Mẫu Hiển Thị</div>
+              <div>• <b>Vị từ lọc:</b> <code>d_year BETWEEN 1992 AND 1997</code></div>
+              <div>• <b>Mẫu trên giao diện:</b> <b>1 / 2 dòng mẫu thỏa mãn</b>: khóa <code>datekey</code> = <span class="mono" style="background:#fef3c7;color:#92400e;padding:1px 5px;border-radius:3px;font-weight:700;">{0}</span> (tương ứng năm 1992).</div>
+              <div>• <b>Dòng bị loại:</b> Khóa <code>datekey = 2190</code> (tương ứng năm 1998, nằm ngoài khoảng 1992–1997).</div>
+            </div>
+
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#065f46;margin-bottom:6px;font-size:13px;">2. Quy Mô Toàn Kho Dữ Liệu SSBM (6,000,000 dòng Fact)</div>
+              <div>• <b>Toàn bảng DWDATE:</b> Có <b>2,555 ngày</b> (7 năm từ 1992 đến 1998, mỗi năm 365 ngày).</div>
+              <div>• <b>Số ngày hợp lệ (1992–1997):</b> Có <b>2,191 ngày</b> (chiếm ~85.7% số ngày).</div>
+              <div>• <b>Dung lượng Hash Table:</b> <code>2,191 khóa × 4 byte = ~8.8 KB</code> (vừa vặn trong L1 Cache).</div>
+            </div>
+
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
+              <div style="font-weight:800;color:#1e40af;margin-bottom:6px;font-size:13px;">3. Tối Ưu Đặc Biệt: Between-Predicate Rewriting (Mục 5.4.2 Bài Báo)</div>
+              <div>• Vì <code>datekey</code> được đánh số tự tăng liên tục theo thời gian (<b>Day Index 0..2554</b>), bộ tối ưu hóa truy vấn có thể <b>chuyển đổi hoàn toàn phép tra bảng băm thành so sánh khoảng trực tiếp</b>: <code>orderdate BETWEEN lo AND hi</code>.</div>
+              <div>• Khi đó CPU hoàn toàn không cần tra Hash Table mà chỉ so sánh thanh ghi 2 cận cực nhanh. Đây chính là bí quyết giúp <b>Plan C ở Tab 4 đạt tốc độ cao gấp ~6 lần</b> so với Row-Store!</div>
+            </div>
+          `;
+        }
+      }
+      openModal('academicDimKeyModal');
+    }
+    window.openDimKeysModal = openDimKeysModal;
+
+    function closeDimKeysModal() {
+      closeAllModals();
+    }
+    window.closeDimKeysModal = closeDimKeysModal;
+
     function openPhaseModal(phase = 1) {
       openModal('academicPhaseModal');
       const b1 = document.getElementById('modalPhase1Box');
@@ -7708,21 +7804,21 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const fCust = document.getElementById('p3FooterCustKeys');
       if (fCust) fCust.textContent = `{${sc.custKeysSorted.map(k => fmtInt(k)).join('; ') || '∅'}}`;
       const fCustCount = document.getElementById('p3CustMatchCount');
-      if (fCustCount) fCustCount.textContent = sc.custKeysSorted.length;
+      if (fCustCount) fCustCount.textContent = `${sc.custKeysSorted.length} / ${sc.custRows.length}`;
       const fCustTip = document.getElementById('p3CustKeysTooltip');
       if (fCustTip) fCustTip.setAttribute('data-tooltip', `Tập khóa custkey thỏa c_region = '${state.p3WhereCust}' trong CPU Cache: {${sc.custKeysSorted.map(k => fmtInt(k)).join(', ') || '∅'}}`);
 
       const fSupp = document.getElementById('p3FooterSuppKeys');
       if (fSupp) fSupp.textContent = `{${sc.suppKeysSorted.map(k => fmtInt(k)).join('; ') || '∅'}}`;
       const fSuppCount = document.getElementById('p3SuppMatchCount');
-      if (fSuppCount) fSuppCount.textContent = sc.suppKeysSorted.length;
+      if (fSuppCount) fSuppCount.textContent = `${sc.suppKeysSorted.length} / ${sc.suppRows.length}`;
       const fSuppTip = document.getElementById('p3SuppKeysTooltip');
       if (fSuppTip) fSuppTip.setAttribute('data-tooltip', `Tập khóa suppkey thỏa s_region = '${state.p3WhereSupp}' trong CPU Cache: {${sc.suppKeysSorted.map(k => fmtInt(k)).join(', ') || '∅'}}`);
 
       const fDate = document.getElementById('p3FooterDateKeys');
       if (fDate) fDate.textContent = `{${sc.dateKeysSorted.join('; ') || '∅'}}`;
       const fDateCount = document.getElementById('p3DateMatchCount');
-      if (fDateCount) fDateCount.textContent = sc.dateKeysSorted.length;
+      if (fDateCount) fDateCount.textContent = `${sc.dateKeysSorted.length} / ${sc.dateRows.length}`;
       const fDateTip = document.getElementById('p3DateKeysTooltip');
       if (fDateTip) fDateTip.setAttribute('data-tooltip', `Tập khóa datekey thỏa d_year BETWEEN 1992 AND 1997: {${sc.dateKeysSorted.join(', ') || '∅'}}`);
 
@@ -10489,5 +10585,26 @@ async function runDemo(part, opts = {}) {
       </div>
     </div>
   </div>
+
+  <!-- ============================================================ -->
+  <!-- ACADEMIC MODAL: DIMENSION KEYS DETAIL (TAB 3 PHASE 1)       -->
+  <!-- ============================================================ -->
+  <div id="academicDimKeyModal" class="academic-modal-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;">
+    <div class="academic-modal-box" style="background:#ffffff;border-radius:12px;max-width:640px;width:100%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid #cbd5e1;overflow:hidden;display:flex;flex-direction:column;animation:popIn 0.18s ease-out;">
+      <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span id="academicDimKeyIcon" style="font-size:18px;">🔍</span>
+          <span id="academicDimKeyTitle" style="font-weight:800;font-size:15px;color:#0f172a;">Chi Tiết Khóa Bảng Chiều (Pha 1)</span>
+        </div>
+        <button type="button" onclick="closeDimKeysModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
+      </div>
+      <div id="academicDimKeyBody" style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
+      </div>
+      <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
+        <button type="button" onclick="closeDimKeysModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đóng</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
