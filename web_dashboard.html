@@ -11126,7 +11126,7 @@ async function runDemo(part, opts = {}) {
           <div>Khi bạn nhấn nút <b>▶ Run</b> bên dưới, hệ thống kích hoạt <b>Physical Execution Engine</b> viết bằng Python/NumPy thực thi trực tiếp trên mảng cấu trúc bộ nhớ RAM <b>6,000,000 dòng</b>:
             <ul style="margin:6px 0 0 18px;padding:0;">
               <li><b>Row-Store:</b> Nạp cả struct tuple AoS 17 cột (68B/dòng), lãng phí 76% bộ nhớ đệm Cache.</li>
-              <li><b>Column-Store:</b> Chỉ nạp đúng các mảng vector SoA cần thiết, lọc trực tiếp trên dữ liệu nén RLE không giải nén, và kết nối bằng thuật toán Invisible Join kết hợp bitmap vector hóa.</li>
+              <li><b>Column-Store:</b> Chỉ nạp đúng các cột cần dùng, tính trực tiếp trên dữ liệu nén RLE (Zero Decompression), và nối bảng bằng mảng bit Invisible Join.</li>
             </ul>
           </div>
         </div>
