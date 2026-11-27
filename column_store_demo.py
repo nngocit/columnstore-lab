@@ -447,9 +447,10 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
         samples.append(row_s)
 
     speedup = round(tg_hang / max(tg_cot, 1e-9), 2)
-    mb_total_val = round(SO_COT_LINEORDER * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)  # 408.0 MB
-    mb_needed_val = round(4 * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)               # 96.0 MB
-    mb_wasted_val = round(mb_total_val - mb_needed_val, 1)                        # 312.0 MB
+    mb_total_val = round(SO_COT_LINEORDER * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)
+    mb_needed_val = round(4 * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)
+    mb_wasted_val = round(mb_total_val - mb_needed_val, 1)
+    bandwidth_savings_pct = round((1 - 4 / SO_COT_LINEORDER) * 100, 1)
 
     default_sql = (
         "-- SSBM Query 1.1: Aggregation & Star Join (Abadi et al., SIGMOD 2008)\n"
@@ -473,7 +474,7 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
         "num_cols_hang": 17,
         "num_cols_cot": 4,
         "num_cols_skipped": 13,
-        "bandwidth_savings_pct": 76.5,
+        "bandwidth_savings_pct": bandwidth_savings_pct,
         "t_row": round(tg_hang, 1),
         "t_col": round(tg_cot, 1),
         "t_row_median": round(bench_hang["median"], 1),
@@ -502,7 +503,7 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
             "total_mb": mb_total_val,
             "wasted_b": 52,
             "wasted_mb": mb_wasted_val,
-            "wasted_pct": 76.5,
+            "wasted_pct": bandwidth_savings_pct,
             "time_ms": round(tg_hang, 1),
             "std_ms": round(bench_hang["std"], 2),
             "result": int(kq_hang),
@@ -517,7 +518,7 @@ def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=No
             "bytes_per_row": 16,
             "total_mb": mb_needed_val,
             "savings_mb": mb_wasted_val,
-            "savings_pct": 76.5,
+            "savings_pct": bandwidth_savings_pct,
             "time_ms": round(tg_cot, 1),
             "std_ms": round(bench_cot["std"], 2),
             "result": int(kq_cot),
@@ -568,8 +569,13 @@ def demo_phan_2_nen_rle(so_dong, bo_sinh_ngau_nhien, ngay_bd=NGAY_BAT_DAU_LOC_RL
     all_matched = [[int(gt_khop[i]), int(lap_khop[i])] for i in range(min(120, len(gt_khop)))]
     gt_bo_qua, lap_bo_qua = gia_tri_cum[~mask_loc], so_lan_lap[~mask_loc]
     cum_bo_qua_mau = [[int(gt_bo_qua[i]), int(lap_bo_qua[i])] for i in range(min(3, len(gt_bo_qua)))]
+    rle_bytes = gia_tri_cum.nbytes + so_lan_lap.nbytes
+    raw_bytes = cot_ngay.nbytes
+    rle_saved_pct = round((1 - rle_bytes / max(raw_bytes, 1)) * 100, 2)
+    compression_ratio = round(raw_bytes / max(rle_bytes, 1), 1)
     return {
-        "raw_mb": round(cot_ngay.nbytes / 1e6, 1), "rle_kb": round((gia_tri_cum.nbytes + so_lan_lap.nbytes) / 1e3, 1),
+        "raw_mb": round(cot_ngay.nbytes / 1e6, 1), "rle_kb": round(rle_bytes / 1e3, 1),
+        "rle_saved_pct": rle_saved_pct, "compression_ratio": compression_ratio,
         "num_runs": int(len(gia_tri_cum)), "avg_run": int(round(so_dong / len(gia_tri_cum))),
         "t_raw_rle": round(tg_thuong * 1e3, 3), "t_direct_rle": round(tg_rle * 1e3, 3),
         "speedup_2": round(tg_thuong / max(tg_rle, 1e-9), 1), "res_2": int(kq_thuong),
@@ -645,11 +651,33 @@ def demo_phan_4_benchmark_q31(so_dong, bo_sinh_ngau_nhien):
     kq_b, tg_b = do_thoi_gian_nhanh_nhat(ke_hoach_b)
     kq_c, tg_c = do_thoi_gian_nhanh_nhat(ke_hoach_c)
     assert kq_a == kq_b == kq_c  # Kiểm chứng dữ liệu: cả 3 kế hoạch phải ra cùng 150 nhóm và cùng tổng doanh thu
+
+    matched_rows = int(np.count_nonzero(c_asia[fact_cot["custkey"]] & s_asia[fact_cot["suppkey"]] & ngay_thoa[fact_cot["orderdate"]]))
+    len_d1 = int(np.count_nonzero(c_asia[fact_hang["custkey"]]))
+    len_d2 = int(np.count_nonzero(c_asia[fact_hang["custkey"]] & s_asia[fact_hang["suppkey"]]))
+    inter_rows = len_d1 + len_d2
+    mb_plan_a = round(so_dong * SO_COT_LINEORDER * SO_BYTE_MOI_INT32 / 1e6, 1)
+    mb_plan_b = round((so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * SO_BYTE_MOI_INT32) / 1e6, 1)
+    mb_plan_c = mb_plan_b
+    mb_move_a = round((so_dong + len_d1 + len_d2) * SO_COT_LINEORDER * SO_BYTE_MOI_INT32 / 1e6, 1)
+    mb_move_bc = round((so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * 4 * SO_BYTE_MOI_INT32) / 1e6, 1)
+    io_saved_pct = round((1 - (so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * SO_BYTE_MOI_INT32) / max(so_dong * SO_COT_LINEORDER * SO_BYTE_MOI_INT32, 1)) * 100, 1)
+
     return {
         "num_groups": len(kq_a), "total_rev_4": int(sum(kq_a.values())),
         "t_plan_a": round(tg_a * 1000, 1), "t_plan_b": round(tg_b * 1000, 1),
         "speedup_b": round(tg_a / max(tg_b, 1e-9), 1), "t_plan_c": round(tg_c * 1000, 1),
         "speedup_c": round(tg_a / max(tg_c, 1e-9), 1),
+        "matched_rows": matched_rows,
+        "len_d1": len_d1,
+        "len_d2": len_d2,
+        "inter_rows": inter_rows,
+        "mb_plan_a": mb_plan_a,
+        "mb_plan_b": mb_plan_b,
+        "mb_plan_c": mb_plan_c,
+        "mb_move_a": mb_move_a,
+        "mb_move_bc": mb_move_bc,
+        "io_saved_pct": io_saved_pct,
     }
 
 
@@ -694,6 +722,7 @@ def _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms):
             f"  • Plan A (Row-Store Join):      {merged['t_plan_a']} ms (1.0x)",
             f"  • Plan B (Invisible Join):      {merged['t_plan_b']} ms ({merged['speedup_b']}x)",
             f"  • Plan C (+ Between-Predicate): {merged['t_plan_c']} ms ({merged['speedup_c']}x)",
+            f"  • Quét I/O: Plan A={merged.get('mb_plan_a')} MB vs Plan B/C={merged.get('mb_plan_b')} MB (Tiết kiệm {merged.get('io_saved_pct')}% I/O)",
             f"  • Tổng doanh thu: {merged['total_rev_4']:,} (assert kq_a == kq_b == kq_c ✓)",
         ])
     logs.append(f"[OK] Python trả kết quả sau {elapsed_ms} ms")

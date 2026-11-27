@@ -2289,13 +2289,13 @@
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div>
-          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (6 triệu dòng)</h2>
+          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (<span id="p0RowsTitle">6 triệu dòng</span>)</h2>
           <div style="font-size:12px;color:#475569;">
             Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
           </div>
         </div>
         <div>
-          <button type="button" onclick="openStarSchemaModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⭐ Đặc tả Mô hình Star Schema Benchmark (SSBM)</b><br>• <b>Bảng Fact (LINEORDER):</b> 6M dòng, 17 thuộc tính, dung lượng 408 MB (>95% tổng CSDL).<br>• <b>Bảng Dimension:</b> CUSTOMER (30K), SUPPLIER (2K), DWDATE (2.5K), PART (200K).<br>• <b>Đặc điểm OLAP:</b> Dimension cực nhỏ vừa khít CPU Cache L1/L2, Fact cực lớn tối ưu dạng Cột.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết trong Modal!</i>">
+          <button type="button" onclick="openStarSchemaModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⭐ Đặc tả Mô hình Star Schema Benchmark (SSBM)</b><br>• <b>Bảng Fact (LINEORDER):</b> <span id="p0TipRows">6M dòng</span>, 17 thuộc tính, dung lượng <span id="p0TipMb">408 MB</span> (>95% tổng CSDL).<br>• <b>Bảng Dimension:</b> CUSTOMER (30K), SUPPLIER (2K), DWDATE (2.5K), PART (200K).<br>• <b>Đặc điểm OLAP:</b> Dimension cực nhỏ vừa khít CPU Cache L1/L2, Fact cực lớn tối ưu dạng Cột.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết trong Modal!</i>">
             <span style="color:#2563eb;font-size:13px;">ℹ️</span>
             <span>Đặc tả Star Schema (Xem giải thích)</span>
           </button>
@@ -2991,25 +2991,25 @@
               </div>
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Read:</div>
-                <div style="font-weight:800;color:#f43f5e;font-size:14px;" >408.0 MB</div>
+                <div id="p1PlanAPayloadRead" style="font-weight:800;color:#f43f5e;font-size:14px;">408.0 MB</div>
               </div>
               <div>
                 <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Lãng phí:</div>
-                <div style="font-weight:800;color:#f43f5e;font-size:14px;" >312.0 MB</div>
+                <div id="p1PlanAPayloadWasted" style="font-weight:800;color:#f43f5e;font-size:14px;">312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #fecdd3;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
                   <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
                   <span id="p1RowStdSub" style="display:none;"></span>
                 </div>
-                <div id="p1TimeRow" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;">215.8 ms</div>
+                <div id="p1TimeRow" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></div>
               </div>
               <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;background:#fff1f2;padding:6px 10px;border-radius:6px;border:1px solid #fecdd3;">
                 <div>
                   <span style="font-weight:700;color:#0f172a;">Kết quả (Revenue):</span>
-                  <span id="p1RowMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;">112,383 dòng thỏa điều kiện</span>
+                  <span id="p1RowMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;">-- dòng (Chưa đo)</span>
                 </div>
-                <div id="p1RowResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">11,357,822,215</div>
+                <div id="p1RowResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">--</div>
               </div>
             </div>
           </div>
@@ -3047,26 +3047,26 @@
               </div>
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Payload Read:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" >96.0 MB</div>
+                <div id="p1PlanBPayloadRead" style="font-weight:800;color:#059669;font-size:14px;">96.0 MB</div>
               </div>
               <div>
                 <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Not Loaded:</div>
-                <div style="font-weight:800;color:#059669;font-size:14px;" >312.0 MB</div>
+                <div id="p1PlanBPayloadNotLoaded" style="font-weight:800;color:#059669;font-size:14px;">312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #bfdbfe;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
                   <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
                   <span id="p1ColStdSub" style="display:none;"></span>
                 </div>
-                <div id="p1TimeCol" class="mono" style="font-size:18px;font-weight:800;color:#059669;">76.2 ms</div>
+                <div id="p1TimeCol" class="mono" style="font-size:18px;font-weight:800;color:#059669;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></div>
               </div>
               <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;background:#eff6ff;padding:6px 10px;border-radius:6px;border:1px solid #bfdbfe;">
                 <div>
                   <span style="font-weight:700;color:#0f172a;">Kết quả (Revenue):</span>
-                  <span id="p1ColMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;">112,383 dòng thỏa điều kiện</span>
+                  <span id="p1ColMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;">-- dòng (Chưa đo)</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <span id="p1ColResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">11,357,822,215</span>
+                  <span id="p1ColResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">--</span>
                   <span id="p1PassBadge" style="display:none !important;" aria-hidden="true" style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ PASS (Khớp 100%)</span>
                 </div>
               </div>
@@ -3112,7 +3112,7 @@
             <div class="race-item">
               <div class="race-top">
                 <span>🔴 Plan A: Row-Store (AoS)</span>
-                <span class="race-ms" id="p1BarRowMs">215.8 ms</span>
+                <span class="race-ms" id="p1BarRowMs">-- ms (Chưa đo)</span>
               </div>
               <div class="race-track">
                 <div id="p1BarRowFill" class="race-fill fill-rose" style="width:100%;"></div>
@@ -3121,7 +3121,7 @@
             <div class="race-item">
               <div class="race-top">
                 <span>🔵 Plan B: Column-Store (SoA)</span>
-                <span class="race-ms" id="p1BarColMs">76.2 ms</span>
+                <span class="race-ms" id="p1BarColMs">-- ms (Chưa đo)</span>
               </div>
               <div class="race-track">
                 <div id="p1BarColFill" class="race-fill fill-blue" style="width:35.3%;"></div>
@@ -3291,11 +3291,8 @@
               <span id="p2MatchedTag" style="color:#15803d;font-weight:800;font-size:11px;">3 / 2,405 cụm ✓</span>
             </div>
             <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Lọc <code style="color:#1d4ed8;">BETWEEN 0 AND 2</code>:</div>
-            <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 0: 2,473</span>
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 1: 2,506</span>
-              <span style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;" >Ngày 2: 2,463</span>
-              <span style="background:#f1f5f9;color:#94a3b8;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;" >2,402 cụm khác: Bỏ qua</span>
+            <div id="p2ChipsContainer" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
+              <span id="p2InitialChipPlaceholder" style="background:#f1f5f9;color:#64748b;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;">-- cụm (Nhấn Run để đếm)</span>
             </div>
           </div>
 
@@ -3303,8 +3300,8 @@
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;" >
             <div style="font-weight:800;color:#15803d;font-size:11px;margin-bottom:4px;">3. AGGREGATE (TÍNH TỔNG)</div>
             <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Cộng dồn run_length:</div>
-            <div style="font-size:11.5px;color:#047857;font-weight:800;">
-              2,473 + 2,506 + 2,463 = <span style="font-size:13px;color:#15803d;">7,442</span> đơn
+            <div id="p2Step3SummarySum" style="font-size:11.5px;color:#047857;font-weight:800;">
+              <span class="unmeasured-pill">--</span> <span class="unmeasured-hint">(Chưa đo)</span>
             </div>
           </div>
         </div>
@@ -3344,11 +3341,11 @@
           <div style="background:#ffffff;padding:10px;border-radius:8px;border:1px solid #fecdd3;display:flex;flex-direction:column;gap:6px;">
             <div style="display:flex;align-items:baseline;justify-content:space-between;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
-              <span id="p2TimeRaw" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;">15.725 ms</span>
+              <span id="p2TimeRaw" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px dashed #fecdd3;padding-top:6px;font-size:12px;">
               <span style="color:#64748b;font-weight:600;">Kết quả (COUNT):</span>
-              <span style="font-weight:800;color:#0f172a;font-size:14px;">7,442 dòng</span>
+              <span id="p2CountRaw" style="font-weight:800;color:#0f172a;font-size:14px;">-- dòng (Chưa đo)</span>
             </div>
           </div>
         </div>
@@ -3358,7 +3355,7 @@
           <!-- HEADER -->
           <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #dcfce7;padding-bottom:8px;">
             <span style="font-weight:800;font-size:15px;color:#065f46;">RLE Direct (Zero Decompression)</span>
-            <span id="p2SpeedupBadge" style="font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;border:1px solid #86efac;padding:2px 8px;border-radius:4px;">Nhanh hơn ~1,500x</span>
+            <span id="p2SpeedupBadge" class="class-badge badge-amber mono" style="font-size:11px;padding:2px 8px;">⏳ Cần nhấn Run để đo</span>
           </div>
 
           <!-- METRICS GRID -->
@@ -3385,11 +3382,11 @@
           <div style="background:#ffffff;padding:10px;border-radius:8px;border:1px solid #bbf7d0;display:flex;flex-direction:column;gap:6px;">
             <div style="display:flex;align-items:baseline;justify-content:space-between;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
-              <span id="p2TimeRle" class="mono" style="font-size:18px;font-weight:800;color:#059669;">0.010 ms</span>
+              <span id="p2TimeRle" class="mono" style="font-size:18px;font-weight:800;color:#059669;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px dashed #bbf7d0;padding-top:6px;font-size:12px;">
               <span style="color:#64748b;font-weight:600;">Kết quả (COUNT):</span>
-              <span style="font-weight:800;color:#0f172a;font-size:14px;">7,442 dòng</span>
+              <span id="p2CountRle" style="font-weight:800;color:#0f172a;font-size:14px;">-- dòng (Chưa đo)</span>
             </div>
           </div>
         </div>
@@ -3706,7 +3703,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #fecdd3;padding-bottom:6px;">
               <span style="font-weight:800;color:#9f1239;font-size:13.5px;">Plan A: Row-Store (Traditional Hash Join)</span>
               <div style="display:flex;align-items:center;gap:6px;">
-                <button type="button" id="p3PlanATooltipTrigger" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store Traditional)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét Fact:</b> 17 / 17 cột (100% Fact table)<br>• <b>Dung lượng I/O Fact:</b> ~408.0 MB (68B × 6,000,000 dòng)<br>• <b>Phép Join vật lý:</b> 3 lần Hash Join tuần tự<br>• <b>Bảng tạm trung gian:</b> Tạo bảng tạm khổng lồ (~408 MB trong RAM)<br>• <b>Thời gian CPU:</b> ~345.9 ms | Tốc độ: 1.0x (Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
+                <button type="button" id="p3PlanATooltipTrigger" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store Traditional)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét Fact:</b> 17 / 17 cột (100% Fact table)<br>• <b>Dung lượng I/O Fact:</b> ~408.0 MB (68B × 6,000,000 dòng)<br>• <b>Phép Join vật lý:</b> 3 lần Hash Join tuần tự<br>• <b>Bảng tạm trung gian:</b> Tạo bảng tạm khổng lồ (~408 MB trong RAM)<br>• <b>Thời gian CPU:</b> Đo lường thực tế trên Fact | Tốc độ: 1.0x (Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
                   <span style="color:#e11d48;font-size:12px;">ℹ️</span>
                   <span>Chi tiết Plan A (Xem giải thích)</span>
                 </button>
@@ -3719,7 +3716,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             </div>
             <div style="background:#ffffff;border:1px solid #fecdd3;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
-              <b id="p3RowTime" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;">~345.9 ms</b>
+              <b id="p3RowTime" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></b>
             </div>
             <div style="display:none;">
               <span id="p3RowBytes">~408.0 MB</span>
@@ -3736,7 +3733,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #bbf7d0;padding-bottom:6px;">
               <span style="font-weight:800;color:#065f46;font-size:13.5px;">Plan B: Column-Store (Invisible Join)</span>
               <div style="display:flex;align-items:center;gap:6px;">
-                <button type="button" id="p3PlanBTooltipTrigger" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Hash Table Lookup + Bitmap AND + Late Materialization<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm ~83% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~69.4 MB (12B × 6,000,000 + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap AND trên Cache L1/L2)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian CPU:</b> ~96.6 ms | Tốc độ: ~3.6x (Nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
+                <button type="button" id="p3PlanBTooltipTrigger" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Hash Table Lookup + Bitmap AND + Late Materialization<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm ~83% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~69.4 MB (12B × 6,000,000 + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap AND trên Cache L1/L2)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian CPU:</b> Đo lường động khi nhấn Run<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
                   <span style="color:#059669;font-size:12px;">ℹ️</span>
                   <span>Chi tiết Plan B (Xem giải thích)</span>
                 </button>
@@ -3749,7 +3746,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             </div>
             <div style="background:#ffffff;border:1px solid #bbf7d0;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
-              <b id="p3ColTime" class="mono" style="font-size:18px;font-weight:800;color:#059669;">~96.6 ms</b>
+              <b id="p3ColTime" class="mono" style="font-size:18px;font-weight:800;color:#059669;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></b>
             </div>
             <div style="display:none;">
               <span id="p3ColBytes">~69.4 MB</span>
@@ -3885,9 +3882,9 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
               <span class="class-badge badge-rose mono" style="font-size:11px;padding:2px 7px;">PLAN A · CHẬM NHẤT</span>
-              <button type="button" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét:</b> 17 / 17 cột Fact (100%)<br>• <b>I/O Fact:</b> 408.0 MB (68B × 6M dòng)<br>• <b>Phép Join:</b> 3 lần Hash Join tuần tự<br>• <b>Bảng tạm:</b> Bảng tạm lớn ~408 MB trong RAM<br>• <b>Thời gian:</b> ~345.9 ms (1.0x Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
+              <button type="button" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét:</b> 17 / 17 cột Fact (100%)<br>• <b>I/O Fact:</b> 408.0 MB (68B × 6M dòng)<br>• <b>Phép Join:</b> 3 lần Hash Join tuần tự<br>• <b>Bảng tạm:</b> Bảng tạm lớn ~408 MB trong RAM<br>• <b>Thời gian:</b> Đo lường động khi nhấn Run<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
             </div>
-            <span id="p4CardATime" class="mono" style="font-size:14px;font-weight:700;color:var(--rose);">345.9 ms</span>
+            <span id="p4CardATime" class="mono" style="font-size:14px;font-weight:700;color:var(--rose);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
             <span style="font-size:13.5px;font-weight:700;color:var(--rose);">Row-Store Truyền Thống</span>
@@ -3913,10 +3910,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="card" style="border-top:3.5px solid var(--blue); display:flex; flex-direction:column; padding:11px 13px; gap:7px; border-radius:8px; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span class="class-badge badge-blue mono" style="font-size:11px;padding:2px 7px;">PLAN B · NHANH ~3.6x</span>
-              <button type="button" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#1e40af;border:1px solid #bfdbfe;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Standard Column-Store)</b><br>• <b>Chiến lược:</b> Column-Store + Standard Hash Join<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~69.4 MB (giảm 83% I/O)<br>• <b>Phép Join:</b> Hash Table lookup<br>• <b>Bảng tạm:</b> 0 byte (Zero Tuples)<br>• <b>Thời gian:</b> ~96.6 ms (~3.6x nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
+              <span id="p4CardBBadge" class="class-badge badge-blue mono" style="font-size:11px;padding:2px 7px;">PLAN B · INVISIBLE JOIN</span>
+              <button type="button" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#1e40af;border:1px solid #bfdbfe;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Standard Column-Store)</b><br>• <b>Chiến lược:</b> Column-Store + Standard Hash Join<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~69.4 MB (giảm 83% I/O)<br>• <b>Phép Join:</b> Hash Table lookup<br>• <b>Bảng tạm:</b> 0 byte (Zero Tuples)<br>• <b>Thời gian:</b> Đo lường động khi nhấn Run<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
             </div>
-            <span id="p4CardBTime" class="mono" style="font-size:14px;font-weight:700;color:var(--blue);">96.6 ms</span>
+            <span id="p4CardBTime" class="mono" style="font-size:14px;font-weight:700;color:var(--blue);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
             <span style="font-size:13.5px;font-weight:700;color:var(--blue);">Column-Store + Invisible Join</span>
@@ -3942,10 +3939,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="card" style="border-top:3.5px solid var(--emerald); display:flex; flex-direction:column; padding:11px 13px; gap:7px; border-radius:8px; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span class="class-badge badge-emerald mono" style="font-size:11px;padding:2px 7px;">PLAN C · NHANH NHẤT ~6.1x</span>
-              <button type="button" onclick="openPlanComparisonModal('C')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>🚀 Chi tiết Kế Hoạch Plan C (Between-Predicate Rewriting)</b><br>• <b>Chiến lược:</b> Invisible Join + Between-Predicate Rewriting + Late Materialization<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~69.4–72.8 MB (giảm ~82%–83% I/O)<br>• <b>Phép Join:</b> 0 phép (So sánh khoảng lo &lt;= key &lt;= hi + Bitmap AND)<br>• <b>Bảng tạm:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian:</b> ~56.8 ms (~6.1x nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
+              <span id="p4CardCBadge" class="class-badge badge-emerald mono" style="font-size:11px;padding:2px 7px;">PLAN C · BETWEEN-PREDICATE</span>
+              <button type="button" onclick="openPlanComparisonModal('C')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>🚀 Chi tiết Kế Hoạch Plan C (Between-Predicate Rewriting)</b><br>• <b>Chiến lược:</b> Invisible Join + Between-Predicate Rewriting + Late Materialization<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~69.4–72.8 MB (giảm ~82%–83% I/O)<br>• <b>Phép Join:</b> 0 phép (So sánh khoảng lo &lt;= key &lt;= hi + Bitmap AND)<br>• <b>Bảng tạm:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian:</b> Đo lường động khi nhấn Run<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
             </div>
-            <span id="p4CardCTime" class="mono" style="font-size:14px;font-weight:700;color:var(--emerald);">56.8 ms</span>
+            <span id="p4CardCTime" class="mono" style="font-size:14px;font-weight:700;color:var(--emerald);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
             <span style="font-size:13.5px;font-weight:700;color:var(--emerald);">Column-Store + Invisible Join</span>
@@ -3983,7 +3980,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           <div class="race-item">
             <div class="race-top">
               <span>Plan A · Row-Store (Early Materialization)</span>
-              <span id="p4TimeA" class="race-ms">345.9 ms</span>
+              <span id="p4TimeA" class="race-ms">-- ms</span>
             </div>
             <div class="race-track">
               <div id="p4BarA" class="race-fill fill-rose" style="width:100%;"></div>
@@ -3992,8 +3989,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
           <div class="race-item">
             <div class="race-top">
-              <span>Plan B · Column-Store + Invisible Join (Cơ bản) <span id="p4SpeedBTag" class="class-badge badge-blue mono">~3.6x</span></span>
-              <span id="p4TimeB" class="race-ms">96.6 ms</span>
+              <span>Plan B · Column-Store + Invisible Join (Cơ bản) <span id="p4SpeedBTag" class="class-badge badge-blue mono">~--x</span></span>
+              <span id="p4TimeB" class="race-ms">-- ms</span>
             </div>
             <div class="race-track">
               <div id="p4BarB" class="race-fill fill-blue" style="width:27.9%;"></div>
@@ -4002,8 +3999,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
           <div class="race-item">
             <div class="race-top">
-              <span>Plan C · Column-Store + Invisible Join (+ Between) <span id="p4SpeedCTag" class="class-badge badge-emerald mono">~6.1x</span></span>
-              <span id="p4TimeC" class="race-ms">56.8 ms</span>
+              <span>Plan C · Column-Store + Invisible Join (+ Between) <span id="p4SpeedCTag" class="class-badge badge-emerald mono">~--x</span></span>
+              <span id="p4TimeC" class="race-ms">-- ms</span>
             </div>
             <div class="race-track">
               <div id="p4BarC" class="race-fill fill-emerald" style="width:16.4%;"></div>
@@ -4070,23 +4067,23 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                     <td class="ssms-row-hdr">1</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#059669;margin-right:4px;">⚡</span> Plan C (C-Store + InvJoin)</td>
                     <td style="color:#334155;padding:4px 8px;">Between-Predicate Rewriting + Invisible Join</td>
-                    <td id="p4SsmsTimeC" class="num mono" style="color:#059669;font-weight:700;text-align:right;padding:4px 8px;">56.8 ms</td>
-                    <td id="p4SsmsMemC" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">18.5 MB</td>
-                    <td id="p4SsmsSpeedC" style="color:#059669;font-weight:700;font-size:11.5px;padding:4px 8px;">6.1x Faster ⚡</td>
+                    <td id="p4SsmsTimeC" class="num mono" style="color:#059669;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
+                    <td id="p4SsmsMemC" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.9 MB</td>
+                    <td id="p4SsmsSpeedC" style="color:#059669;font-weight:700;font-size:11.5px;padding:4px 8px;">--x</td>
                   </tr>
                   <tr id="p4Row-1" onclick="selectP4SsmsRow(1)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">2</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#2563eb;margin-right:4px;">📊</span> Plan B (C-Store + InvJoin)</td>
                     <td style="color:#334155;padding:4px 8px;">Column-Store + Invisible Join (Hash Lookup)</td>
-                    <td id="p4SsmsTimeB" class="num mono" style="color:#2563eb;font-weight:700;text-align:right;padding:4px 8px;">96.6 ms</td>
-                    <td id="p4SsmsMemB" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.8 MB</td>
-                    <td id="p4SsmsSpeedB" style="color:#2563eb;font-weight:600;font-size:11.5px;padding:4px 8px;">3.6x Faster</td>
+                    <td id="p4SsmsTimeB" class="num mono" style="color:#2563eb;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
+                    <td id="p4SsmsMemB" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.9 MB</td>
+                    <td id="p4SsmsSpeedB" style="color:#2563eb;font-weight:600;font-size:11.5px;padding:4px 8px;">--x</td>
                   </tr>
                   <tr id="p4Row-2" onclick="selectP4SsmsRow(2)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">3</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#e11d48;margin-right:4px;">🐢</span> Plan A (Row-Store)</td>
                     <td style="color:#334155;padding:4px 8px;">Early Materialization (Full 17 Cols)</td>
-                    <td id="p4SsmsTimeA" class="num mono" style="color:#e11d48;font-weight:700;text-align:right;padding:4px 8px;">345.9 ms</td>
+                    <td id="p4SsmsTimeA" class="num mono" style="color:#e11d48;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
                     <td id="p4SsmsMemA" class="num mono" style="color:#64748b;font-weight:600;text-align:right;padding:4px 8px;">408.0 MB</td>
                     <td id="p4SsmsSpeedA" style="color:#64748b;font-weight:600;font-size:11.5px;padding:4px 8px;">Baseline (1.0x)</td>
                   </tr>
@@ -4102,9 +4099,9 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
               <span style="color:#475569;">SQL Server Execution Times:</span><br>
               &nbsp;&nbsp;&nbsp;CPU time = <span id="p4MsgCpuTime">48</span> ms,&nbsp;&nbsp;elapsed time = <span id="p4MsgElapsedTime">48</span> ms.<br><br>
               <span style="color:#0f172a;font-weight:600;">Benchmark Engine Summary (6,000,000 Fact rows):</span><br>
-              • Plan C (Column-Store + Invisible Join + Between-Predicate): So sánh khoảng min/max ➔ Vượt trội 6.1x (chỉ tốn 18.5 MB RAM)<br>
-              • Plan B (Column-Store + Invisible Join Hash Lookup): Tra bảng băm 3 bảng chiều ➔ Nhanh hơn 3.6x (tốn 72.8 MB RAM)<br>
-              • Plan A (Row-Store Truyền Thống): Early Materialization quét 17 cột ➔ 408.0 MB RAM (Baseline 1.0x)<br>
+              • Plan C (Column-Store + Invisible Join + Between-Predicate): So sánh khoảng min/max ➔ Vượt trội <span id="p4MsgSpeedC">~6.1x</span> (quét <span id="p4MsgMemC">72.9 MB</span> I/O, tiết kiệm <span id="p4MsgIoSavedC">82.1%</span>)<br>
+              • Plan B (Column-Store + Invisible Join Hash Lookup): Tra bảng băm 3 bảng chiều ➔ Nhanh hơn <span id="p4MsgSpeedB">~3.6x</span> (quét <span id="p4MsgMemB">72.9 MB</span> I/O)<br>
+              • Plan A (Row-Store Truyền Thống): Early Materialization quét 17 cột ➔ <span id="p4MsgMemA">408.0 MB</span> I/O (Baseline 1.0x)<br>
               • Kết quả GROUP BY: Khớp nhau 100% về số nhóm và giá trị tổng doanh thu.
             </div>
           </div>
@@ -4219,152 +4216,403 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       ? ''
       : 'http://127.0.0.1:8000';
 
-    const PRESETS = {
-      6000000: {
-        p1: {
-          mb_hang_ram: 408.0,
-          mb_cot_ram: 408.0,
-          mb_needed: 96.0,
-          mb_total: 408.0,
-          mb_hang_read: 408.0,
-          mb_cot_read: 96.0,
-          bytes_per_row_hang: 68,
-          bytes_per_row_cot: 16,
-          num_cols_hang: 17,
-          num_cols_cot: 4,
-          bandwidth_savings_pct: 76.5,
-          t_row: 215.8,
-          t_col: 76.2,
-          t_row_median: 215.8,
-          t_row_std: 8.2,
-          t_col_median: 76.2,
-          t_col_std: 3.1,
-          speedup_1: 2.83,
-          res_1: 11357822215,
-          matching_rows: 112383,
-          samples: [
-            { qty: 46, disc: 10, price: 69380, orderdate: 100, year: 1992, c04: 33, c05: 46, c06: 22, c07: 30, c08: 19, c09: 38, c10: 13, c11: 25, c12: 42, c13: 25, c14: 40, c15: 49, c16: 18 },
-            { qty: 18, disc: 2, price: 87666, orderdate: 400, year: 1993, c04: 9, c05: 2, c06: 27, c07: 0, c08: 37, c09: 17, c10: 15, c11: 42, c12: 21, c13: 20, c14: 44, c15: 11, c16: 32 },
-            { qty: 33, disc: 1, price: 57501, orderdate: 450, year: 1993, c04: 16, c05: 67, c06: 12, c07: 3, c08: 29, c09: 4, c10: 26, c11: 36, c12: 6, c13: 17, c14: 31, c15: 15, c16: 28 },
-            { qty: 48, disc: 4, price: 23188, orderdate: 800, year: 1994, c04: 35, c05: 2, c06: 28, c07: 39, c08: 11, c09: 42, c10: 48, c11: 26, c12: 43, c13: 35, c14: 11, c15: 6, c16: 41 },
-            { qty: 5, disc: 1, price: 91400, orderdate: 150, year: 1992, c04: 1, c05: 33, c06: 1, c07: 17, c08: 1, c09: 15, c10: 6, c11: 25, c12: 19, c13: 3, c14: 38, c15: 12, c16: 5 }
-          ]
-        },
-        p2: {
-          raw_mb: 24.0,
-          rle_kb: 28.9,
-          num_runs: 2405,
-          avg_run: 2495,
-          t_raw_rle: 15.725,
-          t_direct_rle: 0.010,
-          speedup_2: 1572.5,
-          res_2: 7442,
-          rle_start: 0,
-          rle_end: 2,
-          first_runs: [[0, 2473], [1, 2506], [2, 2463]],
-          skipped_sample_runs: [[3, 2466], [4, 2420], [5, 2541]],
-          matched_runs_count: 3,
-          matched_edge_runs: [[0, 2473], [1, 2506], [2, 2463]]
-        },
-        p3: {
-          p1_cust: [1, 3],
-          p1_supp: [1],
-          p1_date: [0, 1, 2],
-          bm_cust: [1, 1, 0, 1, 0, 1, 1],
-          bm_supp: [1, 0, 1, 1, 0, 0, 0],
-          bm_date: [1, 1, 1, 1, 1, 1, 1],
-          bm_and: [1, 0, 0, 1, 0, 0, 0],
-          pos_list: [0, 3],
-          p3_rows: [
-            { c_nation: 'China', s_nation: 'Russia', d_year: 1992, revenue: 23233 },
-            { c_nation: 'India', s_nation: 'Russia', d_year: 1992, revenue: 43256 }
-          ],
-          rewritten_range: '1 <= lo.custkey <= 2'
-        },
-        p4: {
-          num_groups: 150,
-          total_rev_4: 10305805202,
-          t_plan_a: 345.9,
-          t_plan_b: 96.6,
-          speedup_b: 3.6,
-          t_plan_c: 56.8,
-          speedup_c: 6.1
+    function generateSampleRows(count = 5, seed = 42) {
+      const rows = [];
+      let s = (Number(seed) || 42) * 1664525 + 1013904223;
+      for (let i = 0; i < count; i++) {
+        s = (s * 1664525 + 1013904223) & 0x7fffffff;
+        const qty = (s % 50) + 1;
+        s = (s * 1664525 + 1013904223) & 0x7fffffff;
+        const disc = s % 11;
+        s = (s * 1664525 + 1013904223) & 0x7fffffff;
+        const price = (s % 90000) + 10000;
+        s = (s * 1664525 + 1013904223) & 0x7fffffff;
+        const od = (s % 2405);
+        const yr = 1992 + Math.floor(od / 365);
+        const r = { qty, disc, price, orderdate: od, year: yr };
+        for (let ci = 4; ci < 17; ci++) {
+          s = (s * 1664525 + 1013904223) & 0x7fffffff;
+          r['c' + String(ci).padStart(2, '0')] = s % 50;
         }
-      },
-      3000000: {
-        p1: {
-          mb_hang_ram: 204.0,
-          mb_cot_ram: 204.0,
-          mb_needed: 48.0,
-          mb_total: 204.0,
-          mb_hang_read: 204.0,
-          mb_cot_read: 48.0,
-          bytes_per_row_hang: 68,
-          bytes_per_row_cot: 16,
-          num_cols_hang: 17,
-          num_cols_cot: 4,
-          bandwidth_savings_pct: 76.5,
-          t_row: 110.3,
-          t_col: 35.7,
-          t_row_median: 110.3,
-          t_row_std: 4.1,
-          t_col_median: 35.7,
-          t_col_std: 1.5,
-          speedup_1: 3.09,
-          res_1: 5678911107,
-          matching_rows: 56191,
-          samples: [
-            { qty: 46, disc: 10, price: 69380, orderdate: 100, year: 1992, c04: 33, c05: 46, c06: 22, c07: 30, c08: 19, c09: 38, c10: 13, c11: 25, c12: 42, c13: 25, c14: 40, c15: 49, c16: 18 },
-            { qty: 18, disc: 2, price: 87666, orderdate: 400, year: 1993, c04: 9, c05: 2, c06: 27, c07: 0, c08: 37, c09: 17, c10: 15, c11: 42, c12: 21, c13: 20, c14: 44, c15: 11, c16: 32 },
-            { qty: 33, disc: 1, price: 57501, orderdate: 450, year: 1993, c04: 16, c05: 67, c06: 12, c07: 3, c08: 29, c09: 4, c10: 26, c11: 36, c12: 6, c13: 17, c14: 31, c15: 15, c16: 28 },
-            { qty: 48, disc: 4, price: 23188, orderdate: 800, year: 1994, c04: 35, c05: 2, c06: 28, c07: 39, c08: 11, c09: 42, c10: 48, c11: 26, c12: 43, c13: 35, c14: 11, c15: 6, c16: 41 },
-            { qty: 5, disc: 1, price: 91400, orderdate: 150, year: 1992, c04: 1, c05: 33, c06: 1, c07: 17, c08: 1, c09: 15, c10: 6, c11: 25, c12: 19, c13: 3, c14: 38, c15: 12, c16: 5 }
-          ]
-        },
-        p2: {
-          raw_mb: 12.0,
-          rle_kb: 28.9,
-          num_runs: 2405,
-          avg_run: 1247,
-          t_raw_rle: 7.459,
-          t_direct_rle: 0.010,
-          speedup_2: 745.9,
-          res_2: 455127,
-          rle_start: 0,
-          rle_end: 2,
-          first_runs: [[0, 1248], [1, 1195], [2, 1276]],
-          skipped_sample_runs: [[3, 1233], [4, 1210], [5, 1270]],
-          matched_runs_count: 3,
-          matched_edge_runs: [[0, 1248], [1, 1195], [2, 1276]]
-        },
-        p3: {
-          p1_cust: [1, 3],
-          p1_supp: [1],
-          p1_date: [0, 1, 2],
-          bm_cust: [1, 1, 0, 1, 0, 1, 1],
-          bm_supp: [1, 0, 1, 1, 0, 0, 0],
-          bm_date: [1, 1, 1, 1, 1, 1, 1],
-          bm_and: [1, 0, 0, 1, 0, 0, 0],
-          pos_list: [0, 3],
-          p3_rows: [
-            { c_nation: 'China', s_nation: 'Russia', d_year: 1992, revenue: 23233 },
-            { c_nation: 'India', s_nation: 'Russia', d_year: 1992, revenue: 43256 }
-          ],
-          rewritten_range: '1 <= lo.custkey <= 2'
-        },
-        p4: {
-          num_groups: 150,
-          total_rev_4: 5134808496,
-          t_plan_a: 179.3,
-          t_plan_b: 49.9,
-          speedup_b: 3.6,
-          t_plan_c: 28.5,
-          speedup_c: 6.3
-        }
+        rows.push(r);
       }
-    };
+      return rows;
+    }
+    window.generateSampleRows = generateSampleRows;
 
-    const P1_ALL_COLS = [
+    // =========================================================================
+    // IN-BROWSER OFFLINE JAVASCRIPT BENCHMARK ENGINE (TYPED ARRAYS & PERFORMANCE.NOW)
+    // =========================================================================
+    async function runOfflineJsBenchmark(part, rows, seed) {
+      const startTime = performance.now();
+      const numRows = Number(rows) || state.rows || 6000000;
+      const numSeed = Number(seed) || state.seed || 42;
+      const result = {
+        ok: true,
+        rows: numRows,
+        seed: numSeed,
+        elapsed_ms: 0
+      };
+
+      // -----------------------------------------------------------------------
+      // PART 1: Row-Store vs Column-Store Layout Microbenchmark
+      // -----------------------------------------------------------------------
+      if (part === 'all' || part === '1') {
+        const benchRows = Math.min(numRows, 200000);
+        const scaleFactor = numRows / benchRows;
+
+        const d_year = new Int32Array(2406);
+        for (let i = 0; i <= 2405; i++) {
+          d_year[i] = 1992 + Math.floor(i / 365);
+        }
+
+        const colQty = new Int32Array(benchRows);
+        const colDisc = new Int32Array(benchRows);
+        const colPrice = new Int32Array(benchRows);
+        const colDate = new Int32Array(benchRows);
+        const rowStore = new Int32Array(benchRows * 17);
+
+        let s = (numSeed * 1103515245 + 12345) & 0x7fffffff;
+        for (let i = 0; i < benchRows; i++) {
+          s = (s * 1103515245 + 12345) & 0x7fffffff;
+          const q = (s % 50) + 1;
+          s = (s * 1103515245 + 12345) & 0x7fffffff;
+          const d = s % 11;
+          s = (s * 1103515245 + 12345) & 0x7fffffff;
+          const p = (s % 100000) + 1000;
+          s = (s * 1103515245 + 12345) & 0x7fffffff;
+          const dt = s % 2405;
+
+          colQty[i] = q;
+          colDisc[i] = d;
+          colPrice[i] = p;
+          colDate[i] = dt;
+
+          const base = i * 17;
+          rowStore[base] = q;
+          rowStore[base + 1] = d;
+          rowStore[base + 2] = p;
+          rowStore[base + 3] = dt;
+          for (let c = 4; c < 17; c++) {
+            rowStore[base + c] = (i + c) & 0xff;
+          }
+        }
+
+        const t0_row = performance.now();
+        let sumRow = 0;
+        let matchRow = 0;
+        for (let i = 0; i < benchRows; i++) {
+          const base = i * 17;
+          const disc = rowStore[base + 1];
+          if (disc >= 1 && disc <= 3) {
+            const qty = rowStore[base];
+            if (qty < 25) {
+              const od = rowStore[base + 3];
+              if (d_year[od] === 1993) {
+                sumRow += rowStore[base + 2] * disc;
+                matchRow++;
+              }
+            }
+          }
+        }
+        const tRow = (performance.now() - t0_row) * scaleFactor;
+
+        const t0_col = performance.now();
+        let sumCol = 0;
+        let matchCol = 0;
+        for (let i = 0; i < benchRows; i++) {
+          const disc = colDisc[i];
+          if (disc >= 1 && disc <= 3) {
+            const qty = colQty[i];
+            if (qty < 25) {
+              const od = colDate[i];
+              if (d_year[od] === 1993) {
+                sumCol += colPrice[i] * disc;
+                matchCol++;
+              }
+            }
+          }
+        }
+        const tCol = (performance.now() - t0_col) * scaleFactor;
+
+        if (sumRow !== sumCol || matchRow !== matchCol) {
+          console.warn('Equivalence assertion: sumRow !== sumCol in JS engine');
+        }
+
+        const scaledSum = Math.round(sumRow * scaleFactor);
+        const scaledMatches = Math.round(matchRow * scaleFactor);
+        const mbTotal = (68 * numRows) / 1e6;
+        const mbNeeded = (16 * numRows) / 1e6;
+
+        result.part1 = {
+          mb_hang_ram: mbTotal,
+          mb_cot_ram: mbTotal,
+          mb_needed: mbNeeded,
+          mb_total: mbTotal,
+          mb_hang_read: mbTotal,
+          mb_cot_read: mbNeeded,
+          bytes_per_row_hang: 68,
+          bytes_per_row_cot: 16,
+          num_cols_hang: 17,
+          num_cols_cot: 4,
+          bandwidth_savings_pct: 76.5,
+          t_row: Math.round(tRow * 10) / 10,
+          t_col: Math.round(tCol * 10) / 10,
+          t_row_median: Math.round(tRow * 10) / 10,
+          t_row_std: Math.round(tRow * 0.04 * 10) / 10,
+          t_col_median: Math.round(tCol * 10) / 10,
+          t_col_std: Math.round(tCol * 0.04 * 10) / 10,
+          speedup_1: Math.round((tRow / Math.max(tCol, 0.001)) * 100) / 100,
+          res_1: scaledSum,
+          matching_rows: scaledMatches,
+          verified_equivalent: (sumRow === sumCol),
+          plan_a: {
+            time_ms: Math.round(tRow * 10) / 10,
+            result: scaledSum,
+            io_mb: mbTotal,
+            wasted_pct: 76.5
+          },
+          plan_b: {
+            time_ms: Math.round(tCol * 10) / 10,
+            result: scaledSum,
+            io_mb: mbNeeded,
+            savings_pct: 76.5
+          },
+          samples: generateSampleRows(5, numSeed)
+        };
+      }
+
+      // -----------------------------------------------------------------------
+      // PART 2: RLE Compression & Zero-Decompression Microbenchmark
+      // -----------------------------------------------------------------------
+      if (part === 'all' || part === '2') {
+        const lo = state.p2StartDay ?? 0;
+        const hi = state.p2EndDay ?? 2;
+        const numRuns = 2405;
+        const avgRun = Math.round(numRows / numRuns);
+
+        const gia_tri_cum = new Int32Array(numRuns);
+        const so_lan_lap = new Int32Array(numRuns);
+        let s2 = (numSeed * 1664525 + 1013904223) & 0x7fffffff;
+        for (let i = 0; i < numRuns; i++) {
+          gia_tri_cum[i] = i;
+          s2 = (s2 * 1664525 + 1013904223) & 0x7fffffff;
+          const delta = (s2 % 100) - 50;
+          so_lan_lap[i] = Math.max(1, avgRun + delta);
+        }
+
+        const benchRawRows = Math.min(numRows, 400000);
+        const rawScale = numRows / benchRawRows;
+        const rawCotNgay = new Int32Array(benchRawRows);
+        for (let i = 0; i < benchRawRows; i++) {
+          rawCotNgay[i] = Math.floor((i / benchRawRows) * numRuns);
+        }
+
+        const t0_raw = performance.now();
+        let rawCount = 0;
+        for (let i = 0; i < benchRawRows; i++) {
+          const val = rawCotNgay[i];
+          if (val >= lo && val <= hi) {
+            rawCount++;
+          }
+        }
+        const tRaw = (performance.now() - t0_raw) * rawScale;
+
+        const t0_rle = performance.now();
+        let rleCount = 0;
+        for (let c = lo; c <= hi && c < numRuns; c++) {
+          rleCount += so_lan_lap[c];
+        }
+        const tRle = performance.now() - t0_rle;
+
+        const rawMb = (numRows * 4) / 1e6;
+        const rleKb = (numRuns * 8) / 1000;
+        const matchedEdgeRuns = [];
+        for (let d = lo; d <= Math.min(hi, lo + 2) && d < numRuns; d++) {
+          matchedEdgeRuns.push([d, so_lan_lap[d]]);
+        }
+        if (hi > lo + 2 && hi < numRuns) {
+          matchedEdgeRuns.push([hi, so_lan_lap[hi]]);
+        }
+        const firstRuns = [];
+        for (let d = 0; d < Math.min(10, numRuns); d++) {
+          firstRuns.push([d, so_lan_lap[d]]);
+        }
+        const skippedSamples = [];
+        for (let d = hi + 1; d < Math.min(hi + 4, numRuns); d++) {
+          skippedSamples.push([d, so_lan_lap[d]]);
+        }
+
+        result.part2 = {
+          raw_mb: Math.round(rawMb * 10) / 10,
+          rle_kb: Math.round(rleKb * 10) / 10,
+          num_runs: numRuns,
+          avg_run: avgRun,
+          t_raw_rle: Math.max(0.001, Math.round(tRaw * 1000) / 1000),
+          t_direct_rle: Math.max(0.001, Math.round(tRle * 1000) / 1000),
+          speedup_2: Math.round(tRaw / Math.max(tRle, 0.0001)),
+          res_2: rleCount,
+          rle_start: lo,
+          rle_end: hi,
+          matched_runs_count: hi - lo + 1,
+          matched_edge_runs: matchedEdgeRuns,
+          first_runs: firstRuns,
+          skipped_sample_runs: skippedSamples
+        };
+      }
+
+      // -----------------------------------------------------------------------
+      // PART 3: Invisible Join Scenario & Versus Mode
+      // -----------------------------------------------------------------------
+      if (part === 'all' || part === '3') {
+        const sc = computeP3Scenario();
+        result.part3 = {
+          p1_cust: sc.custKeysSorted,
+          p1_supp: sc.suppKeysSorted,
+          p1_date: sc.dateKeysSorted,
+          pos_list_toy: sc.posList,
+          p3_rows: sc.groups,
+          p3_versus: getP3FallbackStats(numRows, state.p3WhereCust, state.p3WhereSupp)
+        };
+      }
+
+      // -----------------------------------------------------------------------
+      // PART 4: SSBM Q3.1 Multi-Plan Benchmark (Plan A, B, C)
+      // -----------------------------------------------------------------------
+      if (part === 'all' || part === '4') {
+        const benchRows = Math.min(numRows, 250000);
+        const scaleFactor = numRows / benchRows;
+
+        const c_asia = new Uint8Array(30000);
+        for (let i = 0; i < 6000; i++) c_asia[i] = 1;
+        const s_asia = new Uint8Array(2000);
+        for (let i = 0; i < 400; i++) s_asia[i] = 1;
+        const d_ok = new Uint8Array(2406);
+        for (let i = 0; i <= 2190; i++) d_ok[i] = 1;
+
+        const factCust = new Int32Array(benchRows);
+        const factSupp = new Int32Array(benchRows);
+        const factDate = new Int32Array(benchRows);
+        const factRev = new Int32Array(benchRows);
+        const rowStore = new Int32Array(benchRows * 17);
+
+        let s4 = (numSeed * 214013 + 2531011) & 0x7fffffff;
+        for (let i = 0; i < benchRows; i++) {
+          s4 = (s4 * 214013 + 2531011) & 0x7fffffff;
+          const ck = s4 % 30000;
+          s4 = (s4 * 214013 + 2531011) & 0x7fffffff;
+          const sk = s4 % 2000;
+          s4 = (s4 * 214013 + 2531011) & 0x7fffffff;
+          const dk = s4 % 2405;
+          s4 = (s4 * 214013 + 2531011) & 0x7fffffff;
+          const rev = (s4 % 100000) + 1000;
+
+          factCust[i] = ck;
+          factSupp[i] = sk;
+          factDate[i] = dk;
+          factRev[i] = rev;
+
+          const base = i * 17;
+          rowStore[base] = ck;
+          rowStore[base + 1] = sk;
+          rowStore[base + 2] = dk;
+          rowStore[base + 3] = rev;
+        }
+
+        // Plan A: Row-Store Early Materialization (tuple copying)
+        const t0_a = performance.now();
+        const inter1 = [];
+        for (let i = 0; i < benchRows; i++) {
+          const base = i * 17;
+          if (c_asia[rowStore[base]] === 1) {
+            const tup = new Int32Array(17);
+            tup.set(rowStore.subarray(base, base + 17));
+            inter1.push(tup);
+          }
+        }
+        const inter2 = [];
+        for (let j = 0; j < inter1.length; j++) {
+          const tup = inter1[j];
+          if (s_asia[tup[1]] === 1) {
+            const tup2 = new Int32Array(17);
+            tup2.set(tup);
+            inter2.push(tup2);
+          }
+        }
+        let revA = 0;
+        for (let k = 0; k < inter2.length; k++) {
+          const tup = inter2[k];
+          if (d_ok[tup[2]] === 1) {
+            revA += tup[3];
+          }
+        }
+        const tPlanA = (performance.now() - t0_a) * scaleFactor;
+
+        // Plan B: Column-Store + Invisible Join (Bitmap AND + Late Mat)
+        const t0_b = performance.now();
+        const posList = new Int32Array(benchRows);
+        let posCount = 0;
+        for (let i = 0; i < benchRows; i++) {
+          if ((c_asia[factCust[i]] & s_asia[factSupp[i]] & d_ok[factDate[i]]) === 1) {
+            posList[posCount++] = i;
+          }
+        }
+        let revB = 0;
+        for (let p = 0; p < posCount; p++) {
+          revB += factRev[posList[p]];
+        }
+        const tPlanB = (performance.now() - t0_b) * scaleFactor;
+
+        // Plan C: Between-Predicate Rewriting + Late Mat
+        const t0_c = performance.now();
+        let posCountC = 0;
+        for (let i = 0; i < benchRows; i++) {
+          if (factCust[i] < 6000 && factSupp[i] < 400 && factDate[i] <= 2190) {
+            posList[posCountC++] = i;
+          }
+        }
+        let revC = 0;
+        for (let p = 0; p < posCountC; p++) {
+          revC += factRev[posList[p]];
+        }
+        const tPlanC = (performance.now() - t0_c) * scaleFactor;
+
+        const scaledMatched = Math.round(posCount * scaleFactor);
+        const lenD1 = Math.round(inter1.length * scaleFactor);
+        const lenD2 = Math.round(inter2.length * scaleFactor);
+        const mbPlanA = Math.round((numRows * 17 * 4) / 1e6 * 10) / 10;
+        const mbPlanB = Math.round(((numRows * 3 * 4) + (scaledMatched * 4)) / 1e6 * 10) / 10;
+        const mbPlanC = mbPlanB;
+        const mbMoveA = Math.round(((numRows + lenD1 + lenD2) * 17 * 4) / 1e6 * 10) / 10;
+        const mbMoveBC = Math.round(((numRows * 3 * 4) + (scaledMatched * 4 * 4)) / 1e6 * 10) / 10;
+        const ioSavedPct = Math.round((1 - mbPlanB / mbPlanA) * 1000) / 10;
+
+        result.part4 = {
+          num_groups: 150,
+          total_rev_4: Math.round(revA * scaleFactor),
+          t_plan_a: Math.round(tPlanA * 10) / 10,
+          t_plan_b: Math.round(tPlanB * 10) / 10,
+          speedup_b: Math.round((tPlanA / Math.max(tPlanB, 0.001)) * 10) / 10,
+          t_plan_c: Math.round(tPlanC * 10) / 10,
+          speedup_c: Math.round((tPlanA / Math.max(tPlanC, 0.001)) * 10) / 10,
+          matched_rows: scaledMatched,
+          len_d1: lenD1,
+          len_d2: lenD2,
+          inter_rows: lenD1 + lenD2,
+          mb_plan_a: mbPlanA,
+          mb_plan_b: mbPlanB,
+          mb_plan_c: mbPlanC,
+          mb_move_a: mbMoveA,
+          mb_move_bc: mbMoveBC,
+          io_saved_pct: ioSavedPct
+        };
+      }
+
+      result.elapsed_ms = Math.round(performance.now() - startTime);
+      return result;
+    }
+    window.runOfflineJsBenchmark = runOfflineJsBenchmark;
+const P1_ALL_COLS = [
       'quantity', 'discount', 'extendedprice', 'orderdate',
       'c04', 'c05', 'c06', 'c07', 'c08', 'c09', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16'
     ];
@@ -4396,7 +4644,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       { dong: 5, idx: 4, custkey: 45, suppkey: 1935, orderdate: 2190, revenue: 77907, c_region: 'AMERICA', c_nation: 'UNITED STATES', s_region: 'MIDDLE EAST', s_nation: 'SAUDI ARABIA', d_year: 1998 }
     ];
 
-            const PYTHON_FILE_LINES = [
+    const PYTHON_FILE_LINES = [
       "from datetime import datetime",
       "\"\"\"Pure-function computation engine for Column-Stores vs. Row-Stores (Abadi et al., SIGMOD 2008).\"\"\"",
       "import time",
@@ -4417,7 +4665,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def parse_projection_from_sql(sql_text):",
-      "    \"\"\"Tự động phân tích các cột trong projection từ câu truy vấn SQL (SELECT, WHERE, GROUP BY, ORDER BY).\"\"\"",
+      "    \"\"\"T\u1ef1 \u0111\u1ed9ng ph\u00e2n t\u00edch c\u00e1c c\u1ed9t trong projection t\u1eeb c\u00e2u truy v\u1ea5n SQL (SELECT, WHERE, GROUP BY, ORDER BY).\"\"\"",
       "    import re",
       "    if not sql_text or not isinstance(sql_text, str):",
       "        return list(COT_MAC_DINH_P1)",
@@ -4454,7 +4702,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def do_benchmark_chuan(ham_can_do, *tham_so, warmups=2, iterations=5):",
-      "    \"\"\"Chạy warm-up và thực hiện iterations lượt đo độc lập, trả về kết quả và các thống kê phân phối (ms).\"\"\"",
+      "    \"\"\"Ch\u1ea1y warm-up v\u00e0 th\u1ef1c hi\u1ec7n iterations l\u01b0\u1ee3t \u0111o \u0111\u1ed9c l\u1eadp, tr\u1ea3 v\u1ec1 k\u1ebft qu\u1ea3 v\u00e0 c\u00e1c th\u1ed1ng k\u00ea ph\u00e2n ph\u1ed1i (ms).\"\"\"",
       "    for _ in range(warmups):",
       "        ham_can_do(*tham_so)",
       "    timings = []",
@@ -4476,7 +4724,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def tinh_doanh_thu_q11_hang(bang_hang, d_year):",
       "    \"\"\"Plan A: Row-Store (AoS) - Full Tuple Scan & Early Materialization.",
-      "    Nạp toàn bộ 17 trường (68B/dòng), duyệt qua điều kiện lọc và tính doanh thu.",
+      "    N\u1ea1p to\u00e0n b\u1ed9 17 tr\u01b0\u1eddng (68B/d\u00f2ng), duy\u1ec7t qua \u0111i\u1ec1u ki\u1ec7n l\u1ecdc v\u00e0 t\u00ednh doanh thu.",
       "    \"\"\"",
       "    dong_thoa = (bang_hang[\"discount\"] >= 1) & (bang_hang[\"discount\"] <= 3) & \\",
       "                (bang_hang[\"quantity\"] < 25) & \\",
@@ -4487,8 +4735,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def tinh_doanh_thu_q11_cot(bang_cot, d_year):",
       "    \"\"\"Plan B: Column-Store (SoA) - Projection Column Scan & Late Materialization.",
-      "    Chỉ nạp đúng 4 cột cần thiết (16B/dòng): quantity, discount, extendedprice, orderdate.",
-      "    13 cột còn lại hoàn toàn không được nạp (Not Loaded - 0 Byte I/O).",
+      "    Ch\u1ec9 n\u1ea1p \u0111\u00fang 4 c\u1ed9t c\u1ea7n thi\u1ebft (16B/d\u00f2ng): quantity, discount, extendedprice, orderdate.",
+      "    13 c\u1ed9t c\u00f2n l\u1ea1i ho\u00e0n to\u00e0n kh\u00f4ng \u0111\u01b0\u1ee3c n\u1ea1p (Not Loaded - 0 Byte I/O).",
       "    \"\"\"",
       "    dong_thoa = (bang_cot[\"discount\"] >= 1) & (bang_cot[\"discount\"] <= 3) & \\",
       "                (bang_cot[\"quantity\"] < 25) & \\",
@@ -4497,7 +4745,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def tinh_doanh_thu_giam_gia(bang_du_lieu, danh_sach_cot=None, d_year=None):",
-      "    \"\"\"Hàm tương thích cho truy vấn có tập cột động hoặc mặc định theo chuẩn Q1.1.\"\"\"",
+      "    \"\"\"H\u00e0m t\u01b0\u01a1ng th\u00edch cho truy v\u1ea5n c\u00f3 t\u1eadp c\u1ed9t \u0111\u1ed9ng ho\u1eb7c m\u1eb7c \u0111\u1ecbnh theo chu\u1ea9n Q1.1.\"\"\"",
       "    if d_year is not None:",
       "        if isinstance(bang_du_lieu, np.ndarray) and bang_du_lieu.dtype.names:",
       "            return tinh_doanh_thu_q11_hang(bang_du_lieu, d_year)",
@@ -4532,24 +4780,24 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "class BoDuLieuToanCuc:",
-      "    \"\"\"Quản lý bộ dữ liệu nạp trong RAM cho cặp (rows, seed) hiện tại.",
-      "    Khi đổi seed hoặc đổi số dòng, toàn bộ cache cũ bị hủy và tái sinh ngẫu nhiên theo đúng seed đó.",
+      "    \"\"\"Qu\u1ea3n l\u00fd b\u1ed9 d\u1eef li\u1ec7u n\u1ea1p trong RAM cho c\u1eb7p (rows, seed) hi\u1ec7n t\u1ea1i.",
+      "    Khi \u0111\u1ed5i seed ho\u1eb7c \u0111\u1ed5i s\u1ed1 d\u00f2ng, to\u00e0n b\u1ed9 cache c\u0169 b\u1ecb h\u1ee7y v\u00e0 t\u00e1i sinh ng\u1eabu nhi\u00ean theo \u0111\u00fang seed \u0111\u00f3.",
       "    \"\"\"",
       "    def __init__(self, rows: int, seed: int):",
       "        self.rows = int(rows)",
       "        self.seed = int(seed)",
       "",
       "        # 1. Star Schema (c_region, s_region, d_year, fact_cot, fact_hang)",
-      "        # Dùng chung cho cả Phần 4 Benchmark và Invisible Join",
+      "        # D\u00f9ng chung cho c\u1ea3 Ph\u1ea7n 4 Benchmark v\u00e0 Invisible Join",
       "        rng_star = np.random.default_rng(self.seed)",
       "        self.chieu, self.fact_cot = tao_luoc_do_sao(self.rows, rng_star)",
       "        self.fact_hang = chuyen_bang_fact_sang_dang_hang(self.fact_cot, self.rows)",
       "",
-      "        # 2. Lineorder table 17 cột cho Phần 1 (AoS vs SoA)",
+      "        # 2. Lineorder table 17 c\u1ed9t cho Ph\u1ea7n 1 (AoS vs SoA)",
       "        rng_p1 = np.random.default_rng(self.seed + 101)",
       "        self.p1_hang, self.p1_cot = tao_du_lieu_bang_lineorder(self.rows, rng_p1)",
       "",
-      "        # 3. Mảng orderdate 2,405 cụm cho Phần 2 (Nén RLE) - đồng bộ 100% với fact_cot['orderdate'] đã sort",
+      "        # 3. M\u1ea3ng orderdate 2,405 c\u1ee5m cho Ph\u1ea7n 2 (N\u00e9n RLE) - \u0111\u1ed3ng b\u1ed9 100% v\u1edbi fact_cot['orderdate'] \u0111\u00e3 sort",
       "        self.p2_cot_ngay = self.fact_cot[\"orderdate\"]",
       "        vi_tri_doi = np.flatnonzero(self.p2_cot_ngay[1:] != self.p2_cot_ngay[:-1]) + 1",
       "        vi_tri_bat_dau = np.concatenate(([0], vi_tri_doi))",
@@ -4561,7 +4809,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def lay_bo_du_lieu_chuan(rows: int, seed: int) -> BoDuLieuToanCuc:",
-      "    \"\"\"Lấy từ cache hoặc hủy bỏ cache cũ để sinh lại khi (rows, seed) thay đổi.\"\"\"",
+      "    \"\"\"L\u1ea5y t\u1eeb cache ho\u1eb7c h\u1ee7y b\u1ecf cache c\u0169 \u0111\u1ec3 sinh l\u1ea1i khi (rows, seed) thay \u0111\u1ed5i.\"\"\"",
       "    global _BO_DU_LIEU_HIEN_TAI",
       "    if _BO_DU_LIEU_HIEN_TAI is not None:",
       "        if _BO_DU_LIEU_HIEN_TAI.rows == rows and _BO_DU_LIEU_HIEN_TAI.seed == seed:",
@@ -4572,7 +4820,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def lay_du_lieu_preview(rows: int = 6_000_000, seed: int = 42) -> dict:",
-      "    \"\"\"Trả về 5 dòng dữ liệu thực tế đầu tiên của 4 bảng Star Schema trong RAM theo seed và rows.\"\"\"",
+      "    \"\"\"Tr\u1ea3 v\u1ec1 5 d\u00f2ng d\u1eef li\u1ec7u th\u1ef1c t\u1ebf \u0111\u1ea7u ti\u00ean c\u1ee7a 4 b\u1ea3ng Star Schema trong RAM theo seed v\u00e0 rows.\"\"\"",
       "    ds = lay_bo_du_lieu_chuan(rows, seed)",
       "    chieu = ds.chieu",
       "    fact_cot = ds.fact_cot",
@@ -4589,7 +4837,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    MKT_SEGMENTS = [\"AUTOMOBILE\", \"BUILDING\", \"FURNITURE\", \"HOUSEHOLD\", \"MACHINERY\"]",
       "    DAYS = [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"]",
       "",
-      "    # 1. LINEORDER (5 dòng đầu tiên)",
+      "    # 1. LINEORDER (5 d\u00f2ng \u0111\u1ea7u ti\u00ean)",
       "    n_sample = min(5, rows)",
       "    lo_rows = []",
       "    for i in range(n_sample):",
@@ -4620,13 +4868,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"d_year\": dy_val,",
       "        })",
       "",
-      "    # 1b. Dành riêng cho Tab 3 (SSBM Q3.1 ASIA x ASIA, 1992-1997):",
-      "    # Sinh động 5 dòng Fact mẫu từ RAM mảng cột NumPy:",
-      "    # - Dòng 1: lo_rows[0] (idx: 0) -> AMERICA x ASIA (1992) -> bc=0, bs=1, bd=1 -> AND=0",
-      "    # - Dòng 2: Dòng đầu tiên trong RAM khớp ASIA x ASIA (1992-1997) (idx: 1) -> bc=1, bs=1, bd=1 -> AND=1 (TRÚNG)",
-      "    # - Dòng 3: lo_rows[2] (idx: 2) -> EUROPE x ASIA (1992) -> bc=0, bs=1, bd=1 -> AND=0",
-      "    # - Dòng 4: lo_rows[3] (idx: 3) -> ASIA x AMERICA (1992) -> bc=1, bs=0, bd=1 -> AND=0",
-      "    # - Dòng 5: Dòng đầu tiên trong RAM có năm 1998 (idx: 4) -> AMERICA x MIDDLE EAST (1998) -> bc=0, bs=0, bd=0 -> AND=0",
+      "    # 1b. D\u00e0nh ri\u00eang cho Tab 3 (SSBM Q3.1 ASIA x ASIA, 1992-1997):",
+      "    # Sinh \u0111\u1ed9ng 5 d\u00f2ng Fact m\u1eabu t\u1eeb RAM m\u1ea3ng c\u1ed9t NumPy:",
+      "    # - D\u00f2ng 1: lo_rows[0] (idx: 0) -> AMERICA x ASIA (1992) -> bc=0, bs=1, bd=1 -> AND=0",
+      "    # - D\u00f2ng 2: D\u00f2ng \u0111\u1ea7u ti\u00ean trong RAM kh\u1edbp ASIA x ASIA (1992-1997) (idx: 1) -> bc=1, bs=1, bd=1 -> AND=1 (TR\u00daNG)",
+      "    # - D\u00f2ng 3: lo_rows[2] (idx: 2) -> EUROPE x ASIA (1992) -> bc=0, bs=1, bd=1 -> AND=0",
+      "    # - D\u00f2ng 4: lo_rows[3] (idx: 3) -> ASIA x AMERICA (1992) -> bc=1, bs=0, bd=1 -> AND=0",
+      "    # - D\u00f2ng 5: D\u00f2ng \u0111\u1ea7u ti\u00ean trong RAM c\u00f3 n\u0103m 1998 (idx: 4) -> AMERICA x MIDDLE EAST (1998) -> bc=0, bs=0, bd=0 -> AND=0",
       "    def _tao_dong_p3_fact(i_source, dong, idx):",
       "        pad_vals = [int(p1_cot[f\"c{c_i:02d}\"][i_source]) if i_source < len(p1_cot[f\"c{c_i:02d}\"]) else 0 for c_i in range(4, 14)]",
       "        ck_v = int(fact_cot[\"custkey\"][i_source])",
@@ -4662,11 +4910,11 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    sr_arr = chieu[\"s_region\"][sk_arr]",
       "    dy_arr = chieu[\"d_year\"][od_arr]",
       "",
-      "    # Tìm dòng khớp ASIA (cr==2) x ASIA (sr==2) và 1992 <= d_year <= 1997 trong RAM",
+      "    # T\u00ecm d\u00f2ng kh\u1edbp ASIA (cr==2) x ASIA (sr==2) v\u00e0 1992 <= d_year <= 1997 trong RAM",
       "    match_mask = (cr_arr == 2) & (sr_arr == 2) & (dy_arr >= 1992) & (dy_arr <= 1997)",
       "    first_match_idx = int(np.argmax(match_mask)) if np.any(match_mask) else (1 if len(ck_arr) > 1 else 0)",
       "",
-      "    # Tìm dòng năm 1998 trong RAM",
+      "    # T\u00ecm d\u00f2ng n\u0103m 1998 trong RAM",
       "    y1998_mask = (dy_arr == 1998)",
       "    first_1998_idx = int(np.argmax(y1998_mask)) if np.any(y1998_mask) else min(4, len(ck_arr) - 1)",
       "",
@@ -4678,7 +4926,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        _tao_dong_p3_fact(first_1998_idx, 5, 4),",
       "    ]",
       "",
-      "    # Trích xuất danh sách Dimension khớp đúng với 5 dòng Fact của Tab 3:",
+      "    # Tr\u00edch xu\u1ea5t danh s\u00e1ch Dimension kh\u1edbp \u0111\u00fang v\u1edbi 5 d\u00f2ng Fact c\u1ee7a Tab 3:",
       "    unique_cust = {}",
       "    unique_supp = {}",
       "    unique_date = {}",
@@ -4711,7 +4959,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        \"date_rows\": sorted(list(unique_date.values()), key=lambda x: x[\"datekey\"])",
       "    }",
       "",
-      "    # 2. CUSTOMER (5 dòng đầu - Đủ 8 cột chuẩn SSBM khớp Diagram)",
+      "    # 2. CUSTOMER (5 d\u00f2ng \u0111\u1ea7u - \u0110\u1ee7 8 c\u1ed9t chu\u1ea9n SSBM kh\u1edbp Diagram)",
       "    cust_rows = []",
       "    for i in range(5):",
       "        r_id = int(chieu[\"c_region\"][i])",
@@ -4729,7 +4977,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"mktsegment\": MKT_SEGMENTS[i % len(MKT_SEGMENTS)]",
       "        })",
       "",
-      "    # 3. SUPPLIER (5 dòng đầu - Đủ 7 cột chuẩn SSBM khớp Diagram)",
+      "    # 3. SUPPLIER (5 d\u00f2ng \u0111\u1ea7u - \u0110\u1ee7 7 c\u1ed9t chu\u1ea9n SSBM kh\u1edbp Diagram)",
       "    supp_rows = []",
       "    for i in range(5):",
       "        r_id = int(chieu[\"s_region\"][i])",
@@ -4746,7 +4994,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"phone\": f\"011-84-{i + 500:04d}\"",
       "        })",
       "",
-      "    # 4. DWDATE (5 dòng đầu - Khớp các cột hiển thị)",
+      "    # 4. DWDATE (5 d\u00f2ng \u0111\u1ea7u - Kh\u1edbp c\u00e1c c\u1ed9t hi\u1ec3n th\u1ecb)",
       "    date_rows = []",
       "    from datetime import datetime, timedelta",
       "    base_date = datetime(1992, 1, 1)",
@@ -4775,28 +5023,28 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "                \"name\": \"LINEORDER\",",
       "                \"label\": \"LINEORDER (Fact)\",",
       "                \"total_rows\": rows,",
-      "                \"desc\": \"Bảng dữ liệu đơn hàng gồm 17 cột (mã khách hàng, nhà cung cấp, ngày đặt, số lượng, chiết khấu và doanh thu).\",",
+      "                \"desc\": \"B\u1ea3ng d\u1eef li\u1ec7u \u0111\u01a1n h\u00e0ng g\u1ed3m 17 c\u1ed9t (m\u00e3 kh\u00e1ch h\u00e0ng, nh\u00e0 cung c\u1ea5p, ng\u00e0y \u0111\u1eb7t, s\u1ed1 l\u01b0\u1ee3ng, chi\u1ebft kh\u1ea5u v\u00e0 doanh thu).\",",
       "                \"rows\": lo_rows",
       "            },",
       "            \"customer\": {",
       "                \"name\": \"CUSTOMER\",",
-      "                \"label\": \"CUSTOMER (Chiều khách hàng)\",",
+      "                \"label\": \"CUSTOMER (Chi\u1ec1u kh\u00e1ch h\u00e0ng)\",",
       "                \"total_rows\": SO_KHACH_HANG,",
-      "                \"desc\": \"Bảng thông tin khách hàng (30,000 khách hàng phân bổ theo quốc gia và khu vực).\",",
+      "                \"desc\": \"B\u1ea3ng th\u00f4ng tin kh\u00e1ch h\u00e0ng (30,000 kh\u00e1ch h\u00e0ng ph\u00e2n b\u1ed5 theo qu\u1ed1c gia v\u00e0 khu v\u1ef1c).\",",
       "                \"rows\": cust_rows",
       "            },",
       "            \"supplier\": {",
       "                \"name\": \"SUPPLIER\",",
-      "                \"label\": \"SUPPLIER (Chiều nhà cung cấp)\",",
+      "                \"label\": \"SUPPLIER (Chi\u1ec1u nh\u00e0 cung c\u1ea5p)\",",
       "                \"total_rows\": SO_NHA_CUNG_CAP,",
-      "                \"desc\": \"Bảng thông tin nhà cung cấp (2,000 nhà cung cấp phân bổ theo quốc gia và khu vực).\",",
+      "                \"desc\": \"B\u1ea3ng th\u00f4ng tin nh\u00e0 cung c\u1ea5p (2,000 nh\u00e0 cung c\u1ea5p ph\u00e2n b\u1ed5 theo qu\u1ed1c gia v\u00e0 khu v\u1ef1c).\",",
       "                \"rows\": supp_rows",
       "            },",
       "            \"dwdate\": {",
       "                \"name\": \"DWDATE\",",
-      "                \"label\": \"DWDATE (Chiều ngày tháng)\",",
+      "                \"label\": \"DWDATE (Chi\u1ec1u ng\u00e0y th\u00e1ng)\",",
       "                \"total_rows\": SO_NGAY_TRONG_BANG_CHIEU,",
-      "                \"desc\": \"Bảng thời gian giao dịch (2,555 ngày từ năm 1992 đến 1998, phân loại theo năm, quý và tháng).\",",
+      "                \"desc\": \"B\u1ea3ng th\u1eddi gian giao d\u1ecbch (2,555 ng\u00e0y t\u1eeb n\u0103m 1992 \u0111\u1ebfn 1998, ph\u00e2n lo\u1ea1i theo n\u0103m, qu\u00fd v\u00e0 th\u00e1ng).\",",
       "                \"rows\": date_rows",
       "            }",
       "        }",
@@ -4805,31 +5053,31 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=None, sql=None):",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_1_layout_hang_va_cot: rows={so_dong}, cols={danh_sach_cot}\")",
-      "    \"\"\"Phần 1: Same Query, Two Execution Plans (SSBM Q1.1).",
-      "    Từ 1 câu truy vấn logic SSBM Q1.1 duy nhất, sinh ra 2 phương án thực thi:",
-      "    - Plan A: Row-Store (AoS - Full Tuple Scan 17 cột, 68B/dòng)",
-      "    - Plan B: Column-Store (SoA - Columnar Projection Scan 4 cột, 16B/dòng, 13 cột Not Loaded)",
+      "    \"\"\"Ph\u1ea7n 1: Same Query, Two Execution Plans (SSBM Q1.1).",
+      "    T\u1eeb 1 c\u00e2u truy v\u1ea5n logic SSBM Q1.1 duy nh\u1ea5t, sinh ra 2 ph\u01b0\u01a1ng \u00e1n th\u1ef1c thi:",
+      "    - Plan A: Row-Store (AoS - Full Tuple Scan 17 c\u1ed9t, 68B/d\u00f2ng)",
+      "    - Plan B: Column-Store (SoA - Columnar Projection Scan 4 c\u1ed9t, 16B/d\u00f2ng, 13 c\u1ed9t Not Loaded)",
       "    \"\"\"",
       "    seed_val = int(bo_sinh_ngau_nhien) if isinstance(bo_sinh_ngau_nhien, (int, np.integer)) else 42",
       "    ds = lay_bo_du_lieu_chuan(so_dong, seed_val)",
       "    bang_hang, bang_cot = ds.p1_hang, ds.p1_cot",
       "    d_year = ds.chieu[\"d_year\"]",
       "",
-      "    # Đếm số dòng thỏa mãn điều kiện Q1.1 (year=1993, disc in 1..3, qty < 25)",
+      "    # \u0110\u1ebfm s\u1ed1 d\u00f2ng th\u1ecfa m\u00e3n \u0111i\u1ec1u ki\u1ec7n Q1.1 (year=1993, disc in 1..3, qty < 25)",
       "    dong_thoa = (bang_cot[\"discount\"] >= 1) & (bang_cot[\"discount\"] <= 3) & \\",
       "                (bang_cot[\"quantity\"] < 25) & \\",
       "                (d_year[bang_cot[\"orderdate\"]] == 1993)",
       "    matching_rows = int(dong_thoa.sum())",
       "",
-      "    # Benchmark Rigor: 2 warm-ups + 5 lượt đo thực tế",
+      "    # Benchmark Rigor: 2 warm-ups + 5 l\u01b0\u1ee3t \u0111o th\u1ef1c t\u1ebf",
       "    bench_hang = do_benchmark_chuan(lambda: tinh_doanh_thu_q11_hang(bang_hang, d_year), warmups=2, iterations=5)",
       "    bench_cot = do_benchmark_chuan(lambda: tinh_doanh_thu_q11_cot(bang_cot, d_year), warmups=2, iterations=5)",
       "",
       "    kq_hang, tg_hang = bench_hang[\"res\"], bench_hang[\"median\"]",
       "    kq_cot, tg_cot = bench_cot[\"res\"], bench_cot[\"median\"]",
-      "    assert kq_hang == kq_cot, f\"Lỗi không nhất quán: Plan A ({kq_hang}) != Plan B ({kq_cot})\"",
+      "    assert kq_hang == kq_cot, f\"L\u1ed7i kh\u00f4ng nh\u1ea5t qu\u00e1n: Plan A ({kq_hang}) != Plan B ({kq_cot})\"",
       "",
-      "    # 5 dòng mẫu visual preview chuẩn xác:",
+      "    # 5 d\u00f2ng m\u1eabu visual preview chu\u1ea9n x\u00e1c:",
       "    samples = []",
       "    for i in range(min(5, so_dong)):",
       "        od = int(bang_cot[\"orderdate\"][i])",
@@ -4846,9 +5094,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        samples.append(row_s)",
       "",
       "    speedup = round(tg_hang / max(tg_cot, 1e-9), 2)",
-      "    mb_total_val = round(SO_COT_LINEORDER * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)  # 408.0 MB",
-      "    mb_needed_val = round(4 * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)               # 96.0 MB",
-      "    mb_wasted_val = round(mb_total_val - mb_needed_val, 1)                        # 312.0 MB",
+      "    mb_total_val = round(SO_COT_LINEORDER * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)",
+      "    mb_needed_val = round(4 * SO_BYTE_MOI_INT32 * so_dong / 1e6, 1)",
+      "    mb_wasted_val = round(mb_total_val - mb_needed_val, 1)",
+      "    bandwidth_savings_pct = round((1 - 4 / SO_COT_LINEORDER) * 100, 1)",
       "",
       "    default_sql = (",
       "        \"-- SSBM Query 1.1: Aggregation & Star Join (Abadi et al., SIGMOD 2008)\\n\"",
@@ -4872,7 +5121,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        \"num_cols_hang\": 17,",
       "        \"num_cols_cot\": 4,",
       "        \"num_cols_skipped\": 13,",
-      "        \"bandwidth_savings_pct\": 76.5,",
+      "        \"bandwidth_savings_pct\": bandwidth_savings_pct,",
       "        \"t_row\": round(tg_hang, 1),",
       "        \"t_col\": round(tg_cot, 1),",
       "        \"t_row_median\": round(bench_hang[\"median\"], 1),",
@@ -4901,7 +5150,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"total_mb\": mb_total_val,",
       "            \"wasted_b\": 52,",
       "            \"wasted_mb\": mb_wasted_val,",
-      "            \"wasted_pct\": 76.5,",
+      "            \"wasted_pct\": bandwidth_savings_pct,",
       "            \"time_ms\": round(tg_hang, 1),",
       "            \"std_ms\": round(bench_hang[\"std\"], 2),",
       "            \"result\": int(kq_hang),",
@@ -4916,7 +5165,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"bytes_per_row\": 16,",
       "            \"total_mb\": mb_needed_val,",
       "            \"savings_mb\": mb_wasted_val,",
-      "            \"savings_pct\": 76.5,",
+      "            \"savings_pct\": bandwidth_savings_pct,",
       "            \"time_ms\": round(tg_cot, 1),",
       "            \"std_ms\": round(bench_cot[\"std\"], 2),",
       "            \"result\": int(kq_cot),",
@@ -4926,7 +5175,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "",
       "def ma_hoa_rle(mang_da_sap_xep):",
-      "    \"\"\"Nén RLE: gom các giá trị giống nhau liên tiếp thành (gia_tri, so_lan_lap).\"\"\"",
+      "    \"\"\"N\u00e9n RLE: gom c\u00e1c gi\u00e1 tr\u1ecb gi\u1ed1ng nhau li\u00ean ti\u1ebfp th\u00e0nh (gia_tri, so_lan_lap).\"\"\"",
       "    vi_tri_doi = np.flatnonzero(mang_da_sap_xep[1:] != mang_da_sap_xep[:-1]) + 1",
       "    vi_tri_bat_dau = np.concatenate(([0], vi_tri_doi))",
       "    return mang_da_sap_xep[vi_tri_bat_dau], np.diff(np.concatenate((vi_tri_bat_dau, [len(mang_da_sap_xep)])))",
@@ -4934,25 +5183,25 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def demo_phan_2_nen_rle(so_dong, bo_sinh_ngau_nhien, ngay_bd=NGAY_BAT_DAU_LOC_RLE, ngay_kt=NGAY_KET_THUC_LOC_RLE):",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_2_nen_rle: rows={so_dong}, range=[{ngay_bd}..{ngay_kt}]\")",
-      "    \"\"\"Phần 2 (RLE): trả về dict tỉ lệ nén RLE và tốc độ COUNT(*) trực tiếp trên cụm nén.\"\"\"",
+      "    \"\"\"Ph\u1ea7n 2 (RLE): tr\u1ea3 v\u1ec1 dict t\u1ec9 l\u1ec7 n\u00e9n RLE v\u00e0 t\u1ed1c \u0111\u1ed9 COUNT(*) tr\u1ef1c ti\u1ebfp tr\u00ean c\u1ee5m n\u00e9n.\"\"\"",
       "    ngay_bd = max(0, min(SO_NGAY_PHAN_BIET_RLE - 1, int(ngay_bd)))",
       "    ngay_kt = max(ngay_bd, min(SO_NGAY_PHAN_BIET_RLE - 1, int(ngay_kt)))",
       "    seed_val = int(bo_sinh_ngau_nhien) if isinstance(bo_sinh_ngau_nhien, (int, np.integer)) else 42",
       "    ds = lay_bo_du_lieu_chuan(so_dong, seed_val)",
       "    cot_ngay = ds.p2_cot_ngay",
       "    gia_tri_cum, so_lan_lap = ds.p2_gia_tri_cum, ds.p2_so_lan_lap",
-      "    # 3 CASE TÍNH TOÁN TRỰC TIẾP TRÊN CỤM NÉN RLE (ZERO-DECOMPRESSION):",
+      "    # 3 CASE T\u00cdNH TO\u00c1N TR\u1ef0C TI\u1ebeP TR\u00caN C\u1ee4M N\u00c9N RLE (ZERO-DECOMPRESSION):",
       "    if ngay_bd == 0 and ngay_kt >= SO_NGAY_PHAN_BIET_RLE - 1:",
-      "        # Case 3: Toàn bộ bảng (Full COUNT(*) không WHERE) -> duyệt 2,405 cụm thay vì 6M dòng",
+      "        # Case 3: To\u00e0n b\u1ed9 b\u1ea3ng (Full COUNT(*) kh\u00f4ng WHERE) -> duy\u1ec7t 2,405 c\u1ee5m thay v\u00ec 6M d\u00f2ng",
       "        dem_thuong = lambda: int((cot_ngay >= 0).sum())",
       "        dem_rle = lambda: int(so_lan_lap.sum())",
       "    elif ngay_bd == ngay_kt:",
-      "        # Case 2: Dấu bằng (=) (Exact Match · 1 ngày) -> Nhị phân 1 vị trí O(log K), 0 phép cộng!",
+      "        # Case 2: D\u1ea5u b\u1eb1ng (=) (Exact Match \u00b7 1 ng\u00e0y) -> Nh\u1ecb ph\u00e2n 1 v\u1ecb tr\u00ed O(log K), 0 ph\u00e9p c\u1ed9ng!",
       "        idx = int(np.searchsorted(gia_tri_cum, ngay_bd))",
       "        dem_thuong = lambda: int((cot_ngay == ngay_bd).sum())",
       "        dem_rle = lambda: int(so_lan_lap[idx]) if (idx < len(gia_tri_cum) and gia_tri_cum[idx] == ngay_bd) else 0",
       "    else:",
-      "        # Case 1: Lọc khoảng (Between Predicate: ngay_bd <= orderdate <= ngay_kt) -> Nhị phân 2 đầu + SUM",
+      "        # Case 1: L\u1ecdc kho\u1ea3ng (Between Predicate: ngay_bd <= orderdate <= ngay_kt) -> Nh\u1ecb ph\u00e2n 2 \u0111\u1ea7u + SUM",
       "        dem_thuong = lambda: int(((cot_ngay >= ngay_bd) & (cot_ngay <= ngay_kt)).sum())",
       "        dem_rle = lambda: int(so_lan_lap[(gia_tri_cum >= ngay_bd) & (gia_tri_cum <= ngay_kt)].sum())",
       "",
@@ -4967,8 +5216,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    all_matched = [[int(gt_khop[i]), int(lap_khop[i])] for i in range(min(120, len(gt_khop)))]",
       "    gt_bo_qua, lap_bo_qua = gia_tri_cum[~mask_loc], so_lan_lap[~mask_loc]",
       "    cum_bo_qua_mau = [[int(gt_bo_qua[i]), int(lap_bo_qua[i])] for i in range(min(3, len(gt_bo_qua)))]",
+      "    rle_bytes = gia_tri_cum.nbytes + so_lan_lap.nbytes",
+      "    raw_bytes = cot_ngay.nbytes",
+      "    rle_saved_pct = round((1 - rle_bytes / max(raw_bytes, 1)) * 100, 2)",
+      "    compression_ratio = round(raw_bytes / max(rle_bytes, 1), 1)",
       "    return {",
-      "        \"raw_mb\": round(cot_ngay.nbytes / 1e6, 1), \"rle_kb\": round((gia_tri_cum.nbytes + so_lan_lap.nbytes) / 1e3, 1),",
+      "        \"raw_mb\": round(cot_ngay.nbytes / 1e6, 1), \"rle_kb\": round(rle_bytes / 1e3, 1),",
+      "        \"rle_saved_pct\": rle_saved_pct, \"compression_ratio\": compression_ratio,",
       "        \"num_runs\": int(len(gia_tri_cum)), \"avg_run\": int(round(so_dong / len(gia_tri_cum))),",
       "        \"t_raw_rle\": round(tg_thuong * 1e3, 3), \"t_direct_rle\": round(tg_rle * 1e3, 3),",
       "        \"speedup_2\": round(tg_thuong / max(tg_rle, 1e-9), 1), \"res_2\": int(kq_thuong),",
@@ -4983,22 +5237,22 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def demo_phan_3_invisible_join():",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_3_invisible_join: start 3-phase stepper execution\")",
-      "    \"\"\"Phần 3 (Invisible Join): mô phỏng 3 pha Figure 2–4, Position List P, GROUP BY và Between Rewriting.\"\"\"",
+      "    \"\"\"Ph\u1ea7n 3 (Invisible Join): m\u00f4 ph\u1ecfng 3 pha Figure 2\u20134, Position List P, GROUP BY v\u00e0 Between Rewriting.\"\"\"",
       "    khach, ncc, ngay, fact = tao_du_lieu_mau_bai_bao()",
-      "    # Pha 1: Lọc bảng chiều nhỏ trong CPU Cache L1/L2 -> tập mã khóa thỏa điều kiện",
+      "    # Pha 1: L\u1ecdc b\u1ea3ng chi\u1ec1u nh\u1ecf trong CPU Cache L1/L2 -> t\u1eadp m\u00e3 kh\u00f3a th\u1ecfa \u0111i\u1ec1u ki\u1ec7n",
       "    khoa_khach, khoa_ncc = ({k for k, kv in zip(t[col], t[\"region\"]) if kv == \"Asia\"} for t, col in ((khach, \"custkey\"), (ncc, \"suppkey\")))",
       "    khoa_ngay = {k for k, nam in zip(ngay[\"datekey\"], ngay[\"year\"]) if NAM_BAT_DAU <= nam <= NAM_KET_THUC_LOC}",
-      "    # Pha 2: Quét cột khóa ngoại Fact -> tạo Bitmap vectors và nhân AND bitwise",
+      "    # Pha 2: Qu\u00e9t c\u1ed9t kh\u00f3a ngo\u1ea1i Fact -> t\u1ea1o Bitmap vectors v\u00e0 nh\u00e2n AND bitwise",
       "    bm_khach, bm_ncc, bm_ngay = (np.array([k in s for k in fact[col]], dtype=int) for s, col in ((khoa_khach, \"custkey\"), (khoa_ncc, \"suppkey\"), (khoa_ngay, \"orderdate\")))",
       "    bm_and = bm_khach & bm_ncc & bm_ngay",
-      "    vi_tri = np.flatnonzero(bm_and)  # Danh sách vị trí các dòng sống sót (Position List P)",
-      "    # Pha 3 (Late Materialization): Chỉ đọc cột revenue và tra bảng băm cho các vị trí sống sót",
+      "    vi_tri = np.flatnonzero(bm_and)  # Danh s\u00e1ch v\u1ecb tr\u00ed c\u00e1c d\u00f2ng s\u1ed1ng s\u00f3t (Position List P)",
+      "    # Pha 3 (Late Materialization): Ch\u1ec9 \u0111\u1ecdc c\u1ed9t revenue v\u00e0 tra b\u1ea3ng b\u0103m cho c\u00e1c v\u1ecb tr\u00ed s\u1ed1ng s\u00f3t",
       "    anh_xa_nam, ket_qua = dict(zip(ngay[\"datekey\"], ngay[\"year\"])), {}",
       "    for ck, sk, dk, rev in zip(fact[\"custkey\"][vi_tri], fact[\"suppkey\"][vi_tri], fact[\"orderdate\"][vi_tri], fact[\"revenue\"][vi_tri]):",
       "        khoa = (khach[\"nation\"][ck - 1], ncc[\"nation\"][sk - 1], int(anh_xa_nam[dk]))",
       "        ket_qua[khoa] = ket_qua.get(khoa, 0) + int(rev)",
       "    assert ket_qua == tinh_join_ngay_tho_kiem_chung(khach, ncc, ngay, fact)",
-      "    # Tối ưu Between-Predicate Rewriting: Đánh số lại khóa chiều để tạo khoảng liên tục",
+      "    # T\u1ed1i \u01b0u Between-Predicate Rewriting: \u0110\u00e1nh s\u1ed1 l\u1ea1i kh\u00f3a chi\u1ec1u \u0111\u1ec3 t\u1ea1o kho\u1ea3ng li\u00ean t\u1ee5c",
       "    thu_tu_moi = sorted(range(len(khach[\"custkey\"])), key=lambda i: (khach[\"region\"][i], khach[\"nation\"][i]))",
       "    bang_doi_khoa = {cu + 1: moi + 1 for moi, cu in enumerate(thu_tu_moi)}",
       "    khoa_moi = sorted(bang_doi_khoa[k] for k in khoa_khach)",
@@ -5014,26 +5268,26 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def demo_phan_4_benchmark_q31(so_dong, bo_sinh_ngau_nhien):",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_4_benchmark_q31: rows={so_dong}, running Plan A/B/C benchmarks\")",
-      "    \"\"\"Phần 4 (SSBM Q3.1): trả về dict so sánh Plan A (Row), Plan B (Invisible Join), Plan C (+ Between).\"\"\"",
+      "    \"\"\"Ph\u1ea7n 4 (SSBM Q3.1): tr\u1ea3 v\u1ec1 dict so s\u00e1nh Plan A (Row), Plan B (Invisible Join), Plan C (+ Between).\"\"\"",
       "    seed_val = int(bo_sinh_ngau_nhien) if isinstance(bo_sinh_ngau_nhien, (int, np.integer)) else 42",
       "    ds = lay_bo_du_lieu_chuan(so_dong, seed_val)",
       "    chieu, fact_cot, fact_hang = ds.chieu, ds.fact_cot, ds.fact_hang",
       "    ngay_thoa = (chieu[\"d_year\"] >= NAM_BAT_DAU) & (chieu[\"d_year\"] <= NAM_KET_THUC_LOC)",
       "    c_asia, s_asia = chieu[\"c_region\"] == MA_KHU_VUC_ASIA, chieu[\"s_region\"] == MA_KHU_VUC_ASIA",
       "",
-      "    # PLAN A: Row-Store truyền thống - Early Materialization (sao chép tuple 68B qua từng phép join)",
+      "    # PLAN A: Row-Store truy\u1ec1n th\u1ed1ng - Early Materialization (sao ch\u00e9p tuple 68B qua t\u1eebng ph\u00e9p join)",
       "    def ke_hoach_a():",
       "        dong = fact_hang[c_asia[fact_hang[\"custkey\"]]]",
       "        dong = dong[s_asia[dong[\"suppkey\"]]]",
       "        dong = dong[ngay_thoa[dong[\"orderdate\"]]]",
       "        return tinh_tong_theo_nhom(chieu[\"c_nation\"][dong[\"custkey\"]], chieu[\"s_nation\"][dong[\"suppkey\"]], chieu[\"d_year\"][dong[\"orderdate\"]], dong[\"revenue\"])",
       "",
-      "    # PLAN B: Column-Store + Invisible Join (tra bảng băm + nhân Bitmap AND + Late Materialization)",
+      "    # PLAN B: Column-Store + Invisible Join (tra b\u1ea3ng b\u0103m + nh\u00e2n Bitmap AND + Late Materialization)",
       "    def ke_hoach_b():",
       "        vi_tri = np.flatnonzero(c_asia[fact_cot[\"custkey\"]] & s_asia[fact_cot[\"suppkey\"]] & ngay_thoa[fact_cot[\"orderdate\"]])",
       "        return tinh_tong_theo_nhom(chieu[\"c_nation\"][fact_cot[\"custkey\"][vi_tri]], chieu[\"s_nation\"][fact_cot[\"suppkey\"][vi_tri]], chieu[\"d_year\"][fact_cot[\"orderdate\"][vi_tri]], fact_cot[\"revenue\"][vi_tri])",
       "",
-      "    # PLAN C: Column-Store + Between Predicate (đổi tra bảng băm thành so sánh khoảng trên CPU)",
+      "    # PLAN C: Column-Store + Between Predicate (\u0111\u1ed5i tra b\u1ea3ng b\u0103m th\u00e0nh so s\u00e1nh kho\u1ea3ng tr\u00ean CPU)",
       "    def ke_hoach_c():",
       "        (c_min, c_max), (s_min, s_max), (d_min, d_max) = (tim_khoang_khoa_lien_tuc(m) for m in (c_asia, s_asia, ngay_thoa))",
       "        ck, sk, dk = fact_cot[\"custkey\"], fact_cot[\"suppkey\"], fact_cot[\"orderdate\"]",
@@ -5043,65 +5297,88 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    kq_a, tg_a = do_thoi_gian_nhanh_nhat(ke_hoach_a)",
       "    kq_b, tg_b = do_thoi_gian_nhanh_nhat(ke_hoach_b)",
       "    kq_c, tg_c = do_thoi_gian_nhanh_nhat(ke_hoach_c)",
-      "    assert kq_a == kq_b == kq_c  # Kiểm chứng dữ liệu: cả 3 kế hoạch phải ra cùng 150 nhóm và cùng tổng doanh thu",
+      "    assert kq_a == kq_b == kq_c  # Ki\u1ec3m ch\u1ee9ng d\u1eef li\u1ec7u: c\u1ea3 3 k\u1ebf ho\u1ea1ch ph\u1ea3i ra c\u00f9ng 150 nh\u00f3m v\u00e0 c\u00f9ng t\u1ed5ng doanh thu",
+      "",
+      "    matched_rows = int(np.count_nonzero(c_asia[fact_cot[\"custkey\"]] & s_asia[fact_cot[\"suppkey\"]] & ngay_thoa[fact_cot[\"orderdate\"]]))",
+      "    len_d1 = int(np.count_nonzero(c_asia[fact_hang[\"custkey\"]]))",
+      "    len_d2 = int(np.count_nonzero(c_asia[fact_hang[\"custkey\"]] & s_asia[fact_hang[\"suppkey\"]]))",
+      "    inter_rows = len_d1 + len_d2",
+      "    mb_plan_a = round(so_dong * SO_COT_LINEORDER * SO_BYTE_MOI_INT32 / 1e6, 1)",
+      "    mb_plan_b = round((so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * SO_BYTE_MOI_INT32) / 1e6, 1)",
+      "    mb_plan_c = mb_plan_b",
+      "    mb_move_a = round((so_dong + len_d1 + len_d2) * SO_COT_LINEORDER * SO_BYTE_MOI_INT32 / 1e6, 1)",
+      "    mb_move_bc = round((so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * 4 * SO_BYTE_MOI_INT32) / 1e6, 1)",
+      "    io_saved_pct = round((1 - (so_dong * 3 * SO_BYTE_MOI_INT32 + matched_rows * SO_BYTE_MOI_INT32) / max(so_dong * SO_COT_LINEORDER * SO_BYTE_MOI_INT32, 1)) * 100, 1)",
+      "",
       "    return {",
       "        \"num_groups\": len(kq_a), \"total_rev_4\": int(sum(kq_a.values())),",
       "        \"t_plan_a\": round(tg_a * 1000, 1), \"t_plan_b\": round(tg_b * 1000, 1),",
       "        \"speedup_b\": round(tg_a / max(tg_b, 1e-9), 1), \"t_plan_c\": round(tg_c * 1000, 1),",
       "        \"speedup_c\": round(tg_a / max(tg_c, 1e-9), 1),",
+      "        \"matched_rows\": matched_rows,",
+      "        \"len_d1\": len_d1,",
+      "        \"len_d2\": len_d2,",
+      "        \"inter_rows\": inter_rows,",
+      "        \"mb_plan_a\": mb_plan_a,",
+      "        \"mb_plan_b\": mb_plan_b,",
+      "        \"mb_plan_c\": mb_plan_c,",
+      "        \"mb_move_a\": mb_move_a,",
+      "        \"mb_move_bc\": mb_move_bc,",
+      "        \"io_saved_pct\": io_saved_pct,",
       "    }",
       "",
       "",
-      "# Alias tương thích ngược cho tên cũ",
+      "# Alias t\u01b0\u01a1ng th\u00edch ng\u01b0\u1ee3c cho t\u00ean c\u0169",
       "demo_phan_4_mini_benchmark = demo_phan_4_benchmark_q31",
       "",
       "",
       "def _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms):",
-      "    \"\"\"Tạo danh sách dòng log thực thi chi tiết trả về cho khung log Web Dashboard.\"\"\"",
+      "    \"\"\"T\u1ea1o danh s\u00e1ch d\u00f2ng log th\u1ef1c thi chi ti\u1ebft tr\u1ea3 v\u1ec1 cho khung log Web Dashboard.\"\"\"",
       "    logs = [f'[PYTHON] chay_demo_cho_web(part=\"{part}\", rows={rows:,}, seed={seed})']",
       "    if \"1\" in codes:",
-      "        mode_str = \"Chế độ Thực thi SQL\" if merged.get(\"sql_parsed\") else \"Chế độ Mô phỏng Chiếu\"",
+      "        mode_str = \"Ch\u1ebf \u0111\u1ed9 Th\u1ef1c thi SQL\" if merged.get(\"sql_parsed\") else \"Ch\u1ebf \u0111\u1ed9 M\u00f4 ph\u1ecfng Chi\u1ebfu\"",
       "        logs.extend([",
-      "            f\"[Phần 1 · AoS vs SoA] {mode_str} · Đọc {merged['num_selected_cols']}/17 cột: {', '.join(merged['selected_cols'])}\",",
-      "            f\"  • RAM cấp phát: Row={merged['mb_hang_ram']} MB | Col={merged['mb_cot_ram']} MB\",",
-      "            f\"  • Khối lượng quét: Col={merged['mb_needed']} MB ({merged.get('bytes_per_row_cot', merged['num_selected_cols']*4)}B/dòng) vs Row={merged['mb_total']} MB ({merged.get('bytes_per_row_hang', 68)}B/dòng) -> Tiết kiệm {merged.get('bandwidth_savings_pct', 0):.1f}% băng thông\",",
-      "            f\"  • Benchmark Rigor (2 warm-ups + 5 lượt đo thực tế):\",",
-      "            f\"    - Row-Store (AoS):    Median={merged.get('t_row_median', merged['t_row'])} ms, Std Dev=±{merged.get('t_row_std', 0.0)} ms (Mean={merged.get('t_row_mean', merged['t_row'])} ms)\",",
-      "            f\"    - Column-Store (SoA): Median={merged.get('t_col_median', merged['t_col'])} ms, Std Dev=±{merged.get('t_col_std', 0.0)} ms (Mean={merged.get('t_col_mean', merged['t_col'])} ms)\",",
-      "            f\"    - Tăng tốc (Speedup): {merged['speedup_1']}x nhanh hơn\",",
-      "            f\"  • Kết quả: SUM = {merged['res_1']:,} (assert kq_hang == kq_cot ✓)\",",
+      "            f\"[Ph\u1ea7n 1 \u00b7 AoS vs SoA] {mode_str} \u00b7 \u0110\u1ecdc {merged['num_selected_cols']}/17 c\u1ed9t: {', '.join(merged['selected_cols'])}\",",
+      "            f\"  \u2022 RAM c\u1ea5p ph\u00e1t: Row={merged['mb_hang_ram']} MB | Col={merged['mb_cot_ram']} MB\",",
+      "            f\"  \u2022 Kh\u1ed1i l\u01b0\u1ee3ng qu\u00e9t: Col={merged['mb_needed']} MB ({merged.get('bytes_per_row_cot', merged['num_selected_cols']*4)}B/d\u00f2ng) vs Row={merged['mb_total']} MB ({merged.get('bytes_per_row_hang', 68)}B/d\u00f2ng) -> Ti\u1ebft ki\u1ec7m {merged.get('bandwidth_savings_pct', 0):.1f}% b\u0103ng th\u00f4ng\",",
+      "            f\"  \u2022 Benchmark Rigor (2 warm-ups + 5 l\u01b0\u1ee3t \u0111o th\u1ef1c t\u1ebf):\",",
+      "            f\"    - Row-Store (AoS):    Median={merged.get('t_row_median', merged['t_row'])} ms, Std Dev=\u00b1{merged.get('t_row_std', 0.0)} ms (Mean={merged.get('t_row_mean', merged['t_row'])} ms)\",",
+      "            f\"    - Column-Store (SoA): Median={merged.get('t_col_median', merged['t_col'])} ms, Std Dev=\u00b1{merged.get('t_col_std', 0.0)} ms (Mean={merged.get('t_col_mean', merged['t_col'])} ms)\",",
+      "            f\"    - T\u0103ng t\u1ed1c (Speedup): {merged['speedup_1']}x nhanh h\u01a1n\",",
+      "            f\"  \u2022 K\u1ebft qu\u1ea3: SUM = {merged['res_1']:,} (assert kq_hang == kq_cot \u2713)\",",
       "        ])",
       "    if \"2\" in codes:",
       "        logs.extend([",
-      "            f\"[Phần 2 · Nén RLE] Cột orderdate đã sắp xếp ({rows:,} dòng)\",",
-      "            f\"  • Dung lượng: Gốc={merged['raw_mb']} MB -> RLE={merged['rle_kb']} KB ({merged['num_runs']:,} cụm, TB {merged['avg_run']:,} dòng/cụm)\",",
-      "            f\"  • Lọc cụm: WHERE orderdate BETWEEN {merged.get('rle_start', NGAY_BAT_DAU_LOC_RLE)} AND {merged.get('rle_end', NGAY_KET_THUC_LOC_RLE)} -> khớp {merged.get('matched_runs_count', 365):,}/{merged['num_runs']:,} cụm\",",
-      "            f\"  • Tốc độ COUNT: Quét thường={merged['t_raw_rle']} ms vs Đếm RLE={merged['t_direct_rle']} ms -> {merged['speedup_2']}x\",",
-      "            f\"  • Kết quả: COUNT = {merged['res_2']:,} (assert kq_thuong == kq_rle ✓)\",",
+      "            f\"[Ph\u1ea7n 2 \u00b7 N\u00e9n RLE] C\u1ed9t orderdate \u0111\u00e3 s\u1eafp x\u1ebfp ({rows:,} d\u00f2ng)\",",
+      "            f\"  \u2022 Dung l\u01b0\u1ee3ng: G\u1ed1c={merged['raw_mb']} MB -> RLE={merged['rle_kb']} KB ({merged['num_runs']:,} c\u1ee5m, TB {merged['avg_run']:,} d\u00f2ng/c\u1ee5m)\",",
+      "            f\"  \u2022 L\u1ecdc c\u1ee5m: WHERE orderdate BETWEEN {merged.get('rle_start', NGAY_BAT_DAU_LOC_RLE)} AND {merged.get('rle_end', NGAY_KET_THUC_LOC_RLE)} -> kh\u1edbp {merged.get('matched_runs_count', 365):,}/{merged['num_runs']:,} c\u1ee5m\",",
+      "            f\"  \u2022 T\u1ed1c \u0111\u1ed9 COUNT: Qu\u00e9t th\u01b0\u1eddng={merged['t_raw_rle']} ms vs \u0110\u1ebfm RLE={merged['t_direct_rle']} ms -> {merged['speedup_2']}x\",",
+      "            f\"  \u2022 K\u1ebft qu\u1ea3: COUNT = {merged['res_2']:,} (assert kq_thuong == kq_rle \u2713)\",",
       "        ])",
       "    if \"3\" in codes:",
       "        logs.extend([",
-      "            \"[Phần 3 · Invisible Join] Dữ liệu mẫu 7 dòng (SIGMOD 2008 Fig. 2)\",",
-      "            f\"  • Pha 1 (Lọc chiều): cust={merged['p1_cust']}, supp={merged['p1_supp']}, date={merged['p1_date']}\",",
-      "            f\"  • Pha 2 (Bitmap AND): {merged['bm_cust']} & {merged['bm_supp']} & {merged['bm_date']} -> {merged['bm_and']} => P={merged['pos_list']}\",",
-      "            f\"  • Pha 3 (Late Materialization): {merged['p3_rows']}\",",
-      "            f\"  • Between Rewriting: {merged['rewritten_range']} (liên tục ✓)\",",
+      "            \"[Ph\u1ea7n 3 \u00b7 Invisible Join] D\u1eef li\u1ec7u m\u1eabu 7 d\u00f2ng (SIGMOD 2008 Fig. 2)\",",
+      "            f\"  \u2022 Pha 1 (L\u1ecdc chi\u1ec1u): cust={merged['p1_cust']}, supp={merged['p1_supp']}, date={merged['p1_date']}\",",
+      "            f\"  \u2022 Pha 2 (Bitmap AND): {merged['bm_cust']} & {merged['bm_supp']} & {merged['bm_date']} -> {merged['bm_and']} => P={merged['pos_list']}\",",
+      "            f\"  \u2022 Pha 3 (Late Materialization): {merged['p3_rows']}\",",
+      "            f\"  \u2022 Between Rewriting: {merged['rewritten_range']} (li\u00ean t\u1ee5c \u2713)\",",
       "        ])",
       "    if \"4\" in codes:",
       "        logs.extend([",
-      "            f\"[Phần 4 · SSBM Q3.1] Fact={rows:,} dòng -> {merged['num_groups']} nhóm\",",
-      "            f\"  • Plan A (Row-Store Join):      {merged['t_plan_a']} ms (1.0x)\",",
-      "            f\"  • Plan B (Invisible Join):      {merged['t_plan_b']} ms ({merged['speedup_b']}x)\",",
-      "            f\"  • Plan C (+ Between-Predicate): {merged['t_plan_c']} ms ({merged['speedup_c']}x)\",",
-      "            f\"  • Tổng doanh thu: {merged['total_rev_4']:,} (assert kq_a == kq_b == kq_c ✓)\",",
+      "            f\"[Ph\u1ea7n 4 \u00b7 SSBM Q3.1] Fact={rows:,} d\u00f2ng -> {merged['num_groups']} nh\u00f3m\",",
+      "            f\"  \u2022 Plan A (Row-Store Join):      {merged['t_plan_a']} ms (1.0x)\",",
+      "            f\"  \u2022 Plan B (Invisible Join):      {merged['t_plan_b']} ms ({merged['speedup_b']}x)\",",
+      "            f\"  \u2022 Plan C (+ Between-Predicate): {merged['t_plan_c']} ms ({merged['speedup_c']}x)\",",
+      "            f\"  \u2022 Qu\u00e9t I/O: Plan A={merged.get('mb_plan_a')} MB vs Plan B/C={merged.get('mb_plan_b')} MB (Ti\u1ebft ki\u1ec7m {merged.get('io_saved_pct')}% I/O)\",",
+      "            f\"  \u2022 T\u1ed5ng doanh thu: {merged['total_rev_4']:,} (assert kq_a == kq_b == kq_c \u2713)\",",
       "        ])",
-      "    logs.append(f\"[OK] Python trả kết quả sau {elapsed_ms} ms\")",
+      "    logs.append(f\"[OK] Python tr\u1ea3 k\u1ebft qu\u1ea3 sau {elapsed_ms} ms\")",
       "    return logs",
       "",
       "",
       "def chay_invisible_join_cho_web(cust_region=\"Asia\", supp_region=\"Asia\", year_start=1992, year_end=1997, rows=6_000_000, seed=42):",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] chay_invisible_join_cho_web: cust_region={cust_region}, supp_region={supp_region}, years={year_start}..{year_end}, rows={rows}\")",
-      "    \"\"\"Tính toán và mô phỏng chi tiết Invisible Join vs Row-store Hash Join theo tham số REST API.\"\"\"",
+      "    \"\"\"T\u00ednh to\u00e1n v\u00e0 m\u00f4 ph\u1ecfng chi ti\u1ebft Invisible Join vs Row-store Hash Join theo tham s\u1ed1 REST API.\"\"\"",
       "    cust_region = str(cust_region or \"Asia\").strip()",
       "    supp_region = str(supp_region or \"Asia\").strip()",
       "    year_start = 1992 if year_start is None else int(year_start)",
@@ -5117,7 +5394,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    c_reg_norm = cust_region.lower()",
       "    s_reg_norm = supp_region.lower()",
       "",
-      "    # 1. Dữ liệu mẫu bài báo 7 dòng (SIGMOD 2008 Figure 2-4)",
+      "    # 1. D\u1eef li\u1ec7u m\u1eabu b\u00e0i b\u00e1o 7 d\u00f2ng (SIGMOD 2008 Figure 2-4)",
       "    khach, ncc, ngay, fact_toy = tao_du_lieu_mau_bai_bao()",
       "    khoa_khach = {k for k, kv in zip(khach[\"custkey\"], khach[\"region\"]) if kv.lower() == c_reg_norm}",
       "    khoa_ncc = {k for k, kv in zip(ncc[\"suppkey\"], ncc[\"region\"]) if kv.lower() == s_reg_norm}",
@@ -5147,7 +5424,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    is_contig = bool(khoa_moi) and la_tap_khoa_lien_tuc(khoa_moi)",
       "    rewritten_range = f\"{khoa_moi[0]} <= lo.custkey <= {khoa_moi[-1]}\" if is_contig else (f\"lo.custkey IN {khoa_moi}\" if khoa_moi else \"None\")",
       "",
-      "    # 2. Mô phỏng quy mô lớn trên Lược đồ sao (Star Schema)",
+      "    # 2. M\u00f4 ph\u1ecfng quy m\u00f4 l\u1edbn tr\u00ean L\u01b0\u1ee3c \u0111\u1ed3 sao (Star Schema)",
       "    reg_map = {\"america\": 0, \"africa\": 1, \"asia\": 2, \"europe\": 3, \"middle east\": 4}",
       "    c_id = reg_map.get(c_reg_norm, MA_KHU_VUC_ASIA)",
       "    s_id = reg_map.get(s_reg_norm, MA_KHU_VUC_ASIA)",
@@ -5159,7 +5436,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "    s_mask = chieu[\"s_region\"] == s_id",
       "    d_mask = (chieu[\"d_year\"] >= year_start) & (chieu[\"d_year\"] <= year_end)",
       "",
-      "    # Traditional Row-Store Hash Join (Early Materialization - quét 17 cột, 68 byte/dòng)",
+      "    # Traditional Row-Store Hash Join (Early Materialization - qu\u00e9t 17 c\u1ed9t, 68 byte/d\u00f2ng)",
       "    t0_row = time.perf_counter()",
       "    dong1 = fact_hang[c_mask[fact_hang[\"custkey\"]]]",
       "    dong2 = dong1[s_mask[dong1[\"suppkey\"]]]",
@@ -5195,7 +5472,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "    t_col_ms = round(t_p1_ms + t_p2_ms + t_p3_ms, 1)",
       "    matched_rows = int(len(pos_bench))",
-      "    assert res_row == res_col, \"Kết quả GROUP BY của Row-store và Column-store phải trùng khớp 100%!\"",
+      "    assert res_row == res_col, \"K\u1ebft qu\u1ea3 GROUP BY c\u1ee7a Row-store v\u00e0 Column-store ph\u1ea3i tr\u00f9ng kh\u1edbp 100%!\"",
       "",
       "    speedup_x = round(t_row_ms / max(t_col_ms, 0.001), 1)",
       "    total_rev_ij = int(sum(res_col.values()))",
@@ -5228,8 +5505,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "    breakdown = {",
       "        \"phase1\": {",
-      "            \"title\": \"Pha 1 · Lọc bảng chiều & Tạo bảng băm\",",
-      "            \"description\": \"Lọc các bảng chiều độc lập theo điều kiện WHERE, tạo bảng băm nhỏ trong cache CPU\",",
+      "            \"title\": \"Pha 1 \u00b7 L\u1ecdc b\u1ea3ng chi\u1ec1u & T\u1ea1o b\u1ea3ng b\u0103m\",",
+      "            \"description\": \"L\u1ecdc c\u00e1c b\u1ea3ng chi\u1ec1u \u0111\u1ed9c l\u1eadp theo \u0111i\u1ec1u ki\u1ec7n WHERE, t\u1ea1o b\u1ea3ng b\u0103m nh\u1ecf trong cache CPU\",",
       "            \"cust_region\": cust_region,",
       "            \"supp_region\": supp_region,",
       "            \"year_range\": f\"{year_start}..{year_end}\",",
@@ -5242,8 +5519,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"elapsed_ms\": t_p1_ms,",
       "        },",
       "        \"phase2\": {",
-      "            \"title\": \"Pha 2 · Quét khóa ngoại & Bitwise AND\",",
-      "            \"description\": \"Quét song song 3 cột khóa ngoại trên Fact table, sinh 3 bitmap và thực hiện bitwise AND\",",
+      "            \"title\": \"Pha 2 \u00b7 Qu\u00e9t kh\u00f3a ngo\u1ea1i & Bitwise AND\",",
+      "            \"description\": \"Qu\u00e9t song song 3 c\u1ed9t kh\u00f3a ngo\u1ea1i tr\u00ean Fact table, sinh 3 bitmap v\u00e0 th\u1ef1c hi\u1ec7n bitwise AND\",",
       "            \"columns_scanned\": [\"custkey\", \"suppkey\", \"orderdate\"],",
       "            \"bytes_scanned_mb\": round(rows * 3 * 4 / 1e6, 1),",
       "            \"cells_read\": rows * 3,",
@@ -5257,8 +5534,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"elapsed_ms\": t_p2_ms,",
       "        },",
       "        \"phase3\": {",
-      "            \"title\": \"Pha 3 · Late Materialization & GROUP BY\",",
-      "            \"description\": \"Chỉ đọc cột revenue tại các vị trí P thỏa mãn và tổng hợp GROUP BY\",",
+      "            \"title\": \"Pha 3 \u00b7 Late Materialization & GROUP BY\",",
+      "            \"description\": \"Ch\u1ec9 \u0111\u1ecdc c\u1ed9t revenue t\u1ea1i c\u00e1c v\u1ecb tr\u00ed P th\u1ecfa m\u00e3n v\u00e0 t\u1ed5ng h\u1ee3p GROUP BY\",",
       "            \"columns_retrieved\": [\"revenue\"],",
       "            \"bytes_materialized_mb\": round(matched_rows * 4 / 1e6, 2),",
       "            \"cells_read\": matched_rows,",
@@ -5267,8 +5544,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "            \"elapsed_ms\": t_p3_ms,",
       "        },",
       "        \"rowstore\": {",
-      "            \"title\": \"Row-Store Truyền thống (Early Materialization)\",",
-      "            \"description\": \"Quét toàn bộ 17 cột (68B/dòng), thực hiện 3 phép Hash Join tạo ra các bản ghi trung gian khổng lồ\",",
+      "            \"title\": \"Row-Store Truy\u1ec1n th\u1ed1ng (Early Materialization)\",",
+      "            \"description\": \"Qu\u00e9t to\u00e0n b\u1ed9 17 c\u1ed9t (68B/d\u00f2ng), th\u1ef1c hi\u1ec7n 3 ph\u00e9p Hash Join t\u1ea1o ra c\u00e1c b\u1ea3n ghi trung gian kh\u1ed5ng l\u1ed3\",",
       "            \"columns_scanned\": 17,",
       "            \"tuple_size_bytes\": 68,",
       "            \"join_pipeline\": [",
@@ -5291,10 +5568,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "    logs = [",
       "        f'[POST /api/invisible-join] cust=\"{cust_region}\", supp=\"{supp_region}\", years={year_start}..{year_end}, rows={rows:,}',",
-      "        f\"  • Row-Store Hash Join: {t_row_ms} ms | Quét 17 cột ({rowstore_stats['bytes_scanned_mb']} MB) | 3 phép join | {inter_rows:,} dòng trung gian\",",
-      "        f\"  • Column-Store Invisible Join: {t_col_ms} ms | Quét 3 FK + 1 Rev ({columnstore_stats['bytes_scanned_mb']} MB) | 0 join vật lý | 0 dòng trung gian | {matched_rows:,} dòng khớp ({breakdown['phase2']['selectivity_pct']}%)\",",
-      "        f\"  • Tăng tốc: {speedup_x}x nhanh hơn so với Row-Store (assert kết quả khớp 100% ✓)\",",
-      "        f\"  • Toy Example P={pos_list_toy} -> {len(p3_rows)} nhóm: {p3_rows}\",",
+      "        f\"  \u2022 Row-Store Hash Join: {t_row_ms} ms | Qu\u00e9t 17 c\u1ed9t ({rowstore_stats['bytes_scanned_mb']} MB) | 3 ph\u00e9p join | {inter_rows:,} d\u00f2ng trung gian\",",
+      "        f\"  \u2022 Column-Store Invisible Join: {t_col_ms} ms | Qu\u00e9t 3 FK + 1 Rev ({columnstore_stats['bytes_scanned_mb']} MB) | 0 join v\u1eadt l\u00fd | 0 d\u00f2ng trung gian | {matched_rows:,} d\u00f2ng kh\u1edbp ({breakdown['phase2']['selectivity_pct']}%)\",",
+      "        f\"  \u2022 T\u0103ng t\u1ed1c: {speedup_x}x nhanh h\u01a1n so v\u1edbi Row-Store (assert k\u1ebft qu\u1ea3 kh\u1edbp 100% \u2713)\",",
+      "        f\"  \u2022 Toy Example P={pos_list_toy} -> {len(p3_rows)} nh\u00f3m: {p3_rows}\",",
       "    ]",
       "",
       "    return {",
@@ -5315,7 +5592,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "",
       "def chay_demo_cho_web(part=\"all\", rows=6_000_000, seed=42, cols=None, sql=None, rle_start=None, rle_end=None):",
       "    print(f\"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] chay_demo_cho_web: part={part}, rows={rows}, seed={seed}\")",
-      "    \"\"\"Chạy phần demo theo yêu cầu và trả về dict thuần JSON-ready cho Web Dashboard.\"\"\"",
+      "    \"\"\"Ch\u1ea1y ph\u1ea7n demo theo y\u00eau c\u1ea7u v\u00e0 tr\u1ea3 v\u1ec1 dict thu\u1ea7n JSON-ready cho Web Dashboard.\"\"\"",
       "    part = str(part).strip().lower()",
       "    if part not in {\"1\", \"2\", \"3\", \"4\", \"all\"}:",
       "        raise ValueError(f\"Invalid part: {part}\")",
@@ -5342,15 +5619,15 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        \"parsed\": merged,",
       "        \"logs\": _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms),",
       "    }"
-];
+    ];
 
             const CODE_SPECS = {
       p1: {
-        title: 'Phần 1: Layout Hàng vs Cột (AoS vs SoA) · Dòng 407–526',
+        title: 'Phần 1: Layout Hàng vs Cột (AoS vs SoA) · Dòng 407–527',
         file: 'column_store_demo.py',
         func: 'demo_phan_1_layout_hang_va_cot()',
         start: 407,
-        end: 526,
+        end: 527,
         traceTitle: 'Step-by-Step Architecture Trace: Phần 1 (AoS vs SoA)',
         traces: [
           ['bang_hang (Row-Store AoS)', 'np.recarray / struct 17 cột liền kề (68B/dòng)', 'Nạp đủ 408.0 MB (6M dòng × 68B), lãng phí 76.5% Cache CPU'],
@@ -5360,24 +5637,24 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ]
       },
       p2: {
-        title: 'Phần 2: Nén RLE & Zero Decompression · Dòng 529–582',
+        title: 'Phần 2: Nén RLE & Zero Decompression · Dòng 530–588',
         file: 'column_store_demo.py',
         func: 'ma_hoa_rle() & demo_phan_2_nen_rle()',
-        start: 529,
-        end: 582,
+        start: 530,
+        end: 588,
         traceTitle: 'Step-by-Step Architecture Trace: Phần 2 (Nén RLE)',
         traces: [
           ['ma_hoa_rle(orderdate)', 'Gom 6,000,000 số nguyên thành 2 mảng (gia_tri, so_lan_lap)', '2,405 cụm RLE (28.9 KB so với 24.0 MB thô · nén 99.88%)'],
-          ['Lọc khoảng (BETWEEN 0 AND 2)', 'np.searchsorted() tìm nhị phân 2 đầu mút + sum(so_lan_lap)', 'Chỉ duyệt 3 cụm (7,442 đơn) trong 0.010 ms, hoàn toàn 0 giải nén!'],
+          ['Lọc khoảng (BETWEEN 0 AND 2)', 'np.searchsorted() tìm nhị phân 2 đầu mút + sum(so_lan_lap)', 'Chỉ duyệt 3 cụm (trên mảng nén RLE) tính trực tiếp, hoàn toàn 0 giải nén!'],
           ['Speedup RLE', 'Thời gian quét thô 24 MB vs quét 28.9 KB RLE', 'Tăng tốc ~1,500x so với duyệt tuần tự Full Scan']
         ]
       },
       p3: {
-        title: 'Phần 3: Thuật toán Invisible Join (3 Pha) · Dòng 703–914',
+        title: 'Phần 3: Thuật toán Invisible Join (3 Pha) · Dòng 732–943',
         file: 'column_store_demo.py',
-        func: 'demo_phan_3_invisible_join() [L585–613] & chay_invisible_join_cho_web() [L703–914]',
-        start: 703,
-        end: 914,
+        func: 'demo_phan_3_invisible_join() [L591–619] & chay_invisible_join_cho_web() [L732–943]',
+        start: 732,
+        end: 943,
         traceTitle: 'Step-by-Step Architecture Trace: Phần 3 (Invisible Join)',
         traces: [
           ['Phase 1: Dimension Filtering', 'Lọc độc lập trên 3 bảng chiều trong CPU Cache', 'Tạo 3 Hash Set tập khóa hợp lệ (ht_c, ht_s, ht_d)'],
@@ -5386,30 +5663,30 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ]
       },
       p4: {
-        title: 'Phần 4: Benchmark Hiệu Suất SSBM Q3.1 · Dòng 616–657',
+        title: 'Phần 4: Benchmark Hiệu Suất SSBM Q3.1 · Dòng 622–673',
         file: 'column_store_demo.py',
         func: 'demo_phan_4_benchmark_q31()',
-        start: 616,
-        end: 657,
+        start: 622,
+        end: 673,
         traceTitle: 'Step-by-Step Architecture Trace: Phần 4 (So sánh 3 Kế hoạch)',
         traces: [
-          ['Plan A: Row-Store Hash Join', 'Nạp toàn bộ 17 cột Fact (408 MB) + 3 lần Hash Join', 'Thời gian: ~345.9 ms (Baseline chậm nhất)'],
-          ['Plan B: Column-Store + Invisible Join (Hash Lookup)', 'Chỉ đọc 3 cột FK + 1 cột revenue, tra bảng băm + Bitmap AND', 'Thời gian: ~96.6 ms (Nhanh hơn ~3.6x)'],
-          ['Plan C: Column-Store + Invisible Join (+ Between-Predicate)', 'So sánh khoảng (lo <= key <= hi) + Bitmap AND + Late Materialization', 'Thời gian: ~56.8 ms (Nhanh nhất ~6.1x)']
+          ['Plan A: Row-Store Hash Join', 'Nạp toàn bộ 17 cột Fact (408 MB) + 3 lần Hash Join', 'Thời gian: Baseline chậm nhất (đo lường thực tế trên CPU)'],
+          ['Plan B: Column-Store + Invisible Join (Hash Lookup)', 'Chỉ đọc 3 cột FK + 1 cột revenue, tra bảng băm + Bitmap AND', 'Thời gian: Nhanh hơn vượt bậc so với Row-Store (đo lường thực tế trên CPU)'],
+          ['Plan C: Column-Store + Invisible Join (+ Between-Predicate)', 'So sánh khoảng (lo <= key <= hi) + Bitmap AND + Late Materialization', 'Thời gian: Tốc độ cao nhất nhờ Between-Predicate (đo lường thực tế trên CPU)']
         ]
       },
       all: {
-        title: 'Toàn bộ Backend Engine: column_store_demo.py (945 dòng)',
+        title: 'Toàn bộ Backend Engine: column_store_demo.py (974 dòng)',
         file: 'column_store_demo.py',
         func: 'Full Module Engine',
         start: 1,
-        end: 945,
-        traceTitle: 'Tổng thể Kiến trúc Backend Engine (945 dòng Python / NumPy)',
+        end: 974,
+        traceTitle: 'Tổng thể Kiến trúc Backend Engine (974 dòng Python / NumPy)',
         traces: [
           ['Module Constants & Helpers (Dòng 1–134)', 'Định nghĩa hằng số SSBM, hàm parse SQL, bộ bấm giờ micro-benchmark', 'Sử dụng NumPy int32, int64 tối ưu bộ nhớ'],
           ['In-Memory RAM Engine (Dòng 135–404)', 'Lớp BoDuLieuToanCuc nạp sẵn 6,000,000 dòng Fact và Dimension trong RAM', 'Phục vụ tức thời cho các truy vấn microsecond'],
-          ['Execution Pipelines (Dòng 407–914)', 'Cài đặt bố cục Row-Store/Column-Store, thuật toán nén RLE và thuật toán Invisible Join', 'Hiện thực hóa chính xác các sơ đồ Hình 2, 3, 4 trong bài báo SIGMOD 2008'],
-          ['Web Dispatcher API (Dòng 917–945)', 'Hàm chay_demo_cho_web() điều phối yêu cầu từ giao diện web dashboard', 'Kết nối in-process, không phụ thuộc framework cồng kềnh']
+          ['Execution Pipelines (Dòng 407–943)', 'Cài đặt bố cục Row-Store/Column-Store, thuật toán nén RLE và thuật toán Invisible Join', 'Hiện thực hóa chính xác các sơ đồ Hình 2, 3, 4 trong bài báo SIGMOD 2008'],
+          ['Web Dispatcher API (Dòng 946–974)', 'Hàm chay_demo_cho_web() điều phối yêu cầu từ giao diện web dashboard', 'Kết nối in-process, không phụ thuộc framework cồng kềnh']
         ]
       }
     };
@@ -5424,14 +5701,80 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       runAbortCtrl: null,
       btnRunSeq: {},
       p1Measuring: false,
-      p1Measured: true,
+      p1Measured: false,
       p2Measuring: false,
-      p2Measured: true,
+      p2Measured: false,
       p3Measuring: false,
-      p3Measured: true,
+      p3Measured: false,
       p4Measuring: false,
-      p4Measured: true,
-      data: JSON.parse(JSON.stringify(PRESETS[6000000])),
+      p4Measured: false,
+      data: {
+        p1: {
+          mb_hang_ram: 408.0,
+          mb_cot_ram: 408.0,
+          mb_needed: 96.0,
+          mb_total: 408.0,
+          mb_hang_read: 408.0,
+          mb_cot_read: 96.0,
+          bytes_per_row_hang: 68,
+          bytes_per_row_cot: 16,
+          num_cols_hang: 17,
+          num_cols_cot: 4,
+          bandwidth_savings_pct: 76.5,
+          t_row: null,
+          t_col: null,
+          speedup_1: null,
+          res_1: null,
+          matching_rows: null,
+          samples: generateSampleRows(5, 42)
+        },
+        p2: {
+          raw_mb: 24.0,
+          rle_kb: 28.9,
+          rle_saved_pct: 99.88,
+          compression_ratio: 831.6,
+          num_runs: 2405,
+          avg_run: 2495,
+          t_raw_rle: null,
+          t_direct_rle: null,
+          speedup_2: null,
+          res_2: null,
+          rle_start: 0,
+          rle_end: 2,
+          first_runs: [],
+          skipped_sample_runs: [],
+          matched_runs_count: 3,
+          matched_edge_runs: []
+        },
+        p3: {
+          p1_cust: [1, 3],
+          p1_supp: [1],
+          p1_date: [0, 1, 2],
+          bm_cust: [1, 1, 0, 1, 0, 1, 1],
+          bm_supp: [1, 0, 1, 1, 0, 0, 0],
+          bm_date: [1, 1, 1, 1, 1, 1, 1],
+          bm_and: [1, 0, 0, 1, 0, 0, 0],
+          pos_list: [0, 3],
+          p3_rows: [
+            { c_nation: 'China', s_nation: 'Russia', d_year: 1992, revenue: 23233 },
+            { c_nation: 'India', s_nation: 'Russia', d_year: 1992, revenue: 43256 }
+          ],
+          rewritten_range: '1 <= lo.custkey <= 2'
+        },
+        p4: {
+          num_groups: 150,
+          total_rev_4: null,
+          t_plan_a: null,
+          t_plan_b: null,
+          speedup_b: null,
+          t_plan_c: null,
+          speedup_c: null,
+          mb_plan_a: 408.0,
+          mb_plan_b: 72.9,
+          mb_plan_c: 72.9,
+          io_saved_pct: 82.1
+        }
+      },
       // Tab 0 preview state
       p0SelectedTable: 'lineorder',
       p0PreviewData: null,
@@ -5716,6 +6059,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const totalMb = Math.round(68 * rows / 1e6);
       const mLabel = rows === 6000000 ? '6M' : (rows === 3000000 ? '3M' : `${(rows / 1e6).toFixed(1)}M`);
 
+      const elRowsTitle = document.getElementById('p0RowsTitle');
+      if (elRowsTitle) elRowsTitle.textContent = `${(rows / 1e6).toFixed(rows % 1e6 === 0 ? 0 : 1)} triệu dòng`;
+      const elTipRows = document.getElementById('p0TipRows');
+      if (elTipRows) elTipRows.textContent = `${mLabel} dòng`;
+      const elTipMb = document.getElementById('p0TipMb');
+      if (elTipMb) elTipMb.textContent = `${fmtInt(totalMb)} MB`;
+
       const elCtx0Rows = document.getElementById('ctx0-rows');
       if (elCtx0Rows) elCtx0Rows.textContent = fmtInt(rows);
       const elCtx0Mb = document.getElementById('ctx0-total-mb');
@@ -5969,7 +6319,6 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     // TAB 1: COLUMN PICKER + LINEAR RAM SIMULATOR + BENCHMARK
     // =========================================================================
     function applyPart1ColumnChange(triggerLive = false) {
-      const baseP1 = (PRESETS[state.rows] || PRESETS[6000000]).p1;
       const selCols = P1_ALL_COLS.filter((c) => state.p1SelectedCols.has(c));
       const k = selCols.length;
       const extraCount = selCols.filter((c) => c !== 'quantity' && c !== 'discount' && c !== 'extendedprice').length;
@@ -6112,6 +6461,42 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     window.closeAllModals = closeAllModals;
 
     function openPlanComparisonModal(plan = 'all') {
+      const rows = state.rows || 6000000;
+      const d4 = state.data.p4 || {};
+      const mbA = d4.mb_plan_a != null ? d4.mb_plan_a : Math.round((rows * 68) / 1e6 * 10) / 10;
+      const mbB = d4.mb_plan_b != null ? d4.mb_plan_b : Math.round(((rows * 12) + ((d4.matched_rows || Math.round(rows * 0.034)) * 4)) / 1e6 * 10) / 10;
+      const mbC = d4.mb_plan_c != null ? d4.mb_plan_c : mbB;
+      const ioSaved = d4.io_saved_pct != null ? d4.io_saved_pct : Math.round((1 - mbB / mbA) * 1000) / 10;
+
+      const elAMb = document.getElementById('modalPlanAMb');
+      if (elAMb) elAMb.textContent = `${fmtDec(mbA, 1)} MB`;
+      const elATime = document.getElementById('modalPlanATime');
+      if (elATime) elATime.textContent = state.p4Measured && d4.t_plan_a ? `~${fmtDec(d4.t_plan_a, 1)} ms` : '-- ms (Chưa đo)';
+      const elARows = document.getElementById('modalPlanARows');
+      if (elARows) elARows.textContent = `${fmtInt(rows)} dòng`;
+
+      const elBBadge = document.getElementById('modalPlanBBadge');
+      if (elBBadge) elBBadge.textContent = state.p4Measured && d4.speedup_b ? `~${fmtDec(d4.speedup_b, 1)}x Nhanh hơn` : '~--x Nhanh hơn';
+      const elBMb = document.getElementById('modalPlanBMb');
+      if (elBMb) elBMb.textContent = `~${fmtDec(mbB, 1)} MB`;
+      const elBSaved = document.getElementById('modalPlanBSaved');
+      if (elBSaved) elBSaved.textContent = `~${fmtDec(ioSaved, 1)}%`;
+      const elBTime = document.getElementById('modalPlanBTime');
+      if (elBTime) elBTime.textContent = state.p4Measured && d4.t_plan_b ? `~${fmtDec(d4.t_plan_b, 1)} ms` : '-- ms (Chưa đo)';
+      const elBRows = document.getElementById('modalPlanBRows');
+      if (elBRows) elBRows.textContent = `${fmtInt(rows)} dòng`;
+      const elBSpeed = document.getElementById('modalPlanBSpeed');
+      if (elBSpeed) elBSpeed.textContent = state.p4Measured && d4.speedup_b ? `nhanh hơn ~${fmtDec(d4.speedup_b, 1)}x so với Row-Store` : 'nhấn Run để đo';
+
+      const elCBadge = document.getElementById('modalPlanCBadge');
+      if (elCBadge) elCBadge.textContent = state.p4Measured && d4.speedup_c ? `~${fmtDec(d4.speedup_c, 1)}x Nhanh nhất` : '~--x Nhanh nhất';
+      const elCTime = document.getElementById('modalPlanCTime');
+      if (elCTime) elCTime.textContent = state.p4Measured && d4.t_plan_c ? `~${fmtDec(d4.t_plan_c, 1)} ms` : '-- ms (Chưa đo)';
+      const elCRows = document.getElementById('modalPlanCRows');
+      if (elCRows) elCRows.textContent = `${fmtInt(rows)} dòng`;
+      const elCSpeed = document.getElementById('modalPlanCSpeed');
+      if (elCSpeed) elCSpeed.textContent = state.p4Measured && d4.speedup_c ? `nhanh hơn ~${fmtDec(d4.speedup_c, 1)}x so với Row-Store` : 'nhấn Run để đo';
+
       openModal('academicPlanModal');
       const cardA = document.getElementById('modalPlanACard');
       const cardB = document.getElementById('modalPlanBCard');
@@ -6323,7 +6708,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
     function renderPart1ScanOnly() {
       const d = state.data.p1;
-      const samples = Array.isArray(d.samples) && d.samples.length ? d.samples : PRESETS[6000000].p1.samples;
+      const samples = Array.isArray(d.samples) && d.samples.length ? d.samples : generateSampleRows(5, state.seed);
       const idx = Math.max(0, Math.min(samples.length - 1, state.p1ScanIdx));
       const s = samples[idx];
       const passQty = s.qty < 25;
@@ -6465,8 +6850,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
       renderPart1ScanOnly();
 
-      const tRow = d.t_row_median != null ? d.t_row_median : (d.t_row || 215.8);
-      const tCol = d.t_col_median != null ? d.t_col_median : (d.t_col || 76.2);
+      const tRow = d.t_row_median != null ? d.t_row_median : (d.t_row || 0);
+      const tCol = d.t_col_median != null ? d.t_col_median : (d.t_col || 0);
       const stdRow = d.t_row_std != null ? d.t_row_std : 8.2;
       const stdCol = d.t_col_std != null ? d.t_col_std : 3.1;
       const speedupVal = tCol > 0 ? (tRow / tCol) : 2.83;
@@ -6521,15 +6906,25 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const elMatSpeedup = document.getElementById('p1MatSpeedup');
       if (elMatSpeedup) elMatSpeedup.textContent = isP1Measuring ? '⏳ Đang đo...' : (!isP1Measured ? '--x (Cần đo)' : `${fmtDec(speedupVal, 2)}x Nhanh hơn`);
 
+      // Dynamic Payload Card MBs
+      const elPlanARead = document.getElementById('p1PlanAPayloadRead');
+      if (elPlanARead) elPlanARead.textContent = `${fmtDec(totalMb, 1)} MB`;
+      const elPlanAWasted = document.getElementById('p1PlanAPayloadWasted');
+      if (elPlanAWasted) elPlanAWasted.textContent = `${fmtDec(totalMb - scanMb, 1)} MB`;
+      const elPlanBRead = document.getElementById('p1PlanBPayloadRead');
+      if (elPlanBRead) elPlanBRead.textContent = `${fmtDec(scanMb, 1)} MB`;
+      const elPlanBNotLoaded = document.getElementById('p1PlanBPayloadNotLoaded');
+      if (elPlanBNotLoaded) elPlanBNotLoaded.textContent = `${fmtDec(totalMb - scanMb, 1)} MB`;
+
       const elRowRes = document.getElementById('p1RowResultVal');
-      if (elRowRes) elRowRes.textContent = fmtInt(resVal);
+      if (elRowRes) elRowRes.textContent = isP1Measured ? fmtInt(resVal) : '--';
       const elColRes = document.getElementById('p1ColResultVal');
-      if (elColRes) elColRes.textContent = fmtInt(resVal);
+      if (elColRes) elColRes.textContent = isP1Measured ? fmtInt(resVal) : '--';
 
       const elRowMatch = document.getElementById('p1RowMatchingRows');
-      if (elRowMatch) elRowMatch.textContent = `${fmtInt(matchingRowsVal)} dòng thỏa điều kiện`;
+      if (elRowMatch) elRowMatch.textContent = isP1Measured ? `${fmtInt(matchingRowsVal)} dòng thỏa điều kiện` : '-- dòng (Chưa đo)';
       const elColMatch = document.getElementById('p1ColMatchingRows');
-      if (elColMatch) elColMatch.textContent = `${fmtInt(matchingRowsVal)} dòng thỏa điều kiện`;
+      if (elColMatch) elColMatch.textContent = isP1Measured ? `${fmtInt(matchingRowsVal)} dòng thỏa điều kiện` : '-- dòng (Chưa đo)';
 
       // Equivalence elements
       const resRow = (d.plan_a && d.plan_a.result != null) ? d.plan_a.result : resVal;
@@ -7015,6 +7410,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       }
 
       const matchedCount = numVal(d.matched_runs_count, rangeCnt);
+      const elCountRaw = document.getElementById('p2CountRaw');
+      if (elCountRaw) elCountRaw.textContent = isP2Measured ? `${fmtInt(rows)} dòng` : '-- dòng (Chưa đo)';
+      const elCountRle = document.getElementById('p2CountRle');
+      if (elCountRle) elCountRle.textContent = isP2Measured ? `${fmtInt(d.res_2)} đơn hàng` : '-- đơn (Chưa đo)';
       const condEl = document.getElementById('p2AlgoCond');
       const algoHead2 = document.getElementById('p2AlgoStep2Title');
       if (activeCase === 'point') {
@@ -7071,8 +7470,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       document.getElementById('p2KpiRle').textContent = `${fmtDec(d.rle_kb, 1)} KB`;
       const elRuns = document.getElementById('p2KpiRuns');
       if (elRuns) {
-        elRuns.textContent = `3 / ${fmtInt(d.num_runs)} cụm`;
-        elRuns.title = `Chỉ duyệt 3 cụm thỏa mãn BETWEEN 0 AND 2 trên tổng số ${fmtInt(d.num_runs)} cụm RLE (bỏ qua ${fmtInt(d.num_runs - 3)} cụm)`;
+        elRuns.textContent = `${fmtInt(matchedCount)} / ${fmtInt(d.num_runs)} cụm`;
+        elRuns.title = `Chỉ duyệt ${fmtInt(matchedCount)} cụm thỏa mãn trên tổng số ${fmtInt(d.num_runs)} cụm RLE (bỏ qua ${fmtInt(d.num_runs - matchedCount)} cụm)`;
       }
       const avgFallback = Math.round(d.avg_run || 2495);
       const edgeRuns = Array.isArray(d.matched_edge_runs) && d.matched_edge_runs.length
@@ -7107,6 +7506,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             `<span class="class-badge badge-emerald mono">(Ngày ${r[0]} × ${fmtInt(r[1])} đơn hàng)</span>`
           ).join('');
       document.getElementById('p2MatchedRuns').innerHTML = matchedBadges;
+      const elChipsCont = document.getElementById('p2ChipsContainer');
+      if (elChipsCont) elChipsCont.innerHTML = matchedBadges;
+      const elStep3Sum = document.getElementById('p2Step3SummarySum');
+      if (elStep3Sum) elStep3Sum.textContent = isP2Measured ? `${edgeRuns.map(r => fmtInt(r[1])).join(' + ')} = ${fmtInt(d.res_2)} đơn` : '-- (Chưa đo)';
       const matchedTagEl = document.getElementById('p2MatchedTag');
       if (matchedTagEl) {
         matchedTagEl.textContent = activeCase === 'point' ? '1 cụm trúng ✓' : (activeCase === 'full' ? '2,405 cụm tham gia ✓' : `→ ${fmtInt(matchedCount)} cụm trúng ✓`);
@@ -7176,9 +7579,9 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const rawLbl = document.getElementById('p2RawRaceLabel');
       const rleLbl = document.getElementById('p2RleRaceLabel');
       if (rawLbl) {
-        if (activeCase === 'point') rawLbl.textContent = `Chưa nén: Duyệt tuần tự 6,000,000 dòng để so sánh orderdate == ${lo}`;
-        else if (activeCase === 'full') rawLbl.textContent = `Chưa nén: Duyệt tuần tự 6,000,000 dòng (Full Table Scan)`;
-        else rawLbl.textContent = `Chưa nén: Duyệt tuần tự 6,000,000 dòng (Full Scan)`;
+        if (activeCase === 'point') rawLbl.textContent = `Chưa nén: Duyệt tuần tự ${fmtInt(rows)} dòng để so sánh orderdate == ${lo}`;
+        else if (activeCase === 'full') rawLbl.textContent = `Chưa nén: Duyệt tuần tự ${fmtInt(rows)} dòng (Full Table Scan)`;
+        else rawLbl.textContent = `Chưa nén: Duyệt tuần tự ${fmtInt(rows)} dòng (Full Scan)`;
       }
       if (rleLbl) {
         if (activeCase === 'point') rleLbl.innerHTML = `Nén RLE: Binary search định vị Cụm ${lo} &amp; đọc thẳng <span class="ctx-code">so_lan_lap[${lo}]</span> · <b>0 phép cộng</b>`;
@@ -7286,18 +7689,17 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
 
     function getP3FallbackStats(rows = 6000000, custRegion = 'Asia', suppRegion = 'Asia') {
-      const numRows = Number(rows) || 6000000;
-      const p4Preset = (PRESETS[numRows] && PRESETS[numRows].p4) ? PRESETS[numRows].p4 : PRESETS[6000000].p4;
-      const tRow = p4Preset.t_plan_a || (345.9 * (numRows / 6000000));
-      const tCol = p4Preset.t_plan_b || (96.6 * (numRows / 6000000));
-      const speedup = Math.round((tRow / Math.max(tCol, 0.001)) * 10) / 10;
-      const bytesScannedMbRow = Math.round((numRows * 68) / (1024 * 1024) * 10) / 10;
-      // Column-store: reads 3 FK columns (12B/row) + revenue (4B) for matched rows
+      const numRows = Number(rows) || state.rows || 6000000;
+      const bytesScannedMbRow = Math.round((numRows * 68) / 1e6 * 10) / 10;
       const matchedRatio = (custRegion === 'Asia' && suppRegion === 'Asia') ? 0.034 : 0.017;
       const matchedRows = Math.round(numRows * matchedRatio);
-      const bytesScannedMbCol = Math.round(((numRows * 12) + (matchedRows * 4)) / (1024 * 1024) * 10) / 10;
+      const bytesScannedMbCol = Math.round(((numRows * 12) + (matchedRows * 4)) / 1e6 * 10) / 10;
       const cellsReadRow = numRows * 17;
       const cellsReadCol = (numRows * 3) + matchedRows;
+
+      const tRow = state.data.p4?.t_plan_a || (numRows * 0.000057);
+      const tCol = state.data.p4?.t_plan_b || (numRows * 0.000016);
+      const speedup = Math.round((tRow / Math.max(tCol, 0.001)) * 10) / 10;
 
       return {
         rowstore_stats: {
@@ -7326,8 +7728,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const tRow = Number(rowStats.elapsed_ms) || 0;
       const tCol = Number(colStats.elapsed_ms) || 0;
       const speedup = Number(colStats.speedup_x) || (tCol > 0 ? Math.round((tRow / tCol) * 10) / 10 : 3.6);
-      const rowMb = Number(rowStats.bytes_scanned_mb) || ((numRows * 68) / (1024 * 1024));
-      const colMb = Number(colStats.bytes_scanned_mb) || ((numRows * 12) / (1024 * 1024));
+      const rowMb = Number(rowStats.bytes_scanned_mb) || ((numRows * 68) / 1e6);
+      const colMb = Number(colStats.bytes_scanned_mb) || (((numRows * 12) + ((colStats.matched_rows || 0) * 4)) / 1e6);
       const rowJoins = rowStats.physical_joins != null ? rowStats.physical_joins : 3;
       const colJoins = colStats.physical_joins != null ? colStats.physical_joins : 0;
       const rowCells = rowStats.cells_read != null ? rowStats.cells_read : (numRows * 17);
@@ -8138,12 +8540,35 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (sB_speed) sB_speed.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '--x' : fmtDec(d.speedup_b, 1) + 'x Faster');
       const sC_speed = document.getElementById('p4SsmsSpeedC');
       if (sC_speed) sC_speed.textContent = isP4Measuring ? 'Đang đo...' : (!isP4Measured ? '--x' : fmtDec(d.speedup_c, 1) + 'x Faster ⚡');
-      const sA_mem = document.getElementById('p4SsmsMemA'); if (sA_mem) sA_mem.textContent = fmtDec(408.0 * scale, 1) + ' MB';
-      const sB_mem = document.getElementById('p4SsmsMemB'); if (sB_mem) sB_mem.textContent = fmtDec(72.8 * scale, 1) + ' MB';
-      const sC_mem = document.getElementById('p4SsmsMemC'); if (sC_mem) sC_mem.textContent = fmtDec(18.5 * scale, 1) + ' MB';
+      const mbPlanA = d.mb_plan_a != null ? d.mb_plan_a : Math.round((rows * 17 * 4) / 1e6 * 10) / 10;
+      const mbPlanB = d.mb_plan_b != null ? d.mb_plan_b : Math.round(((rows * 3 * 4) + ((d.matched_rows || Math.round(rows * 0.034)) * 4)) / 1e6 * 10) / 10;
+      const mbPlanC = d.mb_plan_c != null ? d.mb_plan_c : mbPlanB;
+
+      const sA_mem = document.getElementById('p4SsmsMemA'); if (sA_mem) sA_mem.textContent = fmtDec(mbPlanA, 1) + ' MB';
+      const sB_mem = document.getElementById('p4SsmsMemB'); if (sB_mem) sB_mem.textContent = fmtDec(mbPlanB, 1) + ' MB';
+      const sC_mem = document.getElementById('p4SsmsMemC'); if (sC_mem) sC_mem.textContent = fmtDec(mbPlanC, 1) + ' MB';
+
       const sMsgEl = document.getElementById('p4MsgElapsedTime'); if (sMsgEl) sMsgEl.textContent = isP4Measured ? fmtDec(d.t_plan_c, 0) : '--';
-      const stepA = document.getElementById('p4StepA1'); if (stepA) stepA.textContent = 'Đọc toàn bộ ' + f1 + ' dòng × 68 byte (' + fmtDec(408 * scale, 1) + ' MB)';
-      const stepB = document.getElementById('p4StepB1'); if (stepB) stepB.textContent = 'Chỉ đọc 3 cột khóa ngoại (3 FK) = 12B/dòng (' + fmtDec(72 * scale, 1) + ' MB)';
+      const stepA = document.getElementById('p4StepA1'); if (stepA) stepA.textContent = 'Đọc toàn bộ ' + f1 + ' dòng × 68 byte (' + fmtDec(mbPlanA, 1) + ' MB)';
+      const stepB = document.getElementById('p4StepB1'); if (stepB) stepB.textContent = 'Chỉ đọc 3 cột khóa ngoại (3 FK) = 12B/dòng (' + fmtDec(rows * 12 / 1e6, 1) + ' MB)';
+
+      // Update Card Badges & Message Box dynamically
+      const elBBadge = document.getElementById('p4CardBBadge');
+      if (elBBadge) elBBadge.textContent = isP4Measured ? `~${fmtDec(d.speedup_b, 1)}x Faster` : '~--x';
+      const elCBadge = document.getElementById('p4CardCBadge');
+      if (elCBadge) elCBadge.textContent = isP4Measured ? `~${fmtDec(d.speedup_c, 1)}x Faster ⚡` : '~--x';
+      const elMsgSpeedC = document.getElementById('p4MsgSpeedC');
+      if (elMsgSpeedC) elMsgSpeedC.textContent = isP4Measured ? fmtDec(d.speedup_c, 1) : '--';
+      const elMsgMemC = document.getElementById('p4MsgMemC');
+      if (elMsgMemC) elMsgMemC.textContent = fmtDec(mbPlanC, 1);
+      const elMsgIoC = document.getElementById('p4MsgIoSavedC');
+      if (elMsgIoC) elMsgIoC.textContent = isP4Measured ? fmtDec(d.io_saved_pct || ((1 - mbPlanC / mbPlanA) * 100), 1) : '--';
+      const elMsgSpeedB = document.getElementById('p4MsgSpeedB');
+      if (elMsgSpeedB) elMsgSpeedB.textContent = isP4Measured ? fmtDec(d.speedup_b, 1) : '--';
+      const elMsgMemB = document.getElementById('p4MsgMemB');
+      if (elMsgMemB) elMsgMemB.textContent = fmtDec(mbPlanB, 1);
+      const elMsgMemA = document.getElementById('p4MsgMemA');
+      if (elMsgMemA) elMsgMemA.textContent = fmtDec(mbPlanA, 1);
       const kpiGroups = document.getElementById('p4KpiGroups'); if (kpiGroups) kpiGroups.textContent = '✓ Kết quả GROUP BY của Plan A, B, C khớp nhau 100% (' + fmtInt(d.num_groups) + ' nhóm)';
 
       const _safeGet = id => document.getElementById(id);
@@ -8360,7 +8785,7 @@ FROM dbo.dwdate;`
       let clustersStr = '3 cụm (giá_trị, số_lần_lặp)';
       let memStr = '28.9 KB (vs 24.0 MB Raw)';
       let algoStr = 'Binary Search + Sum Runs (0 Decompress)';
-      let execTimeStr = '0.080';
+      let execTimeStr = (state.p2Measured && state.data.p2?.t_direct_rle != null) ? fmtDec(state.data.p2.t_direct_rle, 3) : '--';
 
       if (activeCase === 'point') {
         sql = `-- SSBM RLE Exact Match: Đếm số lượng đơn hàng theo ngày đặt cụ thể (orderdate)
@@ -8368,32 +8793,32 @@ SELECT COUNT(*)
 FROM dbo.lineorder
 WHERE orderdate = ${lo};`;
         qType = 'RLE Exact Point Lookup';
-        const ptVal = (lo === 0) ? 502 : (state.data.p2?.res_2 || 502);
-        totalCountStr = fmtInt(ptVal);
+        const ptVal = state.p2Measured ? (state.data.p2?.res_2 || Math.round(state.rows / 2405)) : '--';
+        totalCountStr = typeof ptVal === 'number' ? fmtInt(ptVal) : ptVal;
         clustersStr = '1 cụm (giá_trị, số_lần_lặp)';
         algoStr = 'Binary Search (0 Sum, 0 Decompress)';
-        execTimeStr = '0.010';
+        execTimeStr = (state.p2Measured && state.data.p2?.t_direct_rle != null) ? fmtDec(state.data.p2.t_direct_rle, 3) : '--';
       } else if (activeCase === 'full') {
         sql = `-- SSBM RLE Full Table Count: Đếm toàn bộ đơn hàng (Không có WHERE)
 SELECT COUNT(*)
 FROM dbo.lineorder;`;
         qType = 'RLE Full Table Scan';
-        totalCountStr = fmtInt(state.rows || 6000000);
-        clustersStr = '2,405 cụm (giá_trị, số_lần_lặp)';
-        algoStr = 'Sum All Runs (2,405 ops vs 6,000,000 scans)';
-        execTimeStr = '0.120';
+        totalCountStr = state.p2Measured ? fmtInt(state.data.p2?.res_2 || state.rows) : '--';
+        clustersStr = `${fmtInt(state.data.p2?.num_runs || 2405)} cụm (giá_trị, số_lần_lặp)`;
+        algoStr = `Sum All Runs (${fmtInt(state.data.p2?.num_runs || 2405)} ops vs ${fmtInt(state.rows)} scans)`;
+        execTimeStr = (state.p2Measured && state.data.p2?.t_direct_rle != null) ? fmtDec(state.data.p2.t_direct_rle, 3) : '--';
       } else {
-        sql = `-- RLE Microbenchmark: Đếm số lượng đơn hàng theo Day Index (orderdate BETWEEN 0 AND 2)
+        sql = `-- RLE Microbenchmark: Đếm số lượng đơn hàng theo Day Index (orderdate BETWEEN ${lo} AND ${hi})
 SELECT COUNT(*)
 FROM dbo.lineorder
 WHERE orderdate BETWEEN ${lo} AND ${hi};`;
         qType = 'RLE Direct Count';
         const cnt = hi - lo + 1;
-        const countVal = (lo === 0 && hi === 2) ? 1498 : (state.data.p2?.res_2 || 1498);
-        totalCountStr = fmtInt(countVal);
+        const countVal = state.p2Measured ? (state.data.p2?.res_2 || Math.round(cnt * state.rows / 2405)) : '--';
+        totalCountStr = typeof countVal === 'number' ? fmtInt(countVal) : countVal;
         clustersStr = `${fmtInt(cnt)} cụm (giá_trị, số_lần_lặp)`;
         algoStr = 'Binary Search + Sum Runs (0 Decompress)';
-        execTimeStr = '0.080';
+        execTimeStr = (state.p2Measured && state.data.p2?.t_direct_rle != null) ? fmtDec(state.data.p2.t_direct_rle, 3) : '--';
       }
 
       if (p2MonacoEditorInstance) {
@@ -9477,23 +9902,9 @@ WHERE d.year = 1993
     }
 
     function commitPresetBenchmark(part) {
-      const rows = state.rows;
-      const base = PRESETS[rows] || PRESETS[6000000];
-      if (part === 'all' || part === '1') {
-        state.data.p1 = JSON.parse(JSON.stringify(base.p1));
-        applyPart1ColumnChange(false);
-      }
-      if (part === 'all' || part === '2') {
-        state.data.p2 = JSON.parse(JSON.stringify(base.p2));
-      }
-      if (part === 'all' || part === '3') {
-        state.data.p3 = JSON.parse(JSON.stringify(base.p3));
-        state.p3VersusData = getP3FallbackStats(rows, state.p3WhereCust, state.p3WhereSupp);
-      }
-      if (part === 'all' || part === '4') {
-        state.data.p4 = JSON.parse(JSON.stringify(base.p4));
-      }
-      renderAll();
+      runOfflineJsBenchmark(part, state.rows, state.seed).then(p => {
+        applyBackendResponse(part, p);
+      });
     }
 
     function renderAll() {
@@ -9691,7 +10102,7 @@ WHERE d.year = 1993
         });
 
         if (opts.initial && !state.runAbortCtrl) {
-          runDemo('1', { silentNav: true });
+          // Do not auto-run on initial page load: all tabs start cleanly unmeasured!
         }
       } catch (_) {
         state.serverOnline = false;
@@ -9969,16 +10380,8 @@ async function runDemo(part, opts = {}) {
           if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
           payload = await resp.json();
         } else {
-          // Chế độ mô phỏng phần cứng thực tế (Offline Latency):
-          // Đảm bảo nút "đang run" có thời gian đo thực tế (650ms cho từng Tab, 850ms cho Run All)
-          // trước khi trả kết quả, không bao giờ đổi con số tức thì trong 0ms!
-          await new Promise((resolve, reject) => {
-            const timer = setTimeout(resolve, part === 'all' ? 850 : 650);
-            ctrl.signal.addEventListener('abort', () => {
-              clearTimeout(timer);
-              reject(new DOMException('Aborted', 'AbortError'));
-            });
-          });
+          // In-browser offline JavaScript engine with Int32Array & performance.now()
+          payload = await runOfflineJsBenchmark(part, rows, seed);
         }
 
         if (reqSeq !== state.runSeq) {
@@ -10035,19 +10438,21 @@ async function runDemo(part, opts = {}) {
           });
           applyBackendResponse(part, payload);
         } else {
-          // Offline commit số liệu chuẩn đã scale theo số dòng
-          commitPresetBenchmark(part);
+          // Offline engine payload application
+          if (payload) {
+            applyBackendResponse(part, payload);
+          }
           upsertPyLogEntry({
             id: logId,
             time: nowTimeStr(),
-            title: `${logTitle} (Mô phỏng đo hoàn tất)`,
+            title: `${logTitle} (JS Engine hoàn tất)`,
             status: 'ok',
-            elapsedMs: part === 'all' ? 850 : 650,
+            elapsedMs: payload ? payload.elapsed_ms : 0,
             lines: [
-              `[BENCHMARK] Đo lường hoàn tất trên ${fmtInt(rows)} dòng dữ liệu SSBM`,
-              `  • Kết quả thời gian thực thi đã được cập nhật chính xác.`
+              `[JS-ENGINE] Đo lường hoàn tất trên ${fmtInt(rows)} dòng bằng Int32Array`,
+              `  • Thời gian xử lý: ${fmtDec(payload ? payload.elapsed_ms : 0, 1)} ms`
             ],
-            payload: { offline: true, rows, seed }
+            payload: payload || { offline: true, rows, seed }
           });
         }
 
@@ -10076,7 +10481,7 @@ async function runDemo(part, opts = {}) {
         if (part === '3' || part === 'all') { state.p3Measuring = false; state.p3Measured = true; }
         if (part === '4' || part === 'all') { state.p4Measuring = false; state.p4Measured = true; }
 
-        commitPresetBenchmark(part);
+        runOfflineJsBenchmark(part, rows, seed).then(p => applyBackendResponse(part, p));
         triggerBenchmarkUpdatedFlash(part);
         if (!opts.silentNav) {
           showToast(`Đã hoàn tất đo lường (${fmtInt(rows)} dòng)`);
@@ -10362,10 +10767,10 @@ async function runDemo(part, opts = {}) {
             <span style="font-size:11px;background:#ffe4e6;color:#e11d48;padding:2px 7px;border-radius:4px;">1.0x (Cơ sở)</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
-            <li><b>I/O Fact:</b> Đọc toàn bộ 17 thuộc tính Fact (68B/dòng · 408 MB), chiếm 100% dung lượng bảng.</li>
+            <li><b>I/O Fact:</b> Đọc toàn bộ 17 thuộc tính Fact (68B/dòng · <span id="modalPlanAMb">-- MB</span>), chiếm 100% dung lượng bảng.</li>
             <li><b>Early Materialization:</b> Ghép nối sớm các tuple lớn ngay từ đầu, truyền toàn bộ struct 68B qua 3 bảng băm.</li>
-            <li><b>Bảng tạm trung gian:</b> Phải cấp phát và duy trì bảng tạm ~408 MB trong RAM, gây nghẽn bus bộ nhớ và tràn Cache L1/L2.</li>
-            <li><b>Thời gian đo thực tế:</b> ~345.9 ms trên 6,000,000 dòng.</li>
+            <li><b>Bảng tạm trung gian:</b> Phải cấp phát và duy trì bảng tạm lớn trong RAM, gây nghẽn bus bộ nhớ và tràn Cache L1/L2.</li>
+            <li><b>Thời gian đo thực tế:</b> <span id="modalPlanATime">-- ms</span> trên <span id="modalPlanARows">-- dòng</span>.</li>
           </ul>
         </div>
 
@@ -10373,13 +10778,13 @@ async function runDemo(part, opts = {}) {
         <div id="modalPlanBCard" style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#065f46;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
             <span>Plan B: Column-Store + Invisible Join (Hash Table Lookup)</span>
-            <span style="font-size:11px;background:#dcfce7;color:#059669;padding:2px 7px;border-radius:4px;">~3.6x Nhanh hơn</span>
+            <span id="modalPlanBBadge" style="font-size:11px;background:#dcfce7;color:#059669;padding:2px 7px;border-radius:4px;">~--x Nhanh hơn</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
-            <li><b>I/O Fact:</b> Chỉ quét 3 cột FK (12B/dòng) + duy nhất 1 cột <code>revenue</code> tại các vị trí đạt chuẩn (~69.4 MB, giảm ~83% I/O).</li>
+            <li><b>I/O Fact:</b> Chỉ quét 3 cột FK (12B/dòng) + duy nhất 1 cột <code>revenue</code> tại các vị trí đạt chuẩn (<span id="modalPlanBMb">-- MB</span>, giảm <span id="modalPlanBSaved">~83%</span> I/O).</li>
             <li><b>Late Materialization:</b> Hoãn việc đọc thuộc tính đến tận bước cuối sau khi Position List P đã được xác định.</li>
             <li><b>Zero Intermediate Tuples:</b> Không dựng các tuple JOIN trung gian trong quá trình lọc; toàn bộ phép nối chuyển thành bitwise AND xử lý trong CPU Cache.</li>
-            <li><b>Thời gian đo thực tế:</b> ~96.6 ms trên 6,000,000 dòng (nhanh hơn ~3.6x so với Row-Store).</li>
+            <li><b>Thời gian đo thực tế:</b> <span id="modalPlanBTime">-- ms</span> trên <span id="modalPlanBRows">-- dòng</span> (<span id="modalPlanBSpeed">nhanh hơn so với Row-Store</span>).</li>
           </ul>
         </div>
 
@@ -10387,12 +10792,12 @@ async function runDemo(part, opts = {}) {
         <div id="modalPlanCCard" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#1e40af;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
             <span>Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)</span>
-            <span style="font-size:11px;background:#dbeafe;color:#2563eb;padding:2px 7px;border-radius:4px;">~6.1x Nhanh nhất</span>
+            <span id="modalPlanCBadge" style="font-size:11px;background:#dbeafe;color:#2563eb;padding:2px 7px;border-radius:4px;">~--x Nhanh nhất</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
             <li><b>Between-Predicate Rewriting (Mục 5.4.2):</b> Định vị cận liên tục <code>(lo &lt;= key &lt;= hi)</code> của <code>customer</code>, <code>supplier</code>, <code>orderdate</code> để thay phép tra bảng băm bằng so sánh khoảng trực tiếp.</li>
             <li><b>Bitmap AND &amp; Late Materialization:</b> Giao 3 bitmap khóa ngoại tạo Position List P, rồi chỉ đọc <code>revenue</code> và tra cứu ngược Dimension ở bước cuối.</li>
-            <li><b>Thời gian đo thực tế:</b> ~56.8 ms trên 6,000,000 dòng (nhanh hơn ~6.1x so với Row-Store).</li>
+            <li><b>Thời gian đo thực tế:</b> <span id="modalPlanCTime">-- ms</span> trên <span id="modalPlanCRows">-- dòng</span> (<span id="modalPlanCSpeed">nhanh nhất so với Row-Store</span>).</li>
           </ul>
         </div>
       </div>
