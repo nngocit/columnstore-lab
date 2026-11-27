@@ -2229,12 +2229,12 @@
 
       <div class="nav-bar">
         <nav class="nav-tabs" aria-label="Điều hướng bài lab">
-          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ Đồ Star Schema <span class="kbd">0</span></button>
-          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Row-Store vs. Column-Store <span class="kbd">1</span></button>
-          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE <span class="kbd">2</span></button>
-          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Invisible Join <span class="kbd">3</span></button>
-          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. Hiệu Suất Q3.1 <span class="kbd">4</span></button>
-          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã Nguồn Backend <span class="kbd">5</span></button>
+          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ đồ Star Schema <span class="kbd">0</span></button>
+          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Hàng vs cột (Q1.1) <span class="kbd">1</span></button>
+          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE trực tiếp <span class="kbd">2</span></button>
+          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Ghép ẩn (Invisible Join) <span class="kbd">3</span></button>
+          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. 3 kế hoạch Q3.1 <span class="kbd">4</span></button>
+          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã nguồn backend <span class="kbd">5</span></button>
         </nav>
         <div class="nav-actions">
           <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
@@ -2289,7 +2289,7 @@
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div>
-          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ Đồ Star Schema — Bối Cảnh Dữ Liệu SSBM (6M dòng)</h2>
+          <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (6 triệu dòng)</h2>
           <div style="font-size:12px;color:#475569;">
             Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
           </div>
@@ -2880,7 +2880,7 @@
 <section id="sec-1" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Row-Store vs. Column-Store — So Sánh Kế Hoạch Thực Thi (SSBM Q1.1)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Bố cục lưu trữ Row-store (AoS) và Column-store (SoA) trên SSBM Q1.1</h2>
         <div style="font-size:12px;color:#475569;">
           <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) · <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
         </div>
@@ -3084,7 +3084,7 @@
       <div style="display:flex;flex-direction:column;gap:0;">
         <div class="tab1-section-label">
           <span class="tab1-section-badge">C</span>
-          <span class="tab1-section-title">Run &amp; Compare — Đo lường thực tế</span>
+          <span class="tab1-section-title">Run &amp; Compare: Đo lường thực tế</span>
           <span class="tab1-section-sub">Chạy cả 2 Plan với dữ liệu 6M dòng NumPy thực tế</span>
         </div>
 
@@ -3103,7 +3103,7 @@
               <span id="p1RunStatusCol" class="status-indicator status-idle">⏸ Chờ chạy</span>
             </div>
             <span id="p1RevenueStatus" class="revenue-match-badge" style="display:none;">
-              ✓ PASS 100% — Revenue Khớp Hoàn toàn
+              ✓ PASS 100%: Revenue khớp hoàn toàn
             </span>
           </div>
 
@@ -3111,7 +3111,7 @@
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div class="race-item">
               <div class="race-top">
-                <span>🔴 Plan A — Row-Store (AoS)</span>
+                <span>🔴 Plan A: Row-Store (AoS)</span>
                 <span class="race-ms" id="p1BarRowMs">215.8 ms</span>
               </div>
               <div class="race-track">
@@ -3120,7 +3120,7 @@
             </div>
             <div class="race-item">
               <div class="race-top">
-                <span>🔵 Plan B — Column-Store (SoA)</span>
+                <span>🔵 Plan B: Column-Store (SoA)</span>
                 <span class="race-ms" id="p1BarColMs">76.2 ms</span>
               </div>
               <div class="race-track">
@@ -3229,7 +3229,7 @@
     <section id="sec-2" class="sec-panel">
       <!-- HEADER & SUBTITLE -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE — Thuật Toán Nén Run-Length Encoding</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE và đếm trực tiếp trên dữ liệu nén (orderdate)</h2>
         <div style="font-size:12px;color:#475569;">
           <b>Bảng LINEORDER:</b> <span id="ctx2-rows-sub">6,000,000</span> dòng · <b>Cột orderdate:</b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
         </div>
@@ -3265,7 +3265,7 @@
             <div style="font-weight:700;font-size:12px;color:#1e293b;text-transform:uppercase;letter-spacing:0.02em;">
               Quy trình 3 Bước Xử lý RLE Trực tiếp (Zero Decompression):
             </div>
-            <button type="button" onclick="openRleModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📦 Nguyên lý Nén RLE &amp; Tính Toán Trực Tiếp (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Nén dãy giá trị liên tiếp giống nhau thành các bộ ba (value, start_position, count).<br>• <b>Tỷ lệ nén:</b> 6M dòng orderdate gom thành đúng 2,405 bộ ba (nén ~1,000 lần!).<br>• <b>Zero Decompression:</b> CPU lọc WHERE trực tiếp trên các bộ ba trong Cache, không giải nén.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết trong Modal!</i>">
+            <button type="button" onclick="openRleModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📦 Nguyên lý Nén RLE &amp; Tính Toán Trực Tiếp (SIGMOD 2008)</b><br>• <b>Bản chất:</b> Nén dãy giá trị liên tiếp giống nhau thành các bộ ba (value, start_position, count).<br>• <b>Tỷ lệ nén:</b> 6M dòng orderdate gom thành đúng 2,405 bộ ba (nén ~830 lần, tiết kiệm 99.88%).<br>• <b>Zero Decompression:</b> CPU lọc WHERE trực tiếp trên các bộ ba trong Cache, không giải nén.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết trong Modal!</i>">
               <span style="color:#2563eb;font-size:12px;">ℹ️</span>
               <span>Nguyên lý Nén RLE (Xem giải thích)</span>
             </button>
@@ -3465,7 +3465,7 @@
     <section id="sec-3" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Invisible Join — Thuật Toán Nối Sao 3 Pha (SIGMOD 2008)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Ghép ẩn (Invisible Join): minh họa nối sao 3 pha (SIGMOD 2008)</h2>
         <div style="font-size:12px;color:#475569;">
           <b>SSBM Q3.1 Star Schema Join:</b> Bảng Fact <b>LINEORDER</b> (<span class="p3-rows-label">6,000,000</span> dòng) nối 3 bảng Dimension: <b>CUSTOMER</b> (30,000 dòng), <b>SUPPLIER</b> (2,000 dòng), <b>DWDATE</b> (2,555 dòng)
         </div>
@@ -3545,7 +3545,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="background:#1e40af;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 1</span>
-                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Dimension Filtering — Lọc 3 Bảng Chiều Độc Lập</span>
+                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Dimension Filtering: Lọc 3 bảng chiều độc lập</span>
               </div>
               <button type="button" onclick="openPhaseModal(1)" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;" data-tooltip="<b>🔍 Phase 1: Dimension Filtering (SIGMOD 2008)</b><br>• <b>Cơ chế:</b> CPU áp dụng độc lập các điều kiện WHERE lên từng bảng Dimension nhỏ.<br>• <b>Trích xuất:</b> Chỉ nạp tập khóa chính hợp lệ vào Hash Set (ht_c, ht_s, ht_d) lưu trong CPU Cache L1/L2.<br>• <b>Tối ưu:</b> Tuyệt đối không trích xuất thuộc tính chuỗi ở bước này để tránh lãng phí băng thông.<br><i>👉 Nhấn vào đây để xem phân tích chi tiết Phase 1 trong Modal!</i>">
                 <span style="color:#2563eb;font-size:12px;">ℹ️</span>
@@ -3603,7 +3603,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                   </table>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#78350f;display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-weight:600;"><span id="p3DateMatchCount">1 / 2</span> mẫu hợp lệ (Toàn bảng: 2,191 / 2,555 ngày 1992–1997)</span>
+                  <span style="font-weight:600;"><span id="p3DateMatchCount">1 / 2</span> mẫu hợp lệ (Toàn bảng: 2,190 / 2,555 ngày 1992–1997)</span>
                   <button type="button" onclick="openDimKeysModal('date')" class="spec-info-btn" data-tooltip="Tập khóa chính datekey thỏa mãn điều kiện d_year BETWEEN 1992 AND 1997: {0}" id="p3DateKeysTooltip" style="background:#ffffff;color:#78350f;border:1px solid #fde68a;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;">ℹ️ Xem chi tiết</button>
                   <code id="p3FooterDateKeys" class="mono" style="display:none;">{0}</code>
                 </div>
@@ -3618,7 +3618,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="background:#475569;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 2</span>
-                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Fact Probing &amp; Bitmap AND — Giao Bitmap Cột Khóa Ngoại</span>
+                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Fact Probing &amp; Bitmap AND: Giao Bitmap cột khóa ngoại</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
                 <span class="card-title" id="p3CardTitleFact" style="font-size:11.5px;color:#475569;font-weight:600;">
@@ -3649,7 +3649,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
                 <span style="background:#047857;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 3</span>
-                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Late Materialization &amp; GROUP BY — Gom Nhóm &amp; Tính Tổng</span>
+                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Late Materialization &amp; GROUP BY: Gom nhóm và tính tổng</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
                 <button type="button" onclick="openPhaseModal(3)" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;" data-tooltip="<b>🎯 Phase 3: Late Materialization &amp; GROUP BY</b><br>• <b>Cơ chế:</b> Tại các vị trí trong tập P, CPU chỉ đọc duy nhất cột revenue từ bảng Fact.<br>• <b>Tra cứu ngược:</b> Dùng khóa ngoại trích xuất c_nation, s_nation, d_year để GROUP BY &amp; tính tổng.<br>• <b>Tiết kiệm:</b> Bỏ qua hoàn toàn 13 cột Fact không tham gia tính toán, giảm 93% I/O Fact!<br><i>👉 Nhấn vào đây để xem phân tích chi tiết Phase 3 trong Modal!</i>">
@@ -3685,7 +3685,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                       <tr><th>c_nation</th><th>s_nation</th><th class="num">year</th><th class="num">revenue</th></tr>
                     </thead>
                     <tbody id="p3ResultBody">
-                      <tr><td colspan="4" class="center mono" style="color:var(--text-muted);padding:24px 10px;font-size:12px;">Chờ hoàn tất Bước 3 để kết xuất dữ liệu GROUP BY</td></tr>
+                      <tr><td colspan="4" class="center mono" style="color:var(--text-muted);padding:24px 10px;font-size:12px;">Chờ hoàn tất Pha 3 để kết xuất dữ liệu GROUP BY</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -3704,7 +3704,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <!-- ROW-STORE -->
           <div id="p3VsColLeft" style="border:1.5px solid #fecdd3;background:#fff1f2;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #fecdd3;padding-bottom:6px;">
-              <span style="font-weight:800;color:#9f1239;font-size:13.5px;">Plan A — Row-Store (Traditional Hash Join)</span>
+              <span style="font-weight:800;color:#9f1239;font-size:13.5px;">Plan A: Row-Store (Traditional Hash Join)</span>
               <div style="display:flex;align-items:center;gap:6px;">
                 <button type="button" id="p3PlanATooltipTrigger" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>📋 Chi tiết Kế Hoạch Plan A (Row-Store Traditional)</b><br>• <b>Chiến lược:</b> Early Materialization + Hash Join<br>• <b>Số cột quét Fact:</b> 17 / 17 cột (100% Fact table)<br>• <b>Dung lượng I/O Fact:</b> ~408.0 MB (68B × 6,000,000 dòng)<br>• <b>Phép Join vật lý:</b> 3 lần Hash Join tuần tự<br>• <b>Bảng tạm trung gian:</b> Tạo bảng tạm khổng lồ (~408 MB trong RAM)<br>• <b>Thời gian CPU:</b> ~345.9 ms | Tốc độ: 1.0x (Cơ sở)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
                   <span style="color:#e11d48;font-size:12px;">ℹ️</span>
@@ -3734,25 +3734,25 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <!-- COLUMN-STORE INVISIBLE JOIN -->
           <div id="p3VsColRight" style="border:1.5px solid #bbf7d0;background:#f0fdf4;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #bbf7d0;padding-bottom:6px;">
-              <span style="font-weight:800;color:#065f46;font-size:13.5px;">Plan B — Column-Store (Invisible Join)</span>
+              <span style="font-weight:800;color:#065f46;font-size:13.5px;">Plan B: Column-Store (Invisible Join)</span>
               <div style="display:flex;align-items:center;gap:6px;">
-                <button type="button" id="p3PlanBTooltipTrigger" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Late Materialization + Bitmap SIMD<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm 93% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~28.5 MB (12B × 6,000,000 + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap AND trên Cache L1/L2)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian CPU:</b> ~56.8 ms | Tốc độ: ~6.1x (Vượt trội)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
+                <button type="button" id="p3PlanBTooltipTrigger" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:5px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;" data-tooltip="<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Hash Table Lookup + Bitmap AND + Late Materialization<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm ~83% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~69.4 MB (12B × 6,000,000 + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap AND trên Cache L1/L2)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian CPU:</b> ~96.6 ms | Tốc độ: ~3.6x (Nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>">
                   <span style="color:#059669;font-size:12px;">ℹ️</span>
                   <span>Chi tiết Plan B (Xem giải thích)</span>
                 </button>
               </div>
             </div>
             <div style="font-size:12px;color:#334155;line-height:1.5;">
-              • Chỉ đọc 3 cột FK + revenue dòng đạt (<span id="p3PlanBFactMb">~28.5 MB</span>, giảm 93% I/O)<br>
+              • Chỉ đọc 3 cột FK + revenue dòng đạt (<span id="p3PlanBFactMb">~69.4 MB</span>, giảm ~83% I/O)<br>
               • 0 phép Join vật lý: Thao tác bitwise AND trên L1/L2 Cache<br>
               • Không dựng các tuple JOIN trung gian (Late Materialization: chỉ truy xuất dữ liệu cần thiết ở bước cuối)
             </div>
             <div style="background:#ffffff;border:1px solid #bbf7d0;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
-              <b id="p3ColTime" class="mono" style="font-size:18px;font-weight:800;color:#059669;">~56.8 ms</b>
+              <b id="p3ColTime" class="mono" style="font-size:18px;font-weight:800;color:#059669;">~96.6 ms</b>
             </div>
             <div style="display:none;">
-              <span id="p3ColBytes">~28.5 MB</span>
+              <span id="p3ColBytes">~69.4 MB</span>
               <span id="p3ColJoins">0</span>
               <span id="p3ColInterm">0 byte</span>
               <span id="p3ColCells">~18,204,000 ô dữ liệu</span>
@@ -3841,7 +3841,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
     <section id="sec-4" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. Hiệu Suất Q3.1 — So Sánh 3 Kế Hoạch Thực Thi</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. So sánh 3 kế hoạch thực thi trên truy vấn SSBM Q3.1</h2>
         <div style="font-size:12px;color:#475569;">
           Truy vấn SSBM Q3.1 trên <b id="ctx4-rows" class="mono">6,000,000</b> dòng Fact: Lọc Khách hàng (Asia) + Nhà cung cấp (Asia) + Năm (1992..1997) → Tính tổng doanh thu theo quốc gia &amp; năm
         </div>
@@ -3943,22 +3943,22 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
               <span class="class-badge badge-emerald mono" style="font-size:11px;padding:2px 7px;">PLAN C · NHANH NHẤT ~6.1x</span>
-              <button type="button" onclick="openPlanComparisonModal('C')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>🚀 Chi tiết Kế Hoạch Plan C (Invisible Join + RLE)</b><br>• <b>Chiến lược:</b> Invisible Join + RLE + Late Materialization<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~28.5 MB (giảm 93% I/O)<br>• <b>Phép Join:</b> 0 phép (Bitmap AND trên L1/L2 Cache)<br>• <b>Bảng tạm:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian:</b> ~56.8 ms (~6.1x nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
+              <button type="button" onclick="openPlanComparisonModal('C')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;" data-tooltip="<b>🚀 Chi tiết Kế Hoạch Plan C (Between-Predicate Rewriting)</b><br>• <b>Chiến lược:</b> Invisible Join + Between-Predicate Rewriting + Late Materialization<br>• <b>Số cột quét:</b> 3 cột FK + 1 cột revenue<br>• <b>I/O Fact:</b> ~28.5 MB (giảm 93% I/O)<br>• <b>Phép Join:</b> 0 phép (So sánh khoảng lo &lt;= key &lt;= hi + Bitmap AND)<br>• <b>Bảng tạm:</b> 0 byte (Zero Intermediate Tuples)<br>• <b>Thời gian:</b> ~56.8 ms (~6.1x nhanh hơn)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết trong Modal!</i>">ℹ️ Chi tiết</button>
             </div>
             <span id="p4CardCTime" class="mono" style="font-size:14px;font-weight:700;color:var(--emerald);">56.8 ms</span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
             <span style="font-size:13.5px;font-weight:700;color:var(--emerald);">Column-Store + Invisible Join</span>
-            <span style="font-size:11.5px;color:var(--text-muted);">(RLE &amp; Between Predicate)</span>
+            <span style="font-size:11.5px;color:var(--text-muted);">(Between-Predicate Rewriting)</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;flex:1;">
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#d1fae5;color:#065f46;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B1</span>
-              <span style="color:#334155;">Tận dụng orderdate đã nén RLE (2,405 cụm) → Lọc thẳng trên cụm nén</span>
+              <span style="color:#334155;">Viết lại tra bảng băm thành so sánh khoảng (lo &lt;= key &lt;= hi) trên 3 cột khóa ngoại</span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#d1fae5;color:#065f46;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B2</span>
-              <span style="color:#334155;">Đổi Hash Lookup thành so sánh khoảng (lo ≤ key ≤ hi) nhờ đánh mã liên tục</span>
+              <span style="color:#334155;">Định vị cận liên tục của customer, supplier, orderdate theo Mục 5.4.2</span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#d1fae5;color:#065f46;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B3</span>
@@ -4069,18 +4069,18 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                   <tr id="p4Row-0" onclick="selectP4SsmsRow(0)" class="ssms-selected" style="cursor:pointer;">
                     <td class="ssms-row-hdr">1</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#059669;margin-right:4px;">⚡</span> Plan C (C-Store + InvJoin)</td>
-                    <td style="color:#334155;padding:4px 8px;">Late Materialization + Invisible Join</td>
-                    <td id="p4SsmsTimeC" class="num mono" style="color:#059669;font-weight:700;text-align:right;padding:4px 8px;">48.2 ms</td>
+                    <td style="color:#334155;padding:4px 8px;">Between-Predicate Rewriting + Invisible Join</td>
+                    <td id="p4SsmsTimeC" class="num mono" style="color:#059669;font-weight:700;text-align:right;padding:4px 8px;">56.8 ms</td>
                     <td id="p4SsmsMemC" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">18.5 MB</td>
-                    <td id="p4SsmsSpeedC" style="color:#059669;font-weight:700;font-size:11.5px;padding:4px 8px;">7.2x Faster ⚡</td>
+                    <td id="p4SsmsSpeedC" style="color:#059669;font-weight:700;font-size:11.5px;padding:4px 8px;">6.1x Faster ⚡</td>
                   </tr>
                   <tr id="p4Row-1" onclick="selectP4SsmsRow(1)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">2</td>
-                    <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#2563eb;margin-right:4px;">📊</span> Plan B (Standard C-Store)</td>
-                    <td style="color:#334155;padding:4px 8px;">Column-Store + Traditional Hash Join</td>
-                    <td id="p4SsmsTimeB" class="num mono" style="color:#2563eb;font-weight:700;text-align:right;padding:4px 8px;">142.6 ms</td>
+                    <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#2563eb;margin-right:4px;">📊</span> Plan B (C-Store + InvJoin)</td>
+                    <td style="color:#334155;padding:4px 8px;">Column-Store + Invisible Join (Hash Lookup)</td>
+                    <td id="p4SsmsTimeB" class="num mono" style="color:#2563eb;font-weight:700;text-align:right;padding:4px 8px;">96.6 ms</td>
                     <td id="p4SsmsMemB" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.8 MB</td>
-                    <td id="p4SsmsSpeedB" style="color:#2563eb;font-weight:600;font-size:11.5px;padding:4px 8px;">2.4x Faster</td>
+                    <td id="p4SsmsSpeedB" style="color:#2563eb;font-weight:600;font-size:11.5px;padding:4px 8px;">3.6x Faster</td>
                   </tr>
                   <tr id="p4Row-2" onclick="selectP4SsmsRow(2)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">3</td>
@@ -4102,8 +4102,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
               <span style="color:#475569;">SQL Server Execution Times:</span><br>
               &nbsp;&nbsp;&nbsp;CPU time = <span id="p4MsgCpuTime">48</span> ms,&nbsp;&nbsp;elapsed time = <span id="p4MsgElapsedTime">48</span> ms.<br><br>
               <span style="color:#0f172a;font-weight:600;">Benchmark Engine Summary (6,000,000 Fact rows):</span><br>
-              • Plan C (Column-Store + Invisible Join): Late Materialization kẹp min/max ➔ Vượt trội 7.2x (chỉ tốn 18.5 MB RAM)<br>
-              • Plan B (Standard Column-Store): Hash Join 3 bảng chiều ➔ Nhanh hơn 2.4x (tốn 72.8 MB RAM)<br>
+              • Plan C (Column-Store + Invisible Join + Between-Predicate): So sánh khoảng min/max ➔ Vượt trội 6.1x (chỉ tốn 18.5 MB RAM)<br>
+              • Plan B (Column-Store + Invisible Join Hash Lookup): Tra bảng băm 3 bảng chiều ➔ Nhanh hơn 3.6x (tốn 72.8 MB RAM)<br>
               • Plan A (Row-Store Truyền Thống): Early Materialization quét 17 cột ➔ 408.0 MB RAM (Baseline 1.0x)<br>
               • Kết quả GROUP BY: Khớp nhau 100% về số nhóm và giá trị tổng doanh thu.
             </div>
@@ -4140,7 +4140,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
             <span style="font-size:20px;">🐍</span>
-            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">5. Mã Nguồn Backend — Engine Thực Tế column_store_demo.py</h2>
+            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">5. Mã nguồn backend Python (column_store_demo.py)</h2>
             <span style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;">Python 3 / NumPy SIMD Engine</span>
           </div>
           <div style="font-size:12px;color:#475569;line-height:1.5;">
@@ -4153,7 +4153,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
             <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
             <span style="color:#64748b;font-weight:600;">Quy mô Backend:</span>
-            <span class="mono" style="font-weight:700;color:#0f172a;">927 dòng code</span>
+            <span class="mono" style="font-weight:700;color:#0f172a;">944 dòng code</span>
           </div>
           <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
             <span style="color:#64748b;font-weight:600;">Bộ nhớ:</span>
@@ -4165,19 +4165,19 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       <!-- NAVIGATION PILLS FOR PYTHON CODE SECTIONS -->
       <div class="phase-pills" style="margin-bottom:12px;gap:6px;flex-wrap:wrap;">
         <button id="codeTab-p1" class="phase-pill active" type="button" onclick="setCodeTab('p1')">
-          <span style="font-weight:800;margin-right:4px;">1</span> Hàng vs Cột (Dòng 390–510)
+          <span style="font-weight:800;margin-right:4px;">1</span> Hàng vs Cột (Dòng 407–525)
         </button>
         <button id="codeTab-p2" class="phase-pill" type="button" onclick="setCodeTab('p2')">
-          <span style="font-weight:800;margin-right:4px;">2</span> Nén RLE (Dòng 511–566)
+          <span style="font-weight:800;margin-right:4px;">2</span> Nén RLE (Dòng 528–581)
         </button>
         <button id="codeTab-p3" class="phase-pill" type="button" onclick="setCodeTab('p3')">
-          <span style="font-weight:800;margin-right:4px;">3</span> Invisible Join (Dòng 685–898)
+          <span style="font-weight:800;margin-right:4px;">3</span> Invisible Join (Dòng 702–913)
         </button>
         <button id="codeTab-p4" class="phase-pill" type="button" onclick="setCodeTab('p4')">
-          <span style="font-weight:800;margin-right:4px;">4</span> Benchmark Q3.1 (Dòng 598–641)
+          <span style="font-weight:800;margin-right:4px;">4</span> Benchmark Q3.1 (Dòng 615–656)
         </button>
         <button id="codeTab-all" class="phase-pill" type="button" onclick="setCodeTab('all')">
-          <span style="font-weight:800;margin-right:4px;">★</span> Toàn bộ file BE (927 dòng)
+          <span style="font-weight:800;margin-right:4px;">★</span> Toàn bộ file BE (944 dòng)
         </button>
       </div>
 
@@ -4711,41 +4711,58 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       "        \"date_rows\": sorted(list(unique_date.values()), key=lambda x: x[\"datekey\"])",
       "    }",
       "",
-      "    # 2. CUSTOMER (5 dòng đầu)",
+      "    # 2. CUSTOMER (5 dòng đầu - Đủ 8 cột chuẩn SSBM khớp Diagram)",
       "    cust_rows = []",
       "    for i in range(5):",
       "        r_id = int(chieu[\"c_region\"][i])",
       "        n_id = int(chieu[\"c_nation\"][i])",
+      "        reg_str = REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f\"Region#{r_id}\"",
+      "        nat_str = NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f\"Nation#{n_id}\"",
       "        cust_rows.append({",
       "            \"custkey\": i + 1,",
       "            \"name\": f\"Customer#{i + 1:09d}\",",
-      "            \"region\": REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f\"Region#{r_id}\",",
-      "            \"nation\": NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f\"Nation#{n_id}\",",
+      "            \"address\": f\"Address#{i + 1:05d}, St.{i + 1}\",",
+      "            \"city\": f\"City-{nat_str[:3].upper()}{i + 1}\",",
+      "            \"nation\": nat_str,",
+      "            \"region\": reg_str,",
+      "            \"phone\": f\"011-84-{i + 1:04d}\",",
       "            \"mktsegment\": MKT_SEGMENTS[i % len(MKT_SEGMENTS)]",
       "        })",
       "",
-      "    # 3. SUPPLIER (5 dòng đầu)",
+      "    # 3. SUPPLIER (5 dòng đầu - Đủ 7 cột chuẩn SSBM khớp Diagram)",
       "    supp_rows = []",
       "    for i in range(5):",
       "        r_id = int(chieu[\"s_region\"][i])",
       "        n_id = int(chieu[\"s_nation\"][i])",
+      "        reg_str = REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f\"Region#{r_id}\"",
+      "        nat_str = NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f\"Nation#{n_id}\"",
       "        supp_rows.append({",
       "            \"suppkey\": i + 1,",
       "            \"name\": f\"Supplier#{i + 1:09d}\",",
-      "            \"region\": REGIONS[r_id] if 0 <= r_id < len(REGIONS) else f\"Region#{r_id}\",",
-      "            \"nation\": NATIONS[n_id] if 0 <= n_id < len(NATIONS) else f\"Nation#{n_id}\"",
+      "            \"address\": f\"Factory#{i + 1:05d}, Ind.Park\",",
+      "            \"city\": f\"City-{nat_str[:3].upper()}{i + 1}\",",
+      "            \"nation\": nat_str,",
+      "            \"region\": reg_str,",
+      "            \"phone\": f\"011-84-{i + 500:04d}\"",
       "        })",
       "",
-      "    # 4. DWDATE (5 dòng đầu)",
+      "    # 4. DWDATE (5 dòng đầu - Khớp các cột hiển thị)",
       "    date_rows = []",
+      "    from datetime import datetime, timedelta",
+      "    base_date = datetime(1992, 1, 1)",
       "    for i in range(5):",
+      "        cur_dt = base_date + timedelta(days=i)",
       "        yr = int(chieu[\"d_year\"][i])",
       "        dow = DAYS[(2 + i) % 7]",
       "        date_rows.append({",
       "            \"datekey\": i,",
+      "            \"date\": cur_dt.strftime(\"%d/%m/%Y\"),",
+      "            \"d_date\": cur_dt.strftime(\"%d/%m/%Y\"),",
+      "            \"dayofweek\": dow,",
+      "            \"month\": cur_dt.strftime(\"%B\"),",
       "            \"year\": yr,",
       "            \"yearmonth\": f\"{yr}01\",",
-      "            \"dayofweek\": dow",
+      "            \"yearmonthnum\": int(f\"{yr}01\")",
       "        })",
       "",
       "    return {",
@@ -5328,12 +5345,12 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
             const CODE_SPECS = {
       p1: {
-        title: 'Phần 1: Layout Hàng vs Cột (AoS vs SoA) · Dòng 390–510',
+        title: 'Phần 1: Layout Hàng vs Cột (AoS vs SoA) · Dòng 407–525',
         file: 'column_store_demo.py',
         func: 'demo_phan_1_layout_hang_va_cot()',
-        start: 390,
-        end: 510,
-        traceTitle: 'Step-by-Step Architecture Trace — Phần 1 (AoS vs SoA)',
+        start: 407,
+        end: 525,
+        traceTitle: 'Step-by-Step Architecture Trace: Phần 1 (AoS vs SoA)',
         traces: [
           ['bang_hang (Row-Store AoS)', 'np.recarray / struct 17 cột liền kề (68B/dòng)', 'Nạp đủ 408.0 MB (6M dòng × 68B), lãng phí 76.5% Cache CPU'],
           ['bang_cot (Column-Store SoA)', 'dict chứa 17 mảng 1D np.ndarray độc lập (4B/phần tử)', 'Chỉ nạp đúng k cột cần chiếu (k × 4B/dòng, 4 cột = 96 MB)'],
@@ -5342,12 +5359,12 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ]
       },
       p2: {
-        title: 'Phần 2: Nén RLE & Zero Decompression · Dòng 511–566',
+        title: 'Phần 2: Nén RLE & Zero Decompression · Dòng 528–581',
         file: 'column_store_demo.py',
         func: 'ma_hoa_rle() & demo_phan_2_nen_rle()',
-        start: 511,
-        end: 566,
-        traceTitle: 'Step-by-Step Architecture Trace — Phần 2 (Nén RLE)',
+        start: 528,
+        end: 581,
+        traceTitle: 'Step-by-Step Architecture Trace: Phần 2 (Nén RLE)',
         traces: [
           ['ma_hoa_rle(orderdate)', 'Gom 6,000,000 số nguyên thành 2 mảng (gia_tri, so_lan_lap)', '2,405 cụm RLE (28.9 KB so với 24.0 MB thô · nén 99.88%)'],
           ['Lọc khoảng (BETWEEN 0 AND 2)', 'np.searchsorted() tìm nhị phân 2 đầu mút + sum(so_lan_lap)', 'Chỉ duyệt 3 cụm (7,442 đơn) trong 0.010 ms, hoàn toàn 0 giải nén!'],
@@ -5355,12 +5372,12 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ]
       },
       p3: {
-        title: 'Phần 3: Thuật toán Invisible Join (3 Pha) · Dòng 685–898',
+        title: 'Phần 3: Thuật toán Invisible Join (3 Pha) · Dòng 702–913',
         file: 'column_store_demo.py',
-        func: 'chay_invisible_join_cho_web()',
-        start: 685,
-        end: 898,
-        traceTitle: 'Step-by-Step Architecture Trace — Phần 3 (Invisible Join)',
+        func: 'demo_phan_3_invisible_join() [L584–612] & chay_invisible_join_cho_web() [L702–913]',
+        start: 702,
+        end: 913,
+        traceTitle: 'Step-by-Step Architecture Trace: Phần 3 (Invisible Join)',
         traces: [
           ['Phase 1: Dimension Filtering', 'Lọc độc lập trên 3 bảng chiều trong CPU Cache', 'Tạo 3 Hash Set tập khóa hợp lệ (ht_c, ht_s, ht_d)'],
           ['Phase 2: Fact Probing & Bitmap AND', 'Thăm dò 3 cột FK Fact lineorder -> Tạo 3 mảng bit SIMD', 'bit_c & bit_s & bit_d -> Position List P (~219k dòng đạt)'],
@@ -5368,30 +5385,30 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         ]
       },
       p4: {
-        title: 'Phần 4: Benchmark Hiệu Suất SSBM Q3.1 · Dòng 598–641',
+        title: 'Phần 4: Benchmark Hiệu Suất SSBM Q3.1 · Dòng 615–656',
         file: 'column_store_demo.py',
         func: 'demo_phan_4_benchmark_q31()',
-        start: 598,
-        end: 641,
-        traceTitle: 'Step-by-Step Architecture Trace — Phần 4 (So sánh 3 Kế hoạch)',
+        start: 615,
+        end: 656,
+        traceTitle: 'Step-by-Step Architecture Trace: Phần 4 (So sánh 3 Kế hoạch)',
         traces: [
           ['Plan A: Row-Store Hash Join', 'Nạp toàn bộ 17 cột Fact (408 MB) + 3 lần Hash Join', 'Thời gian: ~345.9 ms (Baseline chậm nhất)'],
-          ['Plan B: Column-Store Hash Join', 'Chỉ đọc 3 cột FK + 1 cột revenue, Join tuần tự', 'Thời gian: ~96.6 ms (Nhanh hơn ~3.6x)'],
-          ['Plan C: Column-Store + Invisible Join', 'Bitmap AND + Late Materialization (ghép nối muộn)', 'Thời gian: ~56.8 ms (Nhanh nhất ~6.1x)']
+          ['Plan B: Column-Store + Invisible Join (Hash Lookup)', 'Chỉ đọc 3 cột FK + 1 cột revenue, tra bảng băm + Bitmap AND', 'Thời gian: ~96.6 ms (Nhanh hơn ~3.6x)'],
+          ['Plan C: Column-Store + Invisible Join (+ Between-Predicate)', 'So sánh khoảng (lo <= key <= hi) + Bitmap AND + Late Materialization', 'Thời gian: ~56.8 ms (Nhanh nhất ~6.1x)']
         ]
       },
       all: {
-        title: 'Toàn bộ Backend Engine: column_store_demo.py (927 dòng)',
+        title: 'Toàn bộ Backend Engine: column_store_demo.py (944 dòng)',
         file: 'column_store_demo.py',
         func: 'Full Module Engine',
         start: 1,
-        end: 927,
-        traceTitle: 'Tổng thể Kiến trúc Backend Engine (927 dòng Python / NumPy)',
+        end: 944,
+        traceTitle: 'Tổng thể Kiến trúc Backend Engine (944 dòng Python / NumPy)',
         traces: [
           ['Module Constants & Helpers (Dòng 1–134)', 'Định nghĩa hằng số SSBM, hàm parse SQL, bộ bấm giờ micro-benchmark', 'Sử dụng NumPy int32, int64 tối ưu bộ nhớ'],
-          ['In-Memory RAM Engine (Dòng 135–389)', 'Lớp BoDuLieuToanCuc nạp sẵn 6,000,000 dòng Fact và Dimension trong RAM', 'Phục vụ tức thời cho các truy vấn microsecond'],
-          ['Execution Pipelines (Dòng 390–898)', 'Cài đặt thuật toán Row-Store, Column-Store, Nén RLE, và Invisible Join', 'Hiện thực hóa chính xác các sơ đồ Hình 2, 3, 4 trong bài báo SIGMOD 2008'],
-          ['Web Dispatcher API (Dòng 899–927)', 'Hàm chay_demo_cho_web() điều phối yêu cầu từ giao diện web dashboard', 'Kết nối in-process, không phụ thuộc framework cồng kềnh']
+          ['In-Memory RAM Engine (Dòng 135–404)', 'Lớp BoDuLieuToanCuc nạp sẵn 6,000,000 dòng Fact và Dimension trong RAM', 'Phục vụ tức thời cho các truy vấn microsecond'],
+          ['Execution Pipelines (Dòng 407–913)', 'Cài đặt thuật toán Row-Store, Column-Store, Nén RLE, và Invisible Join', 'Hiện thực hóa chính xác các sơ đồ Hình 2, 3, 4 trong bài báo SIGMOD 2008'],
+          ['Web Dispatcher API (Dòng 916–944)', 'Hàm chay_demo_cho_web() điều phối yêu cầu từ giao diện web dashboard', 'Kết nối in-process, không phụ thuộc framework cồng kềnh']
         ]
       }
     };
@@ -6181,8 +6198,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
               <div style="font-weight:800;color:#065f46;margin-bottom:6px;font-size:13px;">2. Quy Mô Toàn Kho Dữ Liệu SSBM (6,000,000 dòng Fact)</div>
               <div>• <b>Toàn bảng DWDATE:</b> Có <b>2,555 ngày</b> (7 năm từ 1992 đến 1998, mỗi năm 365 ngày).</div>
-              <div>• <b>Số ngày hợp lệ (1992–1997):</b> Có <b>2,191 ngày</b> (chiếm ~85.7% số ngày).</div>
-              <div>• <b>Dung lượng Hash Table:</b> <code>2,191 khóa × 4 byte = ~8.8 KB</code> (vừa vặn trong L1 Cache).</div>
+              <div>• <b>Số ngày hợp lệ (1992–1997):</b> Có <b>2,190 ngày</b> (chiếm ~85.7% số ngày).</div>
+              <div>• <b>Dung lượng Hash Table:</b> <code>2,190 khóa × 4 byte = ~8.8 KB</code> (vừa vặn trong L1 Cache).</div>
             </div>
 
             <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
@@ -7175,7 +7192,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
     }
 
     // =========================================================================
-    // TAB 3: INVISIBLE JOIN 5-PHASE SIMULATOR + INTERACTIVE WHERE + SORT
+    // TAB 3: INVISIBLE JOIN 3-PHASE SIMULATOR + INTERACTIVE WHERE + SORT
     // =========================================================================
     function clearP3SeqTimers() {
       if (state.p3SeqTimers && state.p3SeqTimers.length) {
@@ -7271,7 +7288,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const numRows = Number(rows) || 6000000;
       const p4Preset = (PRESETS[numRows] && PRESETS[numRows].p4) ? PRESETS[numRows].p4 : PRESETS[6000000].p4;
       const tRow = p4Preset.t_plan_a || (345.9 * (numRows / 6000000));
-      const tCol = p4Preset.t_plan_c || (56.8 * (numRows / 6000000));
+      const tCol = p4Preset.t_plan_b || (96.6 * (numRows / 6000000));
       const speedup = Math.round((tRow / Math.max(tCol, 0.001)) * 10) / 10;
       const bytesScannedMbRow = Math.round((numRows * 68) / (1024 * 1024) * 10) / 10;
       // Column-store: reads 3 FK columns (12B/row) + revenue (4B) for matched rows
@@ -7307,7 +7324,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const numRows = Number(rows) || state.rows || 6000000;
       const tRow = Number(rowStats.elapsed_ms) || 0;
       const tCol = Number(colStats.elapsed_ms) || 0;
-      const speedup = Number(colStats.speedup_x) || (tCol > 0 ? Math.round((tRow / tCol) * 10) / 10 : 6.1);
+      const speedup = Number(colStats.speedup_x) || (tCol > 0 ? Math.round((tRow / tCol) * 10) / 10 : 3.6);
       const rowMb = Number(rowStats.bytes_scanned_mb) || ((numRows * 68) / (1024 * 1024));
       const colMb = Number(colStats.bytes_scanned_mb) || ((numRows * 12) / (1024 * 1024));
       const rowJoins = rowStats.physical_joins != null ? rowStats.physical_joins : 3;
@@ -7454,7 +7471,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       if (tipB) {
         const timeStrB = isP3Measuring ? '⏳ Đang đo...' : (!isP3Measured ? '-- ms (Chưa đo cấu hình mới)' : `~${fmtDec(tCol, 1)} ms`);
         const speedStrB = isP3Measuring ? 'Đang đo...' : (!isP3Measured ? '~--x' : `~${fmtDec(speedup, 1)}x`);
-        tipB.setAttribute('data-tooltip', `<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Late Materialization + Bitmap SIMD<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm 93% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(colMb, 1)} MB (12B × ${fmtInt(numRows)} + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap SIMD lookup)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Vector bit trong Cache L1/L2)<br>• <b>Thời gian CPU:</b> ${timeStrB} | Tốc độ: ${speedStrB} (Vượt trội)<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
+        tipB.setAttribute('data-tooltip', `<b>⚡ Chi tiết Kế Hoạch Plan B (Column-Store Invisible Join)</b><br>• <b>Chiến lược:</b> Hash Table Lookup + Bitmap AND + Late Materialization<br>• <b>Số cột quét Fact:</b> 3 cột FK + 1 cột revenue dòng đạt (giảm ~83% I/O)<br>• <b>Dung lượng I/O Fact:</b> ~${fmtDec(colMb, 1)} MB (12B × ${fmtInt(numRows)} + 4B × P)<br>• <b>Phép Join vật lý:</b> 0 phép (Bitmap SIMD lookup)<br>• <b>Bảng tạm trung gian:</b> 0 byte (Vector bit trong Cache L1/L2)<br>• <b>Thời gian CPU:</b> ${timeStrB} | Tốc độ: ${speedStrB}<br><i>👉 Nhấn vào đây để xem đối chiếu chi tiết Plan A vs Plan B trong Modal!</i>`);
       }
     }
 
@@ -7861,7 +7878,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         dimSuppBadge.className = 'class-badge badge-slate mono';
       }
       if (dimDateBadge) {
-        dimDateBadge.textContent = `${sc.dateKeysSorted.length} / ${sc.dateRows.length} mẫu hợp lệ (Toàn bảng: 2,191 / 2,555 ngày 1992–1997)`;
+        dimDateBadge.textContent = `${sc.dateKeysSorted.length} / ${sc.dateRows.length} mẫu hợp lệ (Toàn bảng: 2,190 / 2,555 ngày 1992–1997)`;
         dimDateBadge.className = 'class-badge badge-amber mono';
       }
 
@@ -7997,7 +8014,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const resBody = document.getElementById('p3ResultBody');
       if (resBody) {
         if (phase < 3) {
-          resBody.innerHTML = '<tr><td colspan="4" class="center mono" style="color:var(--text-muted);padding:24px 10px;font-size:12px;">Chờ hoàn tất Bước 3 để kết xuất dữ liệu GROUP BY</td></tr>';
+          resBody.innerHTML = '<tr><td colspan="4" class="center mono" style="color:var(--text-muted);padding:24px 10px;font-size:12px;">Chờ hoàn tất Pha 3 để kết xuất dữ liệu GROUP BY</td></tr>';
         } else {
           resBody.innerHTML = sc.groups.map((g) =>
             `<tr class="dim-match"><td>${g.c_nation}</td><td>${g.s_nation}</td><td class="num">${g.d_year}</td><td class="num">${fmtInt(g.revenue)}</td></tr>`
@@ -9252,9 +9269,8 @@ WHERE d.year = 1993
             if (lines.length > 500) {
               PYTHON_FILE_LINES.length = 0;
               PYTHON_FILE_LINES.push(...lines);
-              if (state.currentTab === '5') {
-                loadRealPythonFile();
-      renderPart5();
+              if (state.activeTab === '5') {
+                renderPart5();
               }
             }
           }
@@ -10332,7 +10348,7 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">⚖️</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Đối Chiếu Kế Hoạch Thực Thi (Execution Plans — SIGMOD 2008)</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;">Đối Chiếu Kế Hoạch Thực Thi (Execution Plans, SIGMOD 2008)</span>
         </div>
         <button type="button" onclick="closeAllModals()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
@@ -10341,7 +10357,7 @@ async function runDemo(part, opts = {}) {
         <!-- Plan A Card -->
         <div id="modalPlanACard" style="background:#fff1f2;border:1.5px solid #fecdd3;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#9f1239;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan A — Row-Store Truyền Thống (Early Materialization + Hash Join)</span>
+            <span>Plan A: Row-Store Truyền Thống (Early Materialization + Hash Join)</span>
             <span style="font-size:11px;background:#ffe4e6;color:#e11d48;padding:2px 7px;border-radius:4px;">1.0x (Cơ sở)</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
@@ -10355,27 +10371,27 @@ async function runDemo(part, opts = {}) {
         <!-- Plan B Card -->
         <div id="modalPlanBCard" style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#065f46;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan B — Column-Store + Invisible Join (Late Materialization)</span>
-            <span style="font-size:11px;background:#dcfce7;color:#059669;padding:2px 7px;border-radius:4px;">~6.1x Nhanh hơn</span>
+            <span>Plan B: Column-Store + Invisible Join (Hash Table Lookup)</span>
+            <span style="font-size:11px;background:#dcfce7;color:#059669;padding:2px 7px;border-radius:4px;">~3.6x Nhanh hơn</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
-            <li><b>I/O Fact:</b> Chỉ quét 3 cột FK (12B/dòng) + duy nhất 1 cột <code>revenue</code> tại các vị trí đạt chuẩn (~28.5 MB, giảm 93% I/O).</li>
+            <li><b>I/O Fact:</b> Chỉ quét 3 cột FK (12B/dòng) + duy nhất 1 cột <code>revenue</code> tại các vị trí đạt chuẩn (~69.4 MB, giảm ~83% I/O).</li>
             <li><b>Late Materialization:</b> Hoãn việc đọc thuộc tính đến tận bước cuối sau khi Position List P đã được xác định.</li>
             <li><b>Zero Intermediate Tuples:</b> Không dựng các tuple JOIN trung gian trong quá trình lọc; toàn bộ phép nối chuyển thành bitwise AND xử lý trong CPU Cache.</li>
-            <li><b>Thời gian đo thực tế:</b> ~56.8 ms trên 6,000,000 dòng (tốc độ vượt trội).</li>
+            <li><b>Thời gian đo thực tế:</b> ~96.6 ms trên 6,000,000 dòng (nhanh hơn ~3.6x so với Row-Store).</li>
           </ul>
         </div>
 
         <!-- Plan C Card -->
         <div id="modalPlanCCard" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#1e40af;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan C — Column-Store + Invisible Join + RLE Compression</span>
-            <span style="font-size:11px;background:#dbeafe;color:#2563eb;padding:2px 7px;border-radius:4px;">Tối ưu tối đa</span>
+            <span>Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)</span>
+            <span style="font-size:11px;background:#dbeafe;color:#2563eb;padding:2px 7px;border-radius:4px;">~6.1x Nhanh nhất</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
-            <li><b>Nén RLE:</b> Cột <code>orderdate</code> được nén thành 2,405 bộ ba (nén ~1,000 lần so với 6M số nguyên).</li>
-            <li><b>Zero Decompression:</b> Bộ lọc BETWEEN áp dụng trực tiếp trên dữ liệu nén trong CPU SIMD register mà không giải nén.</li>
-            <li><b>Hiệu quả:</b> Tận dụng băng thông bộ nhớ tối đa, giảm thiểu thời gian truy xuất RAM.</li>
+            <li><b>Between-Predicate Rewriting (Mục 5.4.2):</b> Định vị cận liên tục <code>(lo &lt;= key &lt;= hi)</code> của <code>customer</code>, <code>supplier</code>, <code>orderdate</code> để thay phép tra bảng băm bằng so sánh khoảng trực tiếp.</li>
+            <li><b>Bitmap AND &amp; Late Materialization:</b> Giao 3 bitmap khóa ngoại tạo Position List P, rồi chỉ đọc <code>revenue</code> và tra cứu ngược Dimension ở bước cuối.</li>
+            <li><b>Thời gian đo thực tế:</b> ~56.8 ms trên 6,000,000 dòng (nhanh hơn ~6.1x so với Row-Store).</li>
           </ul>
         </div>
       </div>
@@ -10436,7 +10452,7 @@ async function runDemo(part, opts = {}) {
           <div>Chiếm hơn 95% tổng dung lượng toàn bộ cơ sở dữ liệu. Chứa 17 thuộc tính gồm các khóa ngoại (custkey, suppkey, orderdate, partkey) và các thuộc tính định lượng (revenue, supplycost, discount). Trong hệ quản trị Cột, các cột được lưu trữ độc lập theo mảng liên tục trên RAM/Disk.</div>
         </div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Các Bảng Chiều (Dimension Tables) — Cực Nhỏ &amp; Tối Ưu Cache</div>
+          <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Các Bảng Chiều (Dimension Tables): Cực Nhỏ &amp; Tối Ưu Cache</div>
           <ul style="margin:4px 0 0 18px;padding:0;">
             <li><b>CUSTOMER (30,000 dòng):</b> Chứa c_custkey, c_nation, c_region.</li>
             <li><b>SUPPLIER (2,000 dòng):</b> Chứa s_suppkey, s_nation, s_region.</li>
@@ -10473,12 +10489,12 @@ async function runDemo(part, opts = {}) {
           <div>Thay vì lưu 6,000,000 số nguyên cho cột <code>orderdate</code> (tốn 24 MB RAM), thuật toán Run-Length Encoding mã hóa các dãy giá trị liên tiếp thành các bộ ba: <code>(value, start_position, count)</code>.</div>
         </div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Tỷ Lệ Nén Siêu Việt (~1,000x)</div>
+          <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Tỷ lệ nén cao (~830x)</div>
           <div>Do dữ liệu Fact được sắp xếp theo ngày đặt hàng, 6,000,000 dòng được thu gọn thành đúng <b>2,405 bộ ba</b>. Dung lượng bộ nhớ giảm từ 24 MB xuống chỉ còn vài chục Kilobyte, nằm gọn trong CPU L1 Cache.</div>
         </div>
         <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#9f1239;margin-bottom:4px;">3. Zero Decompression Execution (Tính Toán Không Giải Nén)</div>
-          <div>Điểm đột phá của C-Store/Column-Store: CPU thực thi phép lọc <code>WHERE d_year = 1993</code> trực tiếp trên các bộ ba nén. Chỉ các vị trí thỏa mãn mới được sinh ra dưới dạng khoảng vị trí (Position Range), hoàn toàn không giải nén 6M dòng.</div>
+          <div>Điểm đột phá của C-Store/Column-Store: CPU thực thi phép lọc <code>WHERE orderdate BETWEEN 0 AND 2</code> trực tiếp trên các bộ ba nén. Chỉ các vị trí thỏa mãn mới được sinh ra dưới dạng khoảng vị trí (Position Range), hoàn toàn không giải nén 6M dòng.</div>
         </div>
       </div>
       <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;align-items:center;justify-content:flex-end;">
