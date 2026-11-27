@@ -3240,7 +3240,7 @@
         <div style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;display:flex;align-items:center;justify-content:space-between;padding:0 12px;user-select:none;">
           <div style="display:flex;align-items:flex-end;gap:4px;padding-top:6px;">
             <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
-              📄 SSBM Q1.1 RLE (Logical Spec)
+              📄 RLE Microbenchmark – COUNT theo Day Index
             </button>
           </div>
           <div style="padding:4px 0;">
@@ -3567,7 +3567,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                   </table>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#1e40af;display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-weight:600;"><span id="p3CustMatchCount">2</span> khóa hợp lệ (vùng ASIA)</span>
+                  <span style="font-weight:600;"><span id="p3CustMatchCount">2 / 5</span> mẫu hợp lệ (Toàn bảng: 6,000 / 30,000 khách ASIA)</span>
                   <span class="info-help-btn" data-tooltip="Tập khóa chính custkey thỏa mãn điều kiện c_region = 'ASIA' lưu trong CPU Cache: {13,166; 15,396}" id="p3CustKeysTooltip" style="font-size:11px;color:#1e40af;cursor:pointer;">ℹ️ Xem chi tiết</span>
                   <code id="p3FooterCustKeys" class="mono" style="display:none;">{13,166; 15,396}</code>
                 </div>
@@ -3585,7 +3585,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                   </table>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#334155;display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-weight:600;"><span id="p3SuppMatchCount">3</span> khóa hợp lệ (vùng ASIA)</span>
+                  <span style="font-weight:600;"><span id="p3SuppMatchCount">3 / 5</span> mẫu hợp lệ (Toàn bảng: 400 / 2,000 NCC ASIA)</span>
                   <span class="info-help-btn" data-tooltip="Tập khóa chính suppkey thỏa mãn điều kiện s_region = 'ASIA' lưu trong CPU Cache: {1,056; 1,123; 1,160}" id="p3SuppKeysTooltip" style="font-size:11px;color:#475569;cursor:pointer;">ℹ️ Xem chi tiết</span>
                   <code id="p3FooterSuppKeys" class="mono" style="display:none;">{1,056; 1,123; 1,160}</code>
                 </div>
@@ -3603,7 +3603,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                   </table>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#78350f;display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-weight:600;"><span id="p3DateMatchCount">1</span> khóa hợp lệ (năm 1992–1997)</span>
+                  <span style="font-weight:600;"><span id="p3DateMatchCount">1 / 2</span> mẫu hợp lệ (Toàn bảng: 2,191 / 2,555 ngày 1992–1997)</span>
                   <span class="info-help-btn" data-tooltip="Tập khóa chính datekey thỏa mãn điều kiện d_year BETWEEN 1992 AND 1997: {0}" id="p3DateKeysTooltip" style="font-size:11px;color:#92400e;cursor:pointer;">ℹ️ Xem chi tiết</span>
                   <code id="p3FooterDateKeys" class="mono" style="display:none;">{0}</code>
                 </div>
@@ -3745,7 +3745,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
             <div style="font-size:12px;color:#334155;line-height:1.5;">
               • Chỉ đọc 3 cột FK + revenue dòng đạt (<span id="p3PlanBFactMb">~28.5 MB</span>, giảm 93% I/O)<br>
               • 0 phép Join vật lý: Thao tác bitwise AND trên L1/L2 Cache<br>
-              • 0 byte bảng tạm trung gian (Late Materialization)
+              • Không dựng các tuple JOIN trung gian (Late Materialization: chỉ truy xuất dữ liệu cần thiết ở bước cuối)
             </div>
             <div style="background:#ffffff;border:1px solid #bbf7d0;border-radius:6px;padding:8px 10px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;">
               <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian CPU (<span class="p3-rows-label">6M</span> dòng):</span>
@@ -3872,8 +3872,8 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <!-- Fallback pre if Monaco is loading -->
           <pre id="p4SqlPre" class="sql-pre" style="margin:0;padding:10px 14px;font-size:12.5px;line-height:1.5;background:#1e1e1e;color:#d4d4d4;display:none;">-- SSBM Q3.1 Benchmark Engine: So sánh 3 chiến lược thực thi
 -- Plan A: Row-Store (Early Materialization + Hash Join)
--- Plan B: Standard Column-Store (Hash Join)
--- Plan C: Column-Store + Invisible Join (Late Materialization)
+-- Plan B: Column-Store + Invisible Join (Hash Table Lookup + Late Materialization)
+-- Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)
 EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         </div>
       </div>
@@ -5364,7 +5364,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         traces: [
           ['Phase 1: Dimension Filtering', 'Lọc độc lập trên 3 bảng chiều trong CPU Cache', 'Tạo 3 Hash Set tập khóa hợp lệ (ht_c, ht_s, ht_d)'],
           ['Phase 2: Fact Probing & Bitmap AND', 'Thăm dò 3 cột FK Fact lineorder -> Tạo 3 mảng bit SIMD', 'bit_c & bit_s & bit_d -> Position List P (~219k dòng đạt)'],
-          ['Phase 3: Late Materialization', 'Chỉ đọc cột revenue tại vị trí P + tra cứu ngược Dimension', '0 byte bảng tạm trung gian (Zero Intermediate Tuples)!']
+          ['Phase 3: Late Materialization', 'Chỉ đọc cột revenue tại vị trí P + tra cứu ngược Dimension', 'Không dựng tuple JOIN trung gian trong quá trình lọc (Zero Intermediate Tuples)!']
         ]
       },
       p4: {
@@ -7757,15 +7757,15 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       const dimDateBadge = document.getElementById('p3DimDateBadge');
 
       if (dimCustBadge) {
-        dimCustBadge.textContent = `${sc.custKeysSorted.length} khóa hợp lệ (vùng ASIA)`;
+        dimCustBadge.textContent = `${sc.custKeysSorted.length} / ${sc.custRows.length} mẫu hợp lệ (Toàn bảng: 6,000 / 30,000 khách ASIA)`;
         dimCustBadge.className = 'class-badge badge-blue mono';
       }
       if (dimSuppBadge) {
-        dimSuppBadge.textContent = `${sc.suppKeysSorted.length} khóa hợp lệ (vùng ASIA)`;
+        dimSuppBadge.textContent = `${sc.suppKeysSorted.length} / ${sc.suppRows.length} mẫu hợp lệ (Toàn bảng: 400 / 2,000 NCC ASIA)`;
         dimSuppBadge.className = 'class-badge badge-slate mono';
       }
       if (dimDateBadge) {
-        dimDateBadge.textContent = `${sc.dateKeysSorted.length} khóa hợp lệ (năm 1992–1997)`;
+        dimDateBadge.textContent = `${sc.dateKeysSorted.length} / ${sc.dateRows.length} mẫu hợp lệ (Toàn bảng: 2,191 / 2,555 ngày 1992–1997)`;
         dimDateBadge.className = 'class-badge badge-amber mono';
       }
 
@@ -8269,7 +8269,7 @@ FROM dbo.lineorder;`;
         algoStr = 'Sum All Runs (2,405 ops vs 6,000,000 scans)';
         execTimeStr = '0.120';
       } else {
-        sql = `-- SSBM RLE Aggregation: Đếm số lượng đơn hàng theo ngày đặt (orderdate)
+        sql = `-- RLE Microbenchmark: Đếm số lượng đơn hàng theo Day Index (orderdate BETWEEN 0 AND 2)
 SELECT COUNT(*)
 FROM dbo.lineorder
 WHERE orderdate BETWEEN ${lo} AND ${hi};`;
@@ -8323,7 +8323,7 @@ WHERE orderdate BETWEEN ${lo} AND ${hi};`;
 
         if (p2MonacoEditorInstance) return;
 
-        const defaultSql = `-- SSBM RLE Aggregation: Đếm số lượng đơn hàng theo ngày đặt (orderdate)
+        const defaultSql = `-- RLE Microbenchmark: Đếm số lượng đơn hàng theo Day Index (orderdate BETWEEN 0 AND 2)
 SELECT COUNT(*)
 FROM dbo.lineorder
 WHERE orderdate BETWEEN 0 AND 2;`;
@@ -8548,8 +8548,8 @@ ORDER BY d.d_year ASC, revenue DESC;`;
 
         const defaultSql = `-- SSBM Q3.1 Benchmark Engine: So sánh 3 chiến lược thực thi
 -- Plan A: Row-Store (Early Materialization + Hash Join)
--- Plan B: Standard Column-Store (Hash Join)
--- Plan C: Column-Store + Invisible Join (Late Materialization)
+-- Plan B: Column-Store + Invisible Join (Hash Table Lookup + Late Materialization)
+-- Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)
 EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;`;
 
         p4MonacoEditorInstance = monaco.editor.create(container, {
@@ -10265,7 +10265,7 @@ async function runDemo(part, opts = {}) {
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
             <li><b>I/O Fact:</b> Chỉ quét 3 cột FK (12B/dòng) + duy nhất 1 cột <code>revenue</code> tại các vị trí đạt chuẩn (~28.5 MB, giảm 93% I/O).</li>
             <li><b>Late Materialization:</b> Hoãn việc đọc thuộc tính đến tận bước cuối sau khi Position List P đã được xác định.</li>
-            <li><b>Zero Intermediate Tuples:</b> 0 byte bảng tạm trung gian; toàn bộ phép nối chuyển thành bitwise AND xử lý trong CPU Cache.</li>
+            <li><b>Zero Intermediate Tuples:</b> Không dựng các tuple JOIN trung gian trong quá trình lọc; toàn bộ phép nối chuyển thành bitwise AND xử lý trong CPU Cache.</li>
             <li><b>Thời gian đo thực tế:</b> ~56.8 ms trên 6,000,000 dòng (tốc độ vượt trội).</li>
           </ul>
         </div>
@@ -10430,7 +10430,7 @@ async function runDemo(part, opts = {}) {
           </div>
           <div>
             <ul style="margin:4px 0 0 18px;padding:0;">
-              <li><b>0 byte bảng tạm trung gian:</b> Không phải tạo bảng trung gian khổng lồ lưu tuple trong RAM.</li>
+              <li><b>Không dựng tuple JOIN trung gian:</b> Không phải tạo các tuple trung gian khổng lồ lưu tuple trong RAM.</li>
               <li><b>Tối ưu bus bộ nhớ:</b> Giảm 93% dung lượng vận chuyển từ RAM vào CPU.</li>
               <li><b>Tận dụng L1/L2 Cache:</b> Thuật toán xử lý trọn vẹn trong bộ nhớ đệm CPU tốc độ nano-giây.</li>
             </ul>
