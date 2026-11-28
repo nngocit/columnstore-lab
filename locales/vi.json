@@ -63,8 +63,8 @@
     "fullscreen_tooltip": "Toàn màn hình (Phím tắt: F)",
     "present_mode_tooltip": "Chế độ Thuyết Trình Báo Cáo",
     "lang_switcher_title": "Chuyển đổi ngôn ngữ",
-    "lang_vi": "🇻🇳 Tiếng Việt",
-    "lang_en": "🇬🇧 English"
+    "lang_vi": "Tiếng Việt",
+    "lang_en": "English"
   },
   "tabs": {
     "tab0": "0. Sơ đồ Star Schema",
@@ -75,7 +75,7 @@
     "tab5": "5. Mã nguồn backend"
   },
   "tab0": {
-    "title": "0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (6 triệu dòng)",
+    "title": "0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM",
     "desc_prefix": "Star Schema Benchmark (SSBM): Bảng Fact",
     "desc_fact_name": "lineorder",
     "desc_contains": "chứa",

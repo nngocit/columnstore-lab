@@ -405,7 +405,7 @@ def lay_du_lieu_preview(rows: int = 6_000_000, seed: int = 42) -> dict:
 
 
 def demo_phan_1_layout_hang_va_cot(so_dong, bo_sinh_ngau_nhien, danh_sach_cot=None, sql=None):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_1_layout_hang_va_cot: rows={so_dong}, cols={danh_sach_cot}")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_part_1_layout: rows={so_dong}, cols={danh_sach_cot}")
     """Phần 1: Same Query, Two Execution Plans (SSBM Q1.1).
     Từ 1 câu truy vấn logic SSBM Q1.1 duy nhất, sinh ra 2 phương án thực thi:
     - Plan A: Row-Store (AoS - Full Tuple Scan 17 cột, 68B/dòng)
@@ -535,7 +535,7 @@ def ma_hoa_rle(mang_da_sap_xep):
 
 
 def demo_phan_2_nen_rle(so_dong, bo_sinh_ngau_nhien, ngay_bd=NGAY_BAT_DAU_LOC_RLE, ngay_kt=NGAY_KET_THUC_LOC_RLE):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_2_nen_rle: rows={so_dong}, range=[{ngay_bd}..{ngay_kt}]")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_part_2_rle: rows={so_dong}, range=[{ngay_bd}..{ngay_kt}]")
     """Phần 2 (RLE): trả về dict tỉ lệ nén RLE và tốc độ COUNT(*) trực tiếp trên cụm nén."""
     ngay_bd = max(0, min(SO_NGAY_PHAN_BIET_RLE - 1, int(ngay_bd)))
     ngay_kt = max(ngay_bd, min(SO_NGAY_PHAN_BIET_RLE - 1, int(ngay_kt)))
@@ -589,7 +589,7 @@ def demo_phan_2_nen_rle(so_dong, bo_sinh_ngau_nhien, ngay_bd=NGAY_BAT_DAU_LOC_RL
 
 
 def demo_phan_3_invisible_join():
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_3_invisible_join: start 3-phase stepper execution")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_part_3_invisible_join: executing 3-phase join algorithm")
     """Phần 3 (Invisible Join): mô phỏng 3 pha Figure 2–4, Position List P, GROUP BY và Between Rewriting."""
     khach, ncc, ngay, fact = tao_du_lieu_mau_bai_bao()
     # Pha 1: Lọc bảng chiều nhỏ trong CPU Cache L1/L2 -> tập mã khóa thỏa điều kiện
@@ -620,7 +620,7 @@ def demo_phan_3_invisible_join():
 
 
 def demo_phan_4_benchmark_q31(so_dong, bo_sinh_ngau_nhien):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_phan_4_benchmark_q31: rows={so_dong}, running Plan A/B/C benchmarks")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] demo_part_4_benchmark_q31: rows={so_dong}, running Plan A/B/C benchmarks")
     """Phần 4 (SSBM Q3.1): trả về dict so sánh Plan A (Row), Plan B (Invisible Join), Plan C (+ Between)."""
     seed_val = int(bo_sinh_ngau_nhien) if isinstance(bo_sinh_ngau_nhien, (int, np.integer)) else 42
     ds = lay_bo_du_lieu_chuan(so_dong, seed_val)
@@ -686,51 +686,51 @@ demo_phan_4_mini_benchmark = demo_phan_4_benchmark_q31
 
 
 def _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms):
-    """Tạo danh sách dòng log thực thi chi tiết trả về cho khung log Web Dashboard."""
-    logs = [f'[PYTHON] chay_demo_cho_web(part="{part}", rows={rows:,}, seed={seed})']
+    """Generate detailed execution log lines for the Web Dashboard and terminal."""
+    logs = [f'[PYTHON] run_demo(part="{part}", rows={rows:,}, seed={seed})']
     if "1" in codes:
-        mode_str = "Chế độ Thực thi SQL" if merged.get("sql_parsed") else "Chế độ Mô phỏng Chiếu"
+        mode_str = "SQL Execution Mode" if merged.get("sql_parsed") else "Projection Simulation Mode"
         logs.extend([
-            f"[Phần 1 · AoS vs SoA] {mode_str} · Đọc {merged['num_selected_cols']}/17 cột: {', '.join(merged['selected_cols'])}",
-            f"  • RAM cấp phát: Row={merged['mb_hang_ram']} MB | Col={merged['mb_cot_ram']} MB",
-            f"  • Khối lượng quét: Col={merged['mb_needed']} MB ({merged.get('bytes_per_row_cot', merged['num_selected_cols']*4)}B/dòng) vs Row={merged['mb_total']} MB ({merged.get('bytes_per_row_hang', 68)}B/dòng) -> Tiết kiệm {merged.get('bandwidth_savings_pct', 0):.1f}% băng thông",
-            f"  • Benchmark Rigor (2 warm-ups + 5 lượt đo thực tế):",
+            f"[Part 1 · AoS vs SoA] {mode_str} · Scanned {merged['num_selected_cols']}/17 columns: {', '.join(merged['selected_cols'])}",
+            f"  • RAM allocated: Row={merged['mb_hang_ram']} MB | Col={merged['mb_cot_ram']} MB",
+            f"  • Scan volume: Col={merged['mb_needed']} MB ({merged.get('bytes_per_row_cot', merged['num_selected_cols']*4)}B/row) vs Row={merged['mb_total']} MB ({merged.get('bytes_per_row_hang', 68)}B/row) -> Saved {merged.get('bandwidth_savings_pct', 0):.1f}% memory bandwidth",
+            f"  • Benchmark Rigor (2 warm-ups + 5 measurement rounds):",
             f"    - Row-Store (AoS):    Median={merged.get('t_row_median', merged['t_row'])} ms, Std Dev=±{merged.get('t_row_std', 0.0)} ms (Mean={merged.get('t_row_mean', merged['t_row'])} ms)",
             f"    - Column-Store (SoA): Median={merged.get('t_col_median', merged['t_col'])} ms, Std Dev=±{merged.get('t_col_std', 0.0)} ms (Mean={merged.get('t_col_mean', merged['t_col'])} ms)",
-            f"    - Tăng tốc (Speedup): {merged['speedup_1']}x nhanh hơn",
-            f"  • Kết quả: SUM = {merged['res_1']:,} (assert kq_hang == kq_cot ✓)",
+            f"    - Speedup: {merged['speedup_1']}x faster",
+            f"  • Result: SUM = {merged['res_1']:,} (assert row_result == col_result ✓)",
         ])
     if "2" in codes:
         logs.extend([
-            f"[Phần 2 · Nén RLE] Cột orderdate đã sắp xếp ({rows:,} dòng)",
-            f"  • Dung lượng: Gốc={merged['raw_mb']} MB -> RLE={merged['rle_kb']} KB ({merged['num_runs']:,} cụm, TB {merged['avg_run']:,} dòng/cụm)",
-            f"  • Lọc cụm: WHERE orderdate BETWEEN {merged.get('rle_start', NGAY_BAT_DAU_LOC_RLE)} AND {merged.get('rle_end', NGAY_KET_THUC_LOC_RLE)} -> khớp {merged.get('matched_runs_count', 365):,}/{merged['num_runs']:,} cụm",
-            f"  • Tốc độ COUNT: Quét thường={merged['t_raw_rle']} ms vs Đếm RLE={merged['t_direct_rle']} ms -> {merged['speedup_2']}x",
-            f"  • Kết quả: COUNT = {merged['res_2']:,} (assert kq_thuong == kq_rle ✓)",
+            f"[Part 2 · RLE Compression] Sorted column orderdate ({rows:,} rows)",
+            f"  • Size: Uncompressed={merged['raw_mb']} MB -> RLE={merged['rle_kb']} KB ({merged['num_runs']:,} runs, avg {merged['avg_run']:,} rows/run)",
+            f"  • Run predicate: WHERE orderdate BETWEEN {merged.get('rle_start', NGAY_BAT_DAU_LOC_RLE)} AND {merged.get('rle_end', NGAY_KET_THUC_LOC_RLE)} -> matched {merged.get('matched_runs_count', 365):,}/{merged['num_runs']:,} runs",
+            f"  • COUNT Execution: Full Scan={merged['t_raw_rle']} ms vs Direct RLE={merged['t_direct_rle']} ms -> {merged['speedup_2']}x speedup",
+            f"  • Result: COUNT = {merged['res_2']:,} (assert raw_result == rle_result ✓)",
         ])
     if "3" in codes:
         logs.extend([
-            "[Phần 3 · Invisible Join] Dữ liệu mẫu 7 dòng (SIGMOD 2008 Fig. 2)",
-            f"  • Pha 1 (Lọc chiều): cust={merged['p1_cust']}, supp={merged['p1_supp']}, date={merged['p1_date']}",
-            f"  • Pha 2 (Bitmap AND): {merged['bm_cust']} & {merged['bm_supp']} & {merged['bm_date']} -> {merged['bm_and']} => P={merged['pos_list']}",
-            f"  • Pha 3 (Late Materialization): {merged['p3_rows']}",
-            f"  • Between Rewriting: {merged['rewritten_range']} (liên tục ✓)",
+            "[Part 3 · Invisible Join] 7-row illustration (SIGMOD 2008 Fig. 2)",
+            f"  • Phase 1 (Dimension Filters): cust={merged['p1_cust']}, supp={merged['p1_supp']}, date={merged['p1_date']}",
+            f"  • Phase 2 (Bitmap AND): {merged['bm_cust']} & {merged['bm_supp']} & {merged['bm_date']} -> {merged['bm_and']} => P={merged['pos_list']}",
+            f"  • Phase 3 (Late Materialization): {merged['p3_rows']}",
+            f"  • Between Rewriting: {merged['rewritten_range']} (contiguous index range ✓)",
         ])
     if "4" in codes:
         logs.extend([
-            f"[Phần 4 · SSBM Q3.1] Fact={rows:,} dòng -> {merged['num_groups']} nhóm",
-            f"  • Plan A (Row-Store Join):      {merged['t_plan_a']} ms (1.0x)",
-            f"  • Plan B (Invisible Join):      {merged['t_plan_b']} ms ({merged['speedup_b']}x)",
-            f"  • Plan C (+ Between-Predicate): {merged['t_plan_c']} ms ({merged['speedup_c']}x)",
-            f"  • Quét I/O: Plan A={merged.get('mb_plan_a')} MB vs Plan B/C={merged.get('mb_plan_b')} MB (Tiết kiệm {merged.get('io_saved_pct')}% I/O)",
-            f"  • Tổng doanh thu: {merged['total_rev_4']:,} (assert kq_a == kq_b == kq_c ✓)",
+            f"[Part 4 · SSBM Q3.1] Fact={rows:,} rows -> {merged['num_groups']} aggregate groups",
+            f"  • Plan A (Row-Store Hash Join):      {merged['t_plan_a']} ms (1.0x baseline)",
+            f"  • Plan B (Invisible Join):           {merged['t_plan_b']} ms ({merged['speedup_b']}x faster)",
+            f"  • Plan C (+ Between-Predicate Opt):  {merged['t_plan_c']} ms ({merged['speedup_c']}x faster)",
+            f"  • I/O Traffic: Plan A={merged.get('mb_plan_a')} MB vs Plan B/C={merged.get('mb_plan_b')} MB (Saved {merged.get('io_saved_pct')}% I/O)",
+            f"  • Aggregated Revenue: {merged['total_rev_4']:,} (assert plan_a == plan_b == plan_c ✓)",
         ])
-    logs.append(f"[OK] Python trả kết quả sau {elapsed_ms} ms")
+    logs.append(f"[OK] Python analytical engine executed in {elapsed_ms} ms")
     return logs
 
 
 def chay_invisible_join_cho_web(cust_region="Asia", supp_region="Asia", year_start=1992, year_end=1997, rows=6_000_000, seed=42):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] chay_invisible_join_cho_web: cust_region={cust_region}, supp_region={supp_region}, years={year_start}..{year_end}, rows={rows}")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] run_invisible_join: cust_region={cust_region}, supp_region={supp_region}, years={year_start}..{year_end}, rows={rows}")
     """Tính toán và mô phỏng chi tiết Invisible Join vs Row-store Hash Join theo tham số REST API."""
     cust_region = str(cust_region or "Asia").strip()
     supp_region = str(supp_region or "Asia").strip()
@@ -944,7 +944,7 @@ def chay_invisible_join_cho_web(cust_region="Asia", supp_region="Asia", year_sta
 
 
 def chay_demo_cho_web(part="all", rows=6_000_000, seed=42, cols=None, sql=None, rle_start=None, rle_end=None):
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] chay_demo_cho_web: part={part}, rows={rows}, seed={seed}")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [PYTHON] run_demo: part={part}, rows={rows}, seed={seed}")
     """Chạy phần demo theo yêu cầu và trả về dict thuần JSON-ready cho Web Dashboard."""
     part = str(part).strip().lower()
     if part not in {"1", "2", "3", "4", "all"}:
@@ -972,3 +972,27 @@ def chay_demo_cho_web(part="all", rows=6_000_000, seed=42, cols=None, sql=None, 
         "parsed": merged,
         "logs": _tao_log_ket_qua(part, rows, seed, codes, merged, elapsed_ms),
     }
+
+
+# Academic English function aliases
+run_demo_for_web = chay_demo_cho_web
+run_invisible_join_for_web = chay_invisible_join_cho_web
+get_preview_data = lay_du_lieu_preview
+
+if __name__ == "__main__":
+    import sys
+    print("=" * 78)
+    print(" COLUMN-STORES VS. ROW-STORES: HOW DIFFERENT ARE THEY REALLY? (SIGMOD 2008)")
+    print(" Replication Benchmark Engine (Daniel J. Abadi et al., SIGMOD 2008)")
+    print("=" * 78)
+    rows_to_run = 6_000_000
+    if len(sys.argv) > 1 and sys.argv[1].isdigit():
+        rows_to_run = int(sys.argv[1])
+    print(f"[*] Executing comprehensive benchmark suite (Dataset: {rows_to_run:,} rows)...\n")
+    res = chay_demo_cho_web(part="all", rows=rows_to_run, seed=42)
+    print("--- DETAILED EXECUTION PROFILES ---")
+    for log_line in res.get("logs", []):
+        print(log_line)
+    print("\n" + "=" * 78)
+    print("[SUCCESS] All SIGMOD 2008 replication benchmarks completed successfully.")
+    print("=" * 78)

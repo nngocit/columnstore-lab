@@ -63,8 +63,8 @@
     "fullscreen_tooltip": "Fullscreen (Shortcut: F)",
     "present_mode_tooltip": "Presentation & Defense Mode",
     "lang_switcher_title": "Switch Language",
-    "lang_vi": "🇻🇳 Tiếng Việt",
-    "lang_en": "🇬🇧 English"
+    "lang_vi": "Tiếng Việt",
+    "lang_en": "English"
   },
   "tabs": {
     "tab0": "0. Star Schema Diagram",
@@ -75,7 +75,7 @@
     "tab5": "5. Backend Source Code"
   },
   "tab0": {
-    "title": "0. Star Schema Diagram & SSBM Data Context (6 Million Rows)",
+    "title": "0. Star Schema Diagram & SSBM Data Context",
     "desc_prefix": "Star Schema Benchmark (SSBM): Fact table",
     "desc_fact_name": "lineorder",
     "desc_contains": "contains",

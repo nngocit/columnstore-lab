@@ -1,150 +1,133 @@
 @echo off
-pushd "%~sdp0"
-title [NHOM 5] HE THONG DIEU KHIEN DEMO (SIGMOD 2008)
+setlocal
+cd /d "%~dp0"
+title Column-Store vs Row-Store Demo (SIGMOD 2008)
 color 0B
 
 :MENU
 cls
 echo ===============================================================================
-echo            HE THONG DIEU KHIEN DEMO COLUMN-STORE (SIGMOD 2008 - NHOM 5)
+echo   COLUMN-STORES VS. ROW-STORES: HOW DIFFERENT ARE THEY REALLY? [SIGMOD 2008]
+echo   Interactive Replication Lab and Benchmark Dashboard
 echo ===============================================================================
 echo.
-echo   [1] Khoi chay Web Server Local va Mo trinh duyet (http://localhost:8000)
-echo   [2] Mo Web Truc Tuyen Cloudflare Pages (Khong can Python, click la chay)
-echo   [3] Mo Web Truc Tuyen GitHub Pages (Ban du phong online)
-echo   [4] Mo Kich Ban Thuyet Trinh Word (KichBan_ThuyetTrinh_Demo_Web_Chuan.docx)
-echo   [5] Mo Slide Thuyet Trinh PowerPoint (Group5_ColumnStore_vs_RowStore_Chuan.pptx)
-echo   [6] Kiem tra va Giai phong Cong 8000 (Don dep cong khi bi ket)
-echo   [0] Thoat chuong trinh
+echo   [1] Start Local Web Demo [Recommended: http://localhost:8000]
+echo       - Auto-checks Python, installs requirements.txt if missing, opens browser
 echo.
+echo   [2] Open Standalone Offline Web Demo [No Python Required]
+echo       - Opens index.html directly in your web browser
+echo.
+echo   [3] Open Live Cloud Demo [Cloudflare Pages]
+echo       - URL: https://cs-lab-a3k.pages.dev
+echo.
+echo   [4] Free Port 8000 [Clean up stuck background server if needed]
+echo.
+echo   [0] Exit
 echo ===============================================================================
-choice /C 1234560 /N /M ">> Nhap phim lua chon [1, 2, 3, 4, 5, 6, 0]: "
+choice /C 12340 /N /M ">> Enter your choice [1, 2, 3, 4, 0]: "
 
-if errorlevel 7 goto EXIT_PROG
-if errorlevel 6 goto RESET_PORT
-if errorlevel 5 goto OPEN_PPTX
-if errorlevel 4 goto OPEN_DOCX
-if errorlevel 3 goto OPEN_GITHUB
-if errorlevel 2 goto OPEN_CLOUDFLARE
+if errorlevel 5 goto EXIT_PROG
+if errorlevel 4 goto RESET_PORT
+if errorlevel 3 goto OPEN_CLOUDFLARE
+if errorlevel 2 goto OPEN_OFFLINE
 if errorlevel 1 goto START_LOCAL
 goto MENU
 
 :START_LOCAL
 cls
 echo ===============================================================================
-echo          [1] KHOI CHAY WEB SERVER LOCAL (PORT 8000)
+echo   [1] STARTING LOCAL WEB DEMO [PORT 8000]
 echo ===============================================================================
 echo.
-cd /d "%~sdp0"
+cd /d "%~dp0"
 
 set "PY_CMD="
-if exist "C:\Program Files\Python313\python.exe" (
-    set "PY_CMD=C:\Program Files\Python313\python.exe"
-) else (
-    where python >nul 2>nul
-    if not errorlevel 1 (
-        set "PY_CMD=python"
-    ) else (
-        where py >nul 2>nul
-        if not errorlevel 1 (
-            set "PY_CMD=py"
-        )
-    )
-)
-
+where python >nul 2>&1
+if not errorlevel 1 set "PY_CMD=python"
 if "%PY_CMD%"=="" (
-    echo [LOI] Khong tim thay Python tren may tinh!
-    echo Goi y: Hay bam phim [2] tai Menu de dung ban Web Cloudflare Pages!
-    echo.
-    pause
-    goto MENU
+    where py >nul 2>&1
+    if not errorlevel 1 set "PY_CMD=py"
 )
+if "%PY_CMD%"=="" if exist "C:\Program Files\Python313\python.exe" set "PY_CMD=C:\Program Files\Python313\python.exe"
+if "%PY_CMD%"=="" if exist "C:\Program Files\Python312\python.exe" set "PY_CMD=C:\Program Files\Python312\python.exe"
+if "%PY_CMD%"=="" if exist "C:\Program Files\Python311\python.exe" set "PY_CMD=C:\Program Files\Python311\python.exe"
+if "%PY_CMD%"=="" if exist "C:\Program Files\Python310\python.exe" set "PY_CMD=C:\Program Files\Python310\python.exe"
 
-echo [*] Dang khoi chay web_server.py bang: %PY_CMD%
-echo [*] Trinh duyet se tu dong bat len tai http://localhost:8000 ...
+if "%PY_CMD%"=="" goto NO_PYTHON
+
+echo [+] Found Python:
+"%PY_CMD%" --version
+echo.
+echo [*] Checking NumPy dependency...
+"%PY_CMD%" -c "import numpy" >nul 2>&1
+if errorlevel 1 goto INSTALL_DEPS
+goto LAUNCH_SERVER
+
+:INSTALL_DEPS
+echo [*] NumPy not found. Installing from requirements.txt...
+"%PY_CMD%" -m pip install -r requirements.txt
+if errorlevel 1 goto INSTALL_FAILED
+goto LAUNCH_SERVER
+
+:INSTALL_FAILED
+echo.
+echo [WARNING] Could not install NumPy automatically via pip.
+echo You can still run the demo offline by selecting [2] in the Main Menu.
+echo.
+pause
+goto MENU
+
+:LAUNCH_SERVER
+echo [+] Dependencies ready.
+echo [*] Starting local server at http://127.0.0.1:8000 ...
+echo [*] Your browser will open automatically. Press Ctrl+C to stop the server.
 echo.
 "%PY_CMD%" web_server.py
 echo.
-echo [THONG BAO] May chu da dung.
+echo [INFO] Web server stopped.
 pause
+goto MENU
+
+:NO_PYTHON
+echo.
+echo [NOTICE] Python was not found in PATH on this computer.
+echo You can still run the full interactive demo without Python:
+echo.
+echo   [1] Open Standalone Offline Web Demo [index.html]
+echo   [2] Open Live Cloud Demo [https://cs-lab-a3k.pages.dev]
+echo   [0] Return to Main Menu
+echo.
+choice /C 120 /N /M ">> Select [1, 2, 0]: "
+if errorlevel 3 goto MENU
+if errorlevel 2 goto OPEN_CLOUDFLARE
+if errorlevel 1 goto OPEN_OFFLINE
+goto MENU
+
+:OPEN_OFFLINE
+cls
+echo [*] Opening index.html in default web browser...
+start "" "%~dp0index.html"
 goto MENU
 
 :OPEN_CLOUDFLARE
 cls
-echo ===============================================================================
-echo          [2] MO LIVE DEMO CLOUDFLARE PAGES
-echo ===============================================================================
-echo.
-echo [*] Dang mo trinh duyet toi: https://cs-lab-a3k.pages.dev ...
-start https://cs-lab-a3k.pages.dev
-ping -n 3 127.0.0.1 > nul
-goto MENU
-
-:OPEN_GITHUB
-cls
-echo ===============================================================================
-echo          [3] MO LIVE DEMO GITHUB PAGES
-echo ===============================================================================
-echo.
-echo [*] Dang mo trinh duyet toi: https://nngocit.github.io/columnstore-lab/ ...
-start https://nngocit.github.io/columnstore-lab/
-ping -n 3 127.0.0.1 > nul
-goto MENU
-
-:OPEN_DOCX
-cls
-echo ===============================================================================
-echo          [4] MO KICH BAN THUYET TRINH (WORD DOCX)
-echo ===============================================================================
-echo.
-cd /d "%~sdp0"
-if exist "KichBan_ThuyetTrinh_Demo_Web_Chuan.docx" (
-    echo [*] Dang mo file Word: KichBan_ThuyetTrinh_Demo_Web_Chuan.docx ...
-    start "" "KichBan_ThuyetTrinh_Demo_Web_Chuan.docx"
-) else if exist "..\KichBan_ThuyetTrinh_Demo_Web_Chuan.docx" (
-    echo [*] Dang mo file Word: KichBan_ThuyetTrinh_Demo_Web_Chuan.docx ...
-    start "" "..\KichBan_ThuyetTrinh_Demo_Web_Chuan.docx"
-) else (
-    echo [LOI] Khong tim thay file Word!
-)
-ping -n 3 127.0.0.1 > nul
-goto MENU
-
-:OPEN_PPTX
-cls
-echo ===============================================================================
-echo          [5] MO SLIDE THUYET TRINH (POWERPOINT PPTX)
-echo ===============================================================================
-echo.
-cd /d "%~sdp0"
-if exist "Group5_ColumnStore_vs_RowStore_Chuan.pptx" (
-    echo [*] Dang mo Slide PowerPoint: Group5_ColumnStore_vs_RowStore_Chuan.pptx ...
-    start "" "Group5_ColumnStore_vs_RowStore_Chuan.pptx"
-) else if exist "..\Group5_ColumnStore_vs_RowStore_Chuan.pptx" (
-    echo [*] Dang mo Slide PowerPoint: Group5_ColumnStore_vs_RowStore_Chuan.pptx ...
-    start "" "..\Group5_ColumnStore_vs_RowStore_Chuan.pptx"
-) else (
-    echo [LOI] Khong tim thay file PowerPoint!
-)
-ping -n 3 127.0.0.1 > nul
+echo [*] Opening Live Cloud Demo: https://cs-lab-a3k.pages.dev ...
+start "" "https://cs-lab-a3k.pages.dev"
 goto MENU
 
 :RESET_PORT
 cls
 echo ===============================================================================
-echo          [6] KIEM TRA VA GIAI PHONG CONG 8000
+echo   [4] CHECKING AND FREEING PORT 8000
 echo ===============================================================================
 echo.
-echo [*] Dang quet cac tien trinh dang chiem cong 8000...
 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":8000" ^| findstr "LISTENING"') do (
-    echo [*] Dang giai phong PID: %%a ...
-    taskkill /f /pid %%a >nul 2>nul
+    echo [*] Terminating process PID %%a on port 8000...
+    taskkill /f /pid %%a >nul 2>&1
 )
-echo.
-echo [XONG] Da giai phong sach cong 8000!
-ping -n 3 127.0.0.1 > nul
+echo [OK] Port 8000 is now free.
+pause
 goto MENU
 
 :EXIT_PROG
-popd
-exit
+exit /b 0

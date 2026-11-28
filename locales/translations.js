@@ -1,8 +1,4 @@
-/**
- * translations.js
- * Fallback translation dictionaries for offline file:/// execution
- * Provides window.I18N_FALLBACK object containing 'vi' and 'en' dictionaries.
- */
+// Auto-generated bundled fallback translations for offline file:/// support
 window.I18N_FALLBACK = {
   vi: {
   "common": {
@@ -69,8 +65,8 @@ window.I18N_FALLBACK = {
     "fullscreen_tooltip": "Toàn màn hình (Phím tắt: F)",
     "present_mode_tooltip": "Chế độ Thuyết Trình Báo Cáo",
     "lang_switcher_title": "Chuyển đổi ngôn ngữ",
-    "lang_vi": "🇻🇳 Tiếng Việt",
-    "lang_en": "🇬🇧 English"
+    "lang_vi": "Tiếng Việt",
+    "lang_en": "English"
   },
   "tabs": {
     "tab0": "0. Sơ đồ Star Schema",
@@ -81,7 +77,7 @@ window.I18N_FALLBACK = {
     "tab5": "5. Mã nguồn backend"
   },
   "tab0": {
-    "title": "0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (6 triệu dòng)",
+    "title": "0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM",
     "desc_prefix": "Star Schema Benchmark (SSBM): Bảng Fact",
     "desc_fact_name": "lineorder",
     "desc_contains": "chứa",
@@ -572,8 +568,8 @@ window.I18N_FALLBACK = {
     "fullscreen_tooltip": "Fullscreen (Shortcut: F)",
     "present_mode_tooltip": "Presentation & Defense Mode",
     "lang_switcher_title": "Switch Language",
-    "lang_vi": "🇻🇳 Tiếng Việt",
-    "lang_en": "🇬🇧 English"
+    "lang_vi": "Tiếng Việt",
+    "lang_en": "English"
   },
   "tabs": {
     "tab0": "0. Star Schema Diagram",
@@ -584,7 +580,7 @@ window.I18N_FALLBACK = {
     "tab5": "5. Backend Source Code"
   },
   "tab0": {
-    "title": "0. Star Schema Diagram & SSBM Data Context (6 Million Rows)",
+    "title": "0. Star Schema Diagram & SSBM Data Context",
     "desc_prefix": "Star Schema Benchmark (SSBM): Fact table",
     "desc_fact_name": "lineorder",
     "desc_contains": "contains",

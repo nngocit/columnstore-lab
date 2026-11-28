@@ -2476,8 +2476,8 @@
     <rect x="40" y="56" width="250" height="22" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8" />
     <line x1="64" y1="56" x2="64" y2="78" stroke="#cbd5e1" stroke-width="0.8"/>
     <line x1="195" y1="56" x2="195" y2="78" stroke="#cbd5e1" stroke-width="0.8"/>
-    <text x="68" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569"><span data-i18n="tab0.col_name">Column Name</span></text>
-    <text x="201" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569"><span data-i18n="tab0.data_type">Data Type</span></text>
+    <text x="68" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569" data-i18n="tab0.col_name">Column Name</text>
+    <text x="201" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569" data-i18n="tab0.data_type">Data Type</text>
     <rect x="40" y="78" width="250" height="21" fill="#fffbeb" />
     <line x1="40" y1="99" x2="290" y2="99" stroke="#e2e8f0" stroke-width="0.6"/>
     <line x1="64" y1="78" x2="64" y2="99" stroke="#e2e8f0" stroke-width="0.6"/>
@@ -6279,7 +6279,7 @@ const P1_ALL_COLS = [
       const mLabel = rows === 6000000 ? '6M' : (rows === 3000000 ? '3M' : `${(rows / 1e6).toFixed(1)}M`);
 
       const elRowsTitle = document.getElementById('p0RowsTitle');
-      if (elRowsTitle) elRowsTitle.textContent = `${(rows / 1e6).toFixed(rows % 1e6 === 0 ? 0 : 1)} triệu dòng`;
+      if (elRowsTitle) elRowsTitle.textContent = (typeof currentLang !== 'undefined' && currentLang === 'en') ? `${(rows / 1e6).toFixed(rows % 1e6 === 0 ? 0 : 1)}M rows` : `${(rows / 1e6).toFixed(rows % 1e6 === 0 ? 0 : 1)} triệu dòng`;
       const elTipRows = document.getElementById('p0TipRows');
       if (elTipRows) elTipRows.textContent = `${mLabel} dòng`;
       const elTipMb = document.getElementById('p0TipMb');
@@ -6292,7 +6292,7 @@ const P1_ALL_COLS = [
       const bf = document.getElementById('p0BadgeFact'); if (bf) bf.textContent =
         `LINEORDER: ${fmtInt(rows)} dòng × 17 cột (68B/dòng = ${fmtInt(totalMb)} MB)`;
       document.getElementById('p0FactMeta').textContent =
-        `${mLabel} dòng · 17 cột · ${fmtInt(totalMb)} MB`;
+        (typeof currentLang !== 'undefined' && currentLang === 'en') ? `${mLabel} rows · 17 cols · ${fmtInt(totalMb)} MB` : `${mLabel} dòng · 17 cột · ${fmtInt(totalMb)} MB`;
       const p0Map4El = document.getElementById('p0Map4Target');
       if (p0Map4El) p0Map4El.textContent =
         `Đua tốc độ 4 bảng · ${mLabel} dòng →`;

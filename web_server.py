@@ -197,7 +197,7 @@ def kill_process_on_port(port=8000):
             if len(parts) >= 5:
                 pid = parts[-1]
                 if pid and pid != str(os.getpid()):
-                    print(f"[*] Giai phong tien trinh cu chiem cong {port} (PID: {pid})...")
+                    print(f"[*] Releasing port {port} occupied by previous process (PID: {pid})...")
                     subprocess.run(f'taskkill /F /PID {pid}', shell=True, capture_output=True)
         time.sleep(1.0)
     except Exception:
@@ -207,24 +207,24 @@ if __name__ == "__main__":
     import sys, time, webbrowser
     host, port = "127.0.0.1", 8000
 
-    # 1. Neu server da dang chay va phan hoi tot:
+    # 1. If server is already running and healthy:
     if check_server_healthy(host, port):
         print("=" * 75)
-        print(f"  [OK] MAY CHU DEMO DA DANG CHAY SAN TAI: http://{host}:{port}")
-        print("  >> Dang tu dong mo trinh duyet web...")
+        print(f"  [OK] DEMO SERVER IS ALREADY RUNNING AT: http://{host}:{port}")
+        print("  >> Automatically opening default web browser...")
         print("=" * 75)
         webbrowser.open(f"http://{host}:{port}")
-        print("\n>> Nhan Enter de thoat (may chu van tiep tuc chay ngam)...")
+        print("\n>> Press Enter to exit (server will continue running in background)...")
         try: input()
         except Exception: pass
         sys.exit(0)
 
-    # 2. Neu cong 8000 bi chiem boi tien trinh khac / tien trinh cu bi treo:
+    # 2. If port 8000 is occupied by a stale process, release it:
     if check_port_open(host, port):
-        print(f"[*] Phat hien cong {port} dang ban, dang giai phong...")
+        print(f"[*] Detected port {port} is occupied, releasing...")
         kill_process_on_port(port)
 
-    # 3. Khoi dong server voi co che Retry 5 lan:
+    # 3. Start server with 5-attempt retry mechanism:
     ThreadingHTTPServer.allow_reuse_address, ThreadingHTTPServer.daemon_threads = True, True
     srv = None
     for attempt in range(1, 6):
@@ -233,31 +233,31 @@ if __name__ == "__main__":
             break
         except OSError as e:
             if attempt < 5:
-                print(f"[*] Cong {port} dang duoc Windows giai phong... Thu lai lan {attempt}/5 sau 1.2s...")
+                print(f"[*] Port {port} is being released by the OS... Retrying attempt {attempt}/5 in 1.2s...")
                 kill_process_on_port(port)
                 time.sleep(1.2)
             else:
-                print(f"[LOI] Khong the mo cong {port} sau 5 lan thu: {e}")
+                print(f"[ERROR] Unable to bind to port {port} after 5 attempts: {e}")
                 sys.exit(1)
 
-    # 4. Tu dong mo trinh duyet web sau 0.8s
+    # 4. Automatically open web browser after 0.8s
     def _open_browser():
         time.sleep(0.8)
-        print(f">> Da mo trinh duyet web tai: http://{host}:{port}")
+        print(f">> Web browser opened at: http://{host}:{port}")
         webbrowser.open(f"http://{host}:{port}")
 
     threading.Thread(target=_open_browser, daemon=True).start()
 
     print("=" * 75)
-    print(f"  MAY CHU DEMO COLUMN-STORE (SIGMOD 2008) DANG CHAY:")
+    print("  COLUMN-STORE (SIGMOD 2008) DEMO SERVER IS RUNNING:")
     print(f"  URL: http://{host}:{port}")
-    print("  De dung web server: Nhan Ctrl + C hoac dong cua so nay.")
+    print("  To stop web server: Press Ctrl + C or close this window.")
     print("=" * 75)
 
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
-        print("\nMay chu da dung theo yeu cau.")
+        print("\nServer stopped gracefully.")
     finally:
         try: srv.server_close()
         except Exception: pass
