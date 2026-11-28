@@ -50,6 +50,17 @@ class DemoHandler(BaseHTTPRequestHandler):
             target_f = DASHBOARD.parent / route.lstrip("/")
             if target_f.is_file():
                 return self._reply(200, target_f.read_bytes(), "text/plain; charset=utf-8")
+        if route.startswith("/locales/"):
+            rel = route[len("/locales/"):]
+            local_file = (DASHBOARD.parent / "locales" / rel).resolve()
+            if local_file.is_file() and str(local_file).startswith(str((DASHBOARD.parent / "locales").resolve())):
+                if rel.endswith(".json"):
+                    ct = "application/json; charset=utf-8"
+                elif rel.endswith(".js"):
+                    ct = "application/javascript; charset=utf-8"
+                else:
+                    ct = mimetypes.guess_type(local_file.name)[0] or "application/octet-stream"
+                return self._reply(200, local_file.read_bytes(), ct)
         if route.startswith("/monaco/"):
             rel = route[len("/monaco/"):]
             local_file = (DASHBOARD.parent / "monaco" / rel).resolve()

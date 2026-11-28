@@ -166,6 +166,61 @@
     }
     .server-pill.offline .dot { background: #94a3b8; }
 
+    /* ===== LANGUAGE SWITCHER TOGGLE ===== */
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px;
+      gap: 2px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .lang-switcher:hover {
+      border-color: var(--border-strong);
+    }
+    .lang-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.2;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+      white-space: nowrap;
+    }
+    .lang-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .lang-btn.active {
+      background: var(--surface);
+      color: var(--dark);
+      border-color: rgba(203, 213, 225, 0.8);
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1), 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+    .lang-flag {
+      font-size: 13px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .lang-text {
+      letter-spacing: -0.01em;
+    }
+
     .controls-group {
       display: flex;
       align-items: center;
@@ -2203,54 +2258,63 @@
         <div class="brand-group">
           <div class="brand-logo">
             <span class="brand-mark">CS</span>
-            <span>ColumnStore Lab · Nhóm 5</span>
+            <span data-i18n="header.brand_title">ColumnStore Lab · Nhóm 5</span>
           </div>
-          <span class="brand-sub">SIGMOD 2008 · Abadi et al.</span>
-          <button id="serverStatusBtn" class="server-pill offline" type="button" onclick="checkServerStatus()" title="Nhấn để kiểm tra lại kết nối Python :8000">
+          <span class="brand-sub" data-i18n="header.brand_subtitle">SIGMOD 2008 · Abadi et al.</span>
+          <button id="serverStatusBtn" class="server-pill offline" type="button" onclick="checkServerStatus()" title="Nhấn để kiểm tra lại kết nối Python :8000" data-i18n-title="header.status_tooltip">
             <span class="dot"></span>
-            <span id="serverStatusText">Đang kiểm tra :8000...</span>
+            <span id="serverStatusText" data-i18n="header.status_checking">Đang kiểm tra :8000...</span>
           </button>
+          <!-- Modern Bilingual Language Switcher -->
+          <div class="lang-switcher" id="langSwitcher" role="group" aria-label="Language selector" data-i18n-title="header.lang_switcher_title">
+            <button type="button" class="lang-btn active" id="langBtnVi" onclick="setLanguage('vi')" title="Chuyển sang Tiếng Việt">
+              <span class="lang-flag">🇻🇳</span> <span class="lang-text" data-i18n="header.lang_vi">Tiếng Việt</span>
+            </button>
+            <button type="button" class="lang-btn" id="langBtnEn" onclick="setLanguage('en')" title="Switch to English">
+              <span class="lang-flag">🇬🇧</span> <span class="lang-text" data-i18n="header.lang_en">English</span>
+            </button>
+          </div>
         </div>
 
         <div class="controls-group">
-          <select id="rowsSelect" class="ctrl-select" onchange="onConfigChange()" aria-label="Số dòng dữ liệu">
-            <option value="6000000" selected>6,000,000 dòng (Chuẩn)</option>
-            <option value="3000000">3,000,000 dòng (Nhanh)</option>
+          <select id="rowsSelect" class="ctrl-select" onchange="onConfigChange()" aria-label="Số dòng dữ liệu" data-i18n-aria="header.rows_select_aria">
+            <option value="6000000" selected data-i18n="header.rows_standard">6,000,000 dòng (Chuẩn)</option>
+            <option value="3000000" data-i18n="header.rows_fast">3,000,000 dòng (Nhanh)</option>
           </select>
-          <div id="seedInputGroup" style="display:inline-flex;align-items:center;gap:4px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;transition:opacity 0.2s, background-color 0.2s;" title="Seed ngẫu nhiên (chỉnh số để đổi tập dữ liệu)">
-            <label for="seedInput" style="font-size:12px;font-weight:700;color:#64748b;cursor:pointer;">Seed:</label>
+          <div id="seedInputGroup" style="display:inline-flex;align-items:center;gap:4px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:3px 8px;transition:opacity 0.2s, background-color 0.2s;" title="Seed ngẫu nhiên (chỉnh số để đổi tập dữ liệu)" data-i18n-title="header.seed_tooltip">
+            <label for="seedInput" style="font-size:12px;font-weight:700;color:#64748b;cursor:pointer;" data-i18n="header.seed_label">Seed:</label>
             <input id="seedInput" type="number" min="1" max="999999" value="42" oninput="onSeedChange(this.value)" onchange="onSeedChange(this.value); onSeedCommit();" onkeydown="if(event.key==='Enter'){event.preventDefault(); onSeedChange(this.value); onSeedCommit();}" class="mono" style="width:58px;border:none;background:transparent;font-weight:700;color:#0f172a;font-size:12px;outline:none;" />
           </div>
           <span id="seedBadge" style="display:none;">Seed: 42</span>
-          <button id="runAllBtn" class="btn btn-dark" type="button" onclick="runDemo('all')">▶ Run All</button>
+          <button id="runAllBtn" class="btn btn-dark" type="button" onclick="runDemo('all')" data-i18n="header.run_all_btn"><span data-i18n="common.run_all">▶ Run All</span></button>
           
         </div>
       </div>
 
       <div class="nav-bar">
         <nav class="nav-tabs" aria-label="Điều hướng bài lab">
-          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')">0. Sơ đồ Star Schema <span class="kbd">0</span></button>
-          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')">1. Hàng vs cột (Q1.1) <span class="kbd">1</span></button>
-          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')">2. Nén RLE &amp; đếm trực tiếp <span class="kbd">2</span></button>
-          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')">3. Ghép ẩn (Invisible Join) <span class="kbd">3</span></button>
-          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')">4. 3 kế hoạch Q3.1 <span class="kbd">4</span></button>
-          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')">5. Mã nguồn backend <span class="kbd">5</span></button>
+          <button id="tab-0" class="nav-tab active" type="button" onclick="setViewMode('0')"><span data-i18n="tabs.tab0">0. Sơ đồ Star Schema</span> <span class="kbd">0</span></button>
+          <button id="tab-1" class="nav-tab" type="button" onclick="setViewMode('1')"><span data-i18n="tabs.tab1">1. Hàng vs cột (Q1.1)</span> <span class="kbd">1</span></button>
+          <button id="tab-2" class="nav-tab" type="button" onclick="setViewMode('2')"><span data-i18n="tabs.tab2">2. Nén RLE &amp; đếm trực tiếp</span> <span class="kbd">2</span></button>
+          <button id="tab-3" class="nav-tab" type="button" onclick="setViewMode('3')"><span data-i18n="tabs.tab3">3. Ghép ẩn (Invisible Join)</span> <span class="kbd">3</span></button>
+          <button id="tab-4" class="nav-tab" type="button" onclick="setViewMode('4')"><span data-i18n="tabs.tab4">4. 3 kế hoạch Q3.1</span> <span class="kbd">4</span></button>
+          <button id="tab-5" class="nav-tab" type="button" onclick="setViewMode('5')"><span data-i18n="tabs.tab5">5. Mã nguồn backend</span> <span class="kbd">5</span></button>
         </nav>
         <div class="nav-actions">
-          <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)">
-            <span style="font-size:12px;">📋</span> Log Python <span class="kbd">L</span>
+          <button id="togglePyLogBtn" class="nav-pill-btn active" type="button" onclick="togglePyLogSidebar()" title="Ẩn/Hiện bảng Log Python (Phím tắt: L)" data-i18n-title="sidebar_log.btn_collapse_title">
+            <span style="font-size:12px;">📋</span> <span data-i18n="header.log_btn">Log Python</span> <span class="kbd">L</span>
           </button>
           
-          <button id="fullscreenBtn" class="nav-pill-btn" type="button" onclick="toggleFullscreen()" title="Toàn màn hình">⛶ <span class="kbd">F</span></button>
+          <button id="fullscreenBtn" class="nav-pill-btn" type="button" onclick="toggleFullscreen()" title="Toàn màn hình" data-i18n-title="header.fullscreen_tooltip">⛶ <span class="kbd">F</span></button>
         </div>
       </div>
     </div>
   </header>
 
   <!-- MINI DOCKED TRIGGER FOR PYTHON LOG WHEN COLLAPSED -->
-  <button id="pyLogMiniTrigger" class="py-log-mini-trigger" type="button" onclick="togglePyLogSidebar()" title="Mở bảng Log Python (Phím tắt: L)">
+  <button id="pyLogMiniTrigger" class="py-log-mini-trigger" type="button" onclick="togglePyLogSidebar()" title="Mở bảng Log Python (Phím tắt: L)" data-i18n-title="sidebar_log.btn_collapse_title">
     <span class="py-log-dot"></span>
-    <span class="py-log-mini-text">📋 Log Python</span>
+    <span class="py-log-mini-text" data-i18n="sidebar_log.title">📋 Log Python</span>
     <span id="pyLogMiniBadge" class="py-log-mini-badge">0</span>
     <span class="kbd" style="background:#1e293b;border-color:#475569;color:#cbd5e1;padding:1px 4px;font-size:10px;">L</span>
   </button>
@@ -2261,19 +2325,19 @@
         <div class="py-log-title-row">
           <div class="py-log-title">
             <span class="py-log-dot"></span>
-            <span>Log từ Python trả về</span>
+            <span data-i18n="sidebar_log.subtitle">Log từ Python trả về</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px;">
             <span id="pyLogCountBadge" class="class-badge badge-slate mono">0 lần</span>
-            <button id="collapsePyLogBtn" class="py-log-collapse-btn" type="button" onclick="togglePyLogSidebar()" title="Ẩn bảng Log Python (Phím tắt: L)" aria-label="Ẩn Log">◀ Ẩn log</button>
+            <button id="collapsePyLogBtn" class="py-log-collapse-btn" type="button" onclick="togglePyLogSidebar()" title="Ẩn bảng Log Python (Phím tắt: L)" aria-label="Ẩn Log" data-i18n="sidebar_log.btn_collapse">◀ Ẩn log</button>
           </div>
         </div>
         <div class="py-log-controls">
           <div class="py-log-tabs" role="tablist" aria-label="Chế độ xem log Python">
-            <button id="pyLogModePretty" class="py-log-tab active" type="button" onclick="setPyLogMode('pretty')">Log chi tiết</button>
-            <button id="pyLogModeJson" class="py-log-tab" type="button" onclick="setPyLogMode('json')">JSON gốc</button>
+            <button id="pyLogModePretty" class="py-log-tab active" type="button" onclick="setPyLogMode('pretty')"><span data-i18n="sidebar_log.tab_pretty">Log chi tiết</span></button>
+            <button id="pyLogModeJson" class="py-log-tab" type="button" onclick="setPyLogMode('json')"><span data-i18n="sidebar_log.tab_json">JSON gốc</span></button>
           </div>
-          <button class="py-log-clear" type="button" onclick="clearPyLogs()" title="Xóa lịch sử log">Xóa</button>
+          <button class="py-log-clear" type="button" onclick="clearPyLogs()" title="Xóa lịch sử log" data-i18n-title="sidebar_log.btn_clear_title">Xóa</button>
         </div>
       </div>
       <div id="pyLogStream" class="py-log-stream" aria-live="polite">
@@ -2288,9 +2352,9 @@
     <section id="sec-0" class="sec-panel visible">
       <!-- HEADER & SUBTITLE -->
       <div style="margin-bottom:12px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM (<span id="p0RowsTitle">6 triệu dòng</span>)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;"><span data-i18n="tab0.title">0. Sơ đồ Star Schema và bối cảnh dữ liệu SSBM</span> (<span id="p0RowsTitle">6 triệu dòng</span>)</h2>
         <div style="font-size:12px;color:#475569;">
-          Star Schema Benchmark (SSBM): Bảng Fact <code>lineorder</code> chứa <b id="ctx0-rows" class="mono">6,000,000</b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
+          Star Schema Benchmark (SSBM): Bảng Fact <code><span data-i18n="tab0.desc_fact_name">lineorder</span></code> chứa <b id="ctx0-rows" class="mono"><span data-i18n="tab0.desc_rows_num"><span data-i18n="tab1.context_fact_rows"><span data-i18n="tab2.context_rows_num"><span data-i18n="tab2.step1_rows"><span data-i18n="tab3.context_fact_rows"><span data-i18n="tab4.context_fact_rows">6,000,000</span></span></span></span></span></span></b> dòng (dung lượng <b id="ctx0-total-mb" class="mono">408</b> MB) liên kết với 4 bảng Dimension nhỏ
         </div>
       </div>
 
@@ -2300,11 +2364,11 @@
           <span style="font-size:11.5px;font-weight:700;color:#475569;display:flex;align-items:center;gap:3px;">
             <span>🔍</span> Zoom:
           </span>
-          <button type="button" class="btn btn-xs" onclick="zoomStarSchema(0.15)" title="Phóng to (Phím tắt: Lăn chuột lên)" style="padding:3px 8px;font-size:12px;font-weight:700;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">➕</button>
-          <button type="button" class="btn btn-xs" onclick="zoomStarSchema(-0.15)" title="Thu nhỏ (Phím tắt: Lăn chuột xuống)" style="padding:3px 8px;font-size:12px;font-weight:700;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">➖</button>
+          <button type="button" class="btn btn-xs" onclick="zoomStarSchema(0.15)" title="Phóng to (Phím tắt: Lăn chuột lên)" data-i18n-title="tab0.zoom_in_title" style="padding:3px 8px;font-size:12px;font-weight:700;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">➕</button>
+          <button type="button" class="btn btn-xs" onclick="zoomStarSchema(-0.15)" title="Thu nhỏ (Phím tắt: Lăn chuột xuống)" data-i18n-title="tab0.zoom_out_title" style="padding:3px 8px;font-size:12px;font-weight:700;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">➖</button>
           <span id="starZoomBadge" style="font-size:11.5px;font-family:Consolas,monospace;font-weight:800;color:#1e40af;min-width:44px;text-align:center;background:#eff6ff;padding:2px 6px;border-radius:4px;border:1px solid #bfdbfe;">100%</span>
-          <button type="button" class="btn btn-xs" onclick="resetStarSchemaZoom()" title="Đặt lại kích thước chuẩn (Nhấp đúp chuột)" style="padding:3px 8px;font-size:11px;font-weight:600;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">↺ 100%</button>
-          <button type="button" class="btn btn-xs" onclick="fitStarSchemaZoom()" title="Tự động căn vừa khung nhìn (Fit width)" style="padding:3px 8px;font-size:11px;font-weight:600;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">⛶ Fit</button>
+          <button type="button" class="btn btn-xs" onclick="resetStarSchemaZoom()" title="Đặt lại kích thước chuẩn (Nhấp đúp chuột)" data-i18n-title="tab0.zoom_reset_title" style="padding:3px 8px;font-size:11px;font-weight:600;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;">↺ 100%</button>
+          <button type="button" class="btn btn-xs" onclick="fitStarSchemaZoom()" title="Tự động căn vừa khung nhìn (Fit width)" style="padding:3px 8px;font-size:11px;font-weight:600;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;cursor:pointer;"><span data-i18n="common.fit">⛶ Fit</span></button>
         </div>
 
 
@@ -2412,8 +2476,8 @@
     <rect x="40" y="56" width="250" height="22" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.8" />
     <line x1="64" y1="56" x2="64" y2="78" stroke="#cbd5e1" stroke-width="0.8"/>
     <line x1="195" y1="56" x2="195" y2="78" stroke="#cbd5e1" stroke-width="0.8"/>
-    <text x="68" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569">Column Name</text>
-    <text x="201" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569">Data Type</text>
+    <text x="68" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569"><span data-i18n="tab0.col_name">Column Name</span></text>
+    <text x="201" y="71" font-family="Segoe UI, Tahoma, sans-serif" font-size="10.5" font-weight="700" fill="#475569"><span data-i18n="tab0.data_type">Data Type</span></text>
     <rect x="40" y="78" width="250" height="21" fill="#fffbeb" />
     <line x1="40" y1="99" x2="290" y2="99" stroke="#e2e8f0" stroke-width="0.6"/>
     <line x1="64" y1="78" x2="64" y2="99" stroke="#e2e8f0" stroke-width="0.6"/>
@@ -2801,8 +2865,8 @@
         <!-- EXECUTION STATUS BAR (LIGHT) -->
         <div id="p0SqlStatusBar" style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:6px 16px;font-size:11.5px;color:#475569;font-family:Consolas,monospace;display:flex;align-items:center;justify-content:space-between;">
           <div id="p0SqlStatusMsg" style="display:flex;align-items:center;gap:6px;">
-            <span style="color:#059669;font-weight:700;">✔ Sẵn sàng</span>
-            <span>· Xem trước 5 dòng mẫu từ RAM theo bảng được chọn</span>
+            <span style="color:#059669;font-weight:700;"><span data-i18n="common.ready"><span data-i18n="tab0.status_ready">✔ Sẵn sàng</span></span></span>
+            <span><span data-i18n="tab0.status_hint">· Xem trước 5 dòng mẫu từ RAM theo bảng được chọn</span></span>
           </div>
           <div id="p0SqlExecTime" style="color:#64748b;font-size:11px;">
             Engine: In-Memory ColumnStore
@@ -2819,14 +2883,14 @@
             <div style="display:flex;gap:3px;">
               <button id="p0SsmsTab-results" class="ssms-pane-tab active" type="button" onclick="switchP0SsmsPane('results')" style="background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;padding:5px 14px;font-size:12px;font-family:'Segoe UI',sans-serif;font-weight:700;border-radius:4px 4px 0 0;margin-bottom:-1px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
                 <span>▦ Results</span>
-                <span id="p0SqlRowCountBadge" style="background:#e2e8f0;color:#334155;padding:1px 6px;border-radius:3px;font-size:10.5px;font-weight:600;">5 rows</span>
+                <span id="p0SqlRowCountBadge" style="background:#e2e8f0;color:#334155;padding:1px 6px;border-radius:3px;font-size:10.5px;font-weight:600;"><span data-i18n="tab0.status_rows">5 rows</span></span>
               </button>
               <button id="p0SsmsTab-messages" class="ssms-pane-tab" type="button" onclick="switchP0SsmsPane('messages')" style="background:#e2e8f0;color:#64748b;border:1px solid #cbd5e1;border-bottom:1px solid #cbd5e1;padding:5px 14px;font-size:12px;font-family:'Segoe UI',sans-serif;font-weight:600;border-radius:4px 4px 0 0;margin-bottom:-1px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
-                <span>💬 Messages</span>
+                <span><span data-i18n="tab0.ssms_messages_tab"><span data-i18n="tab4.ssms_messages_tab">💬 Messages</span></span></span>
               </button>
             </div>
             <div style="font-size:11px;color:#64748b;padding-bottom:5px;font-family:'Segoe UI',sans-serif;">
-              <span id="p0SqlTableDesc" style="font-weight:600;color:#2563eb;">dbo.lineorder (Fact: 6,000,000 rows)</span>
+              <span id="p0SqlTableDesc" style="font-weight:600;color:#2563eb;"><span data-i18n="tab0.table_desc_lineorder">dbo.lineorder (Fact: 6,000,000 rows)</span></span>
             </div>
           </div>
 
@@ -2853,10 +2917,10 @@
                 Query executed successfully.
               </span>
               <span style="color:#cbd5e1;">|</span>
-              <span id="p0SsmsStatusDb" style="color:#64748b;font-family:monospace;">SSBM_InMem (dbo)</span>
+              <span id="p0SsmsStatusDb" style="color:#64748b;font-family:monospace;"><span data-i18n="tab0.status_db">SSBM_InMem (dbo)</span></span>
             </div>
             <div style="display:flex;align-items:center;gap:14px;color:#64748b;">
-              <span id="p0SsmsStatusTime" style="font-family:monospace;">00:00:00.001</span>
+              <span id="p0SsmsStatusTime" style="font-family:monospace;"><span data-i18n="tab0.status_time">00:00:00.001</span></span>
               <span>5 rows</span>
             </div>
           </div>
@@ -2872,9 +2936,9 @@
 <section id="sec-1" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">1. Bố cục lưu trữ Row-store (AoS) và Column-store (SoA) trên SSBM Q1.1</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;" data-i18n="tab1.title">1. Bố cục lưu trữ Row-store (AoS) và Column-store (SoA) trên SSBM Q1.1</h2>
         <div style="font-size:12px;color:#475569;">
-          <span id="ctx1-summary"><b>Bảng LINEORDER (Fact):</b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono">408.0</span> MB) · <b>Bảng DWDATE (Dimension):</b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
+          <span id="ctx1-summary"><b><span data-i18n="tab1.context_prefix">Bảng LINEORDER (Fact):</span></b> <span id="ctx1-rows" class="mono">6,000,000</span> dòng × 17 cột (<span id="ctx1-total" class="mono"><span data-i18n="tab1.context_fact_size">408.0</span></span> MB) · <b><span data-i18n="tab1.context_dim_prefix">Bảng DWDATE (Dimension):</span></b> 2,555 dòng (7 năm: 1992–1998; Fact chứa 2,405 ngày)</span>
         </div>
       </div>
 
@@ -2891,7 +2955,7 @@
               <button class="p0-sql-tab active" type="button" style="background:#ffffff;color:#1d4ed8;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;border-top:2.5px solid #2563eb;padding:7px 14px;font-size:12px;font-family:Consolas,monospace;font-weight:700;border-radius:6px 6px 0 0;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;">
                 📄 SSBM Q1.1 (Logical Query Spec)
               </button>
-              <span id="p1ModeBadge" style="padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:none;">Chế độ Mô phỏng Chiếu</span>
+              <span id="p1ModeBadge" style="padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;display:none;"><span data-i18n="tab1.mode_projection_badge">Chế độ Mô phỏng Chiếu</span></span>
             </div>
             <div style="padding:4px 0;">
               <button type="button" onclick="openSqlSpecModal()" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:4px 10px;border-radius:6px;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);transition:all 0.15s ease;">
@@ -2922,13 +2986,13 @@
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
               <span style="font-weight:700;font-size:12.5px;color:#0f172a;display:flex;align-items:center;gap:6px;">
-                <span>Duyệt từng dòng (Step-by-Step Scan):</span>
+                <span><span data-i18n="tab1.step_scan_title">Duyệt từng dòng (Step-by-Step Scan):</span></span>
               </span>
               <button class="btn btn-sm" type="button" onclick="stepP1Scan(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-                <span>← Back</span>
+                <span><span data-i18n="common.back"><span data-i18n="tab1.btn_back"><span data-i18n="tab3.btn_back">← Back</span></span></span></span>
               </button>
               <button class="btn btn-sm btn-primary" type="button" onclick="stepP1Scan(1)" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;">
-                <span>Next →</span>
+                <span><span data-i18n="common.next"><span data-i18n="tab1.btn_next"><span data-i18n="tab3.btn_next">Next →</span></span></span></span>
               </button>
               <button id="p1AutoScanBtn" class="btn btn-sm" type="button" onclick="toggleP1AutoScan()" style="background:#0f172a;color:#ffffff;font-weight:600;border:none;border-radius:6px;padding:5px 10px;cursor:pointer;">
                 ▶ Auto
@@ -2939,13 +3003,13 @@
             </div>
             <div>
               <button id="p1RunQueryBtn" type="button" onclick="runP1BothPlans()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
-                <span>▶ Run</span>
+                <span><span data-i18n="common.run"><span data-i18n="tab1.btn_run"><span data-i18n="tab2.btn_run"><span data-i18n="tab3.btn_run"><span data-i18n="tab4.btn_run">▶ Run</span></span></span></span></span></span>
               </button>
             </div>
           </div>
 
           <div id="p1ScanBanner" class="scan-banner miss" style="margin-top:8px;border-radius:6px;padding:8px 12px;font-size:12px;">
-            <b>Row #0:</b> Ngày 11/04/1992 | Chiết khấu 10% | Số lượng 46 <span style="margin:0 6px;opacity:0.5;">→</span> <span style="color:#be123c;font-weight:700;">Không đạt:</span> Năm 1992 (cần 1993), discount = 10% (cần 1..3%), quantity = 46 (cần &lt; 25)
+            <b>Row #0:</b> Ngày 11/04/1992 | Chiết khấu 10% | Số lượng 46 <span style="margin:0 6px;opacity:0.5;">→</span> <span style="color:#be123c;font-weight:700;"><span data-i18n="tab1.not_match_label">Không đạt:</span></span> Năm 1992 (cần 1993), discount = 10% (cần 1..3%), quantity = 46 (cần &lt; 25)
           </div>
         </div>
 
@@ -2957,7 +3021,7 @@
             <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1.5px solid #ffe4e6;padding-bottom:12px;">
               <div>
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-weight:800;font-size:16px;color:#9f1239;">Row-Store</span>
+                  <span style="font-weight:800;font-size:16px;color:#9f1239;"><span data-i18n="tab1.plan_a_card_title">Row-Store</span></span>
                 </div>
               </div>
             </div>
@@ -2965,7 +3029,7 @@
             <!-- ROW MEMORY LAYOUT (5 ROWS AoS TUPLES) -->
             <div class="ram-layout-block" style="background:#ffffff;border:1px solid #fecdd3;border-radius:8px;padding:12px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-weight:700;font-size:12px;color:#be123c;">Cấu trúc Tuple trong RAM (AoS):</span>
+                <span style="font-weight:700;font-size:12px;color:#be123c;"><span data-i18n="tab1.plan_a_ram_struct">Cấu trúc Tuple trong RAM (AoS):</span></span>
               </div>
               <div id="p1RowBlocks" style="display:flex;flex-direction:column;gap:5px;"></div>
 
@@ -2974,32 +3038,32 @@
             <!-- PLAN A SPEC & RUNTIME METRICS -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#ffffff;padding:12px;border-radius:8px;border:1px solid #fecdd3;font-size:12px;">
               <div>
-                <div style="color:#9f1239;font-weight:600;font-size:11px;">Thuộc tính nạp:</div>
+                <div style="color:#9f1239;font-weight:600;font-size:11px;"><span data-i18n="tab1.attrs_loaded_label">Thuộc tính nạp:</span></div>
                 <div style="font-weight:800;color:#0f172a;font-size:14px;" >17 / 17</div>
               </div>
               <div>
-                <div style="color:#9f1239;font-weight:600;font-size:11px;">Kích thước / dòng:</div>
+                <div style="color:#9f1239;font-weight:600;font-size:11px;"><span data-i18n="tab1.row_size_label">Kích thước / dòng:</span></div>
                 <div style="font-weight:800;color:#0f172a;font-size:14px;" >68 B</div>
               </div>
               <div>
-                <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Read:</div>
+                <div style="color:#9f1239;font-weight:600;font-size:11px;"><span data-i18n="tab1.payload_read_label">Payload Read:</span></div>
                 <div id="p1PlanAPayloadRead" style="font-weight:800;color:#f43f5e;font-size:14px;">408.0 MB</div>
               </div>
               <div>
-                <div style="color:#9f1239;font-weight:600;font-size:11px;">Payload Lãng phí:</div>
+                <div style="color:#9f1239;font-weight:600;font-size:11px;"><span data-i18n="tab1.payload_wasted_label">Payload Lãng phí:</span></div>
                 <div id="p1PlanAPayloadWasted" style="font-weight:800;color:#f43f5e;font-size:14px;">312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #fecdd3;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
                 <div>
-                  <span style="font-size:12px;color:#64748b;font-weight:600;">Thời gian xử lý:</span>
+                  <span style="font-size:12px;color:#64748b;font-weight:600;"><span data-i18n="tab1.exec_time_label">Thời gian xử lý:</span></span>
                   <span id="p1RowStdSub" style="display:none;"></span>
                 </div>
-                <div id="p1TimeRow" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></div>
+                <div id="p1TimeRow" class="mono" style="font-size:18px;font-weight:800;color:#e11d48;"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint"><span data-i18n="common.unmeasured_hint"><span data-i18n="tab2.step3_count_hint">(Chưa đo)</span></span></span></div>
               </div>
               <div style="grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;background:#fff1f2;padding:6px 10px;border-radius:6px;border:1px solid #fecdd3;">
                 <div>
-                  <span style="font-weight:700;color:#0f172a;">Kết quả (Revenue):</span>
-                  <span id="p1RowMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;">-- dòng (Chưa đo)</span>
+                  <span style="font-weight:700;color:#0f172a;"><span data-i18n="tab1.result_revenue_label">Kết quả (Revenue):</span></span>
+                  <span id="p1RowMatchingRows" class="mono" style="font-size:11px;color:#2563eb;margin-left:6px;"><span data-i18n="common.unmeasured_rows">-- dòng (Chưa đo)</span></span>
                 </div>
                 <div id="p1RowResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">--</div>
               </div>
@@ -3012,7 +3076,7 @@
             <div style="display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1.5px solid #dbeafe;padding-bottom:12px;">
               <div>
                 <div style="display:flex;align-items:center;gap:6px;">
-                  <span style="font-weight:800;font-size:16px;color:#1e40af;">Column-Store</span>
+                  <span style="font-weight:800;font-size:16px;color:#1e40af;"><span data-i18n="tab1.plan_b_card_title">Column-Store</span></span>
                   <span id="p1SpeedupHeaderTag" style="display:none;"></span>
                 </div>
               </div>
@@ -3021,7 +3085,7 @@
             <!-- COLUMN MEMORY LAYOUT (4 VERTICAL COLS + NOT LOADED CARD) -->
             <div class="ram-layout-block" style="background:#ffffff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <span style="font-weight:700;font-size:12px;color:#1d4ed8;">Cấu trúc Cột trong RAM (SoA):</span>
+                <span style="font-weight:700;font-size:12px;color:#1d4ed8;"><span data-i18n="tab1.plan_b_ram_struct">Cấu trúc Cột trong RAM (SoA):</span></span>
               </div>
               <div id="p1ColArrays" class="soa-container"></div>
 
@@ -3042,7 +3106,7 @@
                 <div id="p1PlanBPayloadRead" style="font-weight:800;color:#059669;font-size:14px;">96.0 MB</div>
               </div>
               <div>
-                <div style="color:#1d4ed8;font-weight:600;font-size:11px;">Not Loaded:</div>
+                <div style="color:#1d4ed8;font-weight:600;font-size:11px;"><span data-i18n="tab1.payload_not_loaded_label">Not Loaded:</span></div>
                 <div id="p1PlanBPayloadNotLoaded" style="font-weight:800;color:#059669;font-size:14px;">312.0 MB</div>
               </div>
               <div style="grid-column:1 / -1;border-top:1px dashed #bfdbfe;padding-top:8px;display:flex;justify-content:space-between;align-items:baseline;">
@@ -3059,7 +3123,7 @@
                 </div>
                 <div style="display:flex;align-items:center;gap:6px;">
                   <span id="p1ColResultVal" class="mono" style="font-weight:800;color:#059669;font-size:14px;">--</span>
-                  <span id="p1PassBadge" style="display:none !important;" aria-hidden="true" style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;">✓ PASS (Khớp 100%)</span>
+                  <span id="p1PassBadge" style="display:none !important;" aria-hidden="true" style="background:#dcfce7;color:#15803d;border:1px solid #86efac;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;"><span data-i18n="common.pass_100"><span data-i18n="tab1.pass_100_badge">✓ PASS (Khớp 100%)</span></span></span>
                 </div>
               </div>
             </div>
@@ -3077,21 +3141,21 @@
         <div class="tab1-section-label">
           <span class="tab1-section-badge">C</span>
           <span class="tab1-section-title">Run &amp; Compare: Đo lường thực tế</span>
-          <span class="tab1-section-sub">Chạy cả 2 Plan với dữ liệu 6M dòng NumPy thực tế</span>
+          <span class="tab1-section-sub"><span data-i18n="tab1.section_c_sub">Chạy cả 2 Plan với dữ liệu 6M dòng NumPy thực tế</span></span>
         </div>
 
         <div class="run-compare-panel">
           <!-- BIG RUN BUTTON -->
           <button id="p1RunBothBtn" class="run-compare-btn" type="button" onclick="runP1BothPlans()">
             <span style="font-size:18px;">▶</span>
-            <span>Chạy cả 2 Plan (Run Both Plans)</span>
-            <span style="font-size:12px;opacity:0.85;font-weight:600;">[F5]</span>
+            <span><span data-i18n="tab1.btn_run_both_label">Chạy cả 2 Plan (Run Both Plans)</span></span>
+            <span style="font-size:12px;opacity:0.85;font-weight:600;"><span data-i18n="tab1.kbd_f5">[F5]</span></span>
           </button>
 
           <!-- STATUS ROW -->
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <span id="p1RunStatusRow" class="status-indicator status-idle">⏸ Chờ chạy</span>
+              <span id="p1RunStatusRow" class="status-indicator status-idle"><span data-i18n="tab1.status_row_idle"><span data-i18n="tab1.status_col_idle">⏸ Chờ chạy</span></span></span>
               <span id="p1RunStatusCol" class="status-indicator status-idle">⏸ Chờ chạy</span>
             </div>
             <span id="p1RevenueStatus" class="revenue-match-badge" style="display:none;">
@@ -3103,8 +3167,8 @@
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div class="race-item">
               <div class="race-top">
-                <span>🔴 Plan A: Row-Store (AoS)</span>
-                <span class="race-ms" id="p1BarRowMs">-- ms (Chưa đo)</span>
+                <span><span data-i18n="tab1.plan_a_bar_label">🔴 Plan A: Row-Store (AoS)</span></span>
+                <span class="race-ms" id="p1BarRowMs"><span data-i18n="common.unmeasured">-- ms (Chưa đo)</span></span>
               </div>
               <div class="race-track">
                 <div id="p1BarRowFill" class="race-fill fill-rose" style="width:100%;"></div>
@@ -3112,7 +3176,7 @@
             </div>
             <div class="race-item">
               <div class="race-top">
-                <span>🔵 Plan B: Column-Store (SoA)</span>
+                <span><span data-i18n="tab1.plan_b_bar_label">🔵 Plan B: Column-Store (SoA)</span></span>
                 <span class="race-ms" id="p1BarColMs">-- ms (Chưa đo)</span>
               </div>
               <div class="race-track">
@@ -3125,7 +3189,7 @@
           <div class="speedup-display">
             <div>
               <div class="speedup-num" id="p1SpeedupBig">2.83×</div>
-              <div class="speedup-label">Speedup · Column-Store nhanh hơn</div>
+              <div class="speedup-label"><span data-i18n="tab1.speedup_label"><span data-i18n="metrics.speedup_col">Speedup · Column-Store nhanh hơn</span></span></div>
               <div style="font-size:11px;color:#166534;margin-top:3px;">Row Median / Col Median = động, tính từ benchmark thực tế</div>
             </div>
             <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;">
@@ -3144,7 +3208,7 @@
         <div class="tab1-section-label">
           <span class="tab1-section-badge" style="background:#64748b;">D</span>
           <span class="tab1-section-title">Chi tiết Kỹ thuật &amp; Mô phỏng Bộ nhớ</span>
-          <span class="tab1-section-sub" style="color:#3b82f6;">Mở rộng để trả lời câu hỏi từ Hội đồng</span>
+          <span class="tab1-section-sub" style="color:#3b82f6;"><span data-i18n="tab1.section_d_sub">Mở rộng để trả lời câu hỏi từ Hội đồng</span></span>
         </div>
 
         <button class="details-toggle-btn" id="p1SectionDToggle" type="button" aria-expanded="false" onclick="toggleP1SectionD()">
@@ -3159,13 +3223,13 @@
               <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                 <div>
                   <div style="font-weight:700;font-size:13.5px;color:#0f172a;">
-                    <span>🔍 Mô phỏng Row-by-Row RAM Scan (5 rows sample)</span>
+                    <span><span data-i18n="tab1.scan_sim_title">🔍 Mô phỏng Row-by-Row RAM Scan (5 rows sample)</span></span>
                   </div>
                 </div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                  <button id="hiddenP1AutoScanBtn" class="btn btn-dark btn-sm" type="button" onclick="toggleP1AutoScan()">▶ Quét tự động</button>
-                  <button class="btn btn-sm" type="button" onclick="stepP1Scan()">Bước kế →</button>
-                  <button class="btn btn-sm" type="button" onclick="resetP1Scan()">↺ Đặt lại</button>
+                  <button id="hiddenP1AutoScanBtn" class="btn btn-dark btn-sm" type="button" onclick="toggleP1AutoScan()"><span data-i18n="common.auto_scan"><span data-i18n="tab1.btn_auto_scan">▶ Quét tự động</span></span></button>
+                  <button class="btn btn-sm" type="button" onclick="stepP1Scan()"><span data-i18n="tab1.btn_next_step">Bước kế →</span></button>
+                  <button class="btn btn-sm" type="button" onclick="resetP1Scan()"><span data-i18n="tab1.btn_reset_scan">↺ Đặt lại</span></button>
                 </div>
               </div>
 
@@ -3221,9 +3285,9 @@
     <section id="sec-2" class="sec-panel">
       <!-- HEADER & SUBTITLE -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">2. Nén RLE và đếm trực tiếp trên dữ liệu nén (orderdate)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;" data-i18n="tab2.title">2. Nén RLE và đếm trực tiếp trên dữ liệu nén (orderdate)</h2>
         <div style="font-size:12px;color:#475569;">
-          <b>Bảng LINEORDER:</b> <span id="ctx2-rows-sub">6,000,000</span> dòng · <b>Cột orderdate:</b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
+          <b><span data-i18n="tab2.context_prefix">Bảng LINEORDER:</span></b> <span id="ctx2-rows-sub">6,000,000</span> dòng · <b><span data-i18n="tab2.context_col_prefix">Cột orderdate:</span></b> Đã sort tăng dần (Day Index 0..2404) để đạt hiệu quả nén RLE tối đa
         </div>
       </div>
 
@@ -3271,27 +3335,27 @@
         <div style="display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;">
           <!-- BƯỚC 1 -->
           <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:12px;" >
-            <div style="font-weight:800;color:#2563eb;font-size:11px;margin-bottom:4px;">1. ENCODE (MÃ HÓA)</div>
-            <div style="color:#0f172a;font-weight:700;"><span id="p2RealRows">6,000,000</span> dòng → <b id="p2RealRuns" style="color:#2563eb;">2,405</b> cụm</div>
-            <div style="font-size:11px;color:#64748b;margin-top:2px;">(value, run_length) · TB <span id="p2RealAvg">2,495</span> dòng/cụm</div>
+            <div style="font-weight:800;color:#2563eb;font-size:11px;margin-bottom:4px;"><span data-i18n="tab2.step1_title">1. ENCODE (MÃ HÓA)</span></div>
+            <div style="color:#0f172a;font-weight:700;"><span id="p2RealRows">6,000,000</span> dòng → <b id="p2RealRuns" style="color:#2563eb;"><span data-i18n="tab2.step1_clusters">2,405</span></b> cụm</div>
+            <div style="font-size:11px;color:#64748b;margin-top:2px;">(value, run_length) · TB <span id="p2RealAvg"><span data-i18n="tab2.step1_avg_rows">2,495</span></span> dòng/cụm</div>
           </div>
 
           <!-- BƯỚC 2 -->
           <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;font-size:12px;">
             <div style="font-weight:800;color:#1d4ed8;font-size:11px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
-              <span>2. PREDICATE (LỌC CỤM)</span>
-              <span id="p2MatchedTag" style="color:#15803d;font-weight:800;font-size:11px;">3 / 2,405 cụm ✓</span>
+              <span><span data-i18n="tab2.step2_title">2. PREDICATE (LỌC CỤM)</span></span>
+              <span id="p2MatchedTag" style="color:#15803d;font-weight:800;font-size:11px;"><span data-i18n="tab2.step2_selected_clusters">3 / 2,405 cụm ✓</span></span>
             </div>
-            <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Lọc <code style="color:#1d4ed8;">BETWEEN 0 AND 2</code>:</div>
+            <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Lọc <code style="color:#1d4ed8;"><span data-i18n="tab2.step2_filter_val">BETWEEN 0 AND 2</span></code>:</div>
             <div id="p2ChipsContainer" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
-              <span id="p2InitialChipPlaceholder" style="background:#f1f5f9;color:#64748b;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;">-- cụm (Nhấn Run để đếm)</span>
+              <span id="p2InitialChipPlaceholder" style="background:#f1f5f9;color:#64748b;border:1px dashed #cbd5e1;font-size:10px;padding:2px 6px;border-radius:4px;font-style:italic;"><span data-i18n="tab2.step2_hint">-- cụm (Nhấn Run để đếm)</span></span>
             </div>
           </div>
 
           <!-- BƯỚC 3 -->
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;" >
-            <div style="font-weight:800;color:#15803d;font-size:11px;margin-bottom:4px;">3. AGGREGATE (TÍNH TỔNG)</div>
-            <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;">Cộng dồn run_length:</div>
+            <div style="font-weight:800;color:#15803d;font-size:11px;margin-bottom:4px;"><span data-i18n="tab2.step3_title">3. AGGREGATE (TÍNH TỔNG)</span></div>
+            <div style="color:#0f172a;font-weight:600;font-size:11.5px;margin-bottom:4px;"><span data-i18n="tab2.step3_sum_label">Cộng dồn run_length:</span></div>
             <div id="p2Step3SummarySum" style="font-size:11.5px;color:#047857;font-weight:800;">
               <span class="unmeasured-pill">--</span> <span class="unmeasured-hint">(Chưa đo)</span>
             </div>
@@ -3350,7 +3414,7 @@
                 <button type="button" onclick="openRleNumberExplainModal()" style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;cursor:pointer;line-height:1;" title="Xem giải thích tại sao 2 kết quả COUNT bằng nhau">i</button>
               </div>
               <div style="text-align:right;">
-                <span id="p2CountRaw" style="font-weight:800;color:#0f172a;font-size:14px;">-- đơn hàng (Chưa đo)</span>
+                <span id="p2CountRaw" style="font-weight:800;color:#0f172a;font-size:14px;"><span data-i18n="common.unmeasured_orders">-- đơn hàng (Chưa đo)</span></span>
                 <div id="p2MatchBadgeRaw" style="font-size:10px;color:#059669;font-weight:700;display:none;margin-top:1px;">✓ Khớp 100% RLE</div>
               </div>
             </div>
@@ -3475,9 +3539,9 @@
     <section id="sec-3" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">3. Ghép ẩn (Invisible Join): minh họa nối sao 3 pha (SIGMOD 2008)</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;" data-i18n="tab3.title">3. Ghép ẩn (Invisible Join): minh họa nối sao 3 pha (SIGMOD 2008)</h2>
         <div style="font-size:12px;color:#475569;">
-          <b>SSBM Q3.1 Star Schema Join:</b> Bảng Fact <b>LINEORDER</b> (<span class="p3-rows-label">6,000,000</span> dòng) nối 3 bảng Dimension: <b>CUSTOMER</b> (30,000 dòng), <b>SUPPLIER</b> (2,000 dòng), <b>DWDATE</b> (2,555 dòng)
+          <b><span data-i18n="tab3.context_prefix">SSBM Q3.1 Star Schema Join:</span></b> Bảng Fact <b><span data-i18n="tab3.context_fact_name">LINEORDER</span></b> (<span class="p3-rows-label">6,000,000</span> dòng) nối 3 bảng Dimension: <b><span data-i18n="tab3.context_cust_name">CUSTOMER</span></b> (30,000 dòng), <b><span data-i18n="tab3.context_supp_name">SUPPLIER</span></b> (2,000 dòng), <b><span data-i18n="tab3.context_dwdate_name">DWDATE</span></b> (2,555 dòng)
         </div>
       </div>
 
@@ -3526,7 +3590,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
         <!-- STEPPER NAV TABS & CONTROLS -->
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px;background:#f8fafc;padding:8px 12px;border:1.5px solid #cbd5e1;border-radius:8px;">
           <div class="phase-pills" style="margin:0;display:flex;gap:6px;">
-            <button id="p3PhaseBtn0" class="phase-pill" type="button" onclick="setP3Phase(0)" style="display:none;">Bước 0</button>
+            <button id="p3PhaseBtn0" class="phase-pill" type="button" onclick="setP3Phase(0)" style="display:none;"><span data-i18n="tab3.phase0_btn">Bước 0</span></button>
             <button id="p3PhaseBtn1" class="phase-pill active" type="button" onclick="setP3Phase(1)">
               <span style="font-weight:800;margin-right:4px;">1</span> Dimension Filtering
             </button>
@@ -3542,7 +3606,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <div style="display:flex;gap:6px;align-items:center;">
             <button id="p3BackBtn" class="btn btn-sm" type="button" onclick="stepP3Phase(-1)" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 12px;cursor:pointer;">← Back</button>
             <button id="p3NextBtn" class="btn btn-sm btn-primary" type="button" onclick="stepP3Phase(1)" style="font-weight:700;background:#2563eb;color:#ffffff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;">Next →</button>
-            <button id="p3ResetBtn" class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;">↺ Reset</button>
+            <button id="p3ResetBtn" class="btn btn-sm" type="button" onclick="resetP3Phase()" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-weight:600;border-radius:6px;padding:5px 10px;cursor:pointer;"><span data-i18n="common.reset"><span data-i18n="tab1.btn_reset"><span data-i18n="tab3.btn_reset">↺ Reset</span></span></span></button>
             <button id="runBtn3" class="run-compare-btn" type="button" onclick="runDemo('3')" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);"><span>▶ Run</span></button>
           </div>
         </div>
@@ -3554,8 +3618,8 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <div class="card" id="p3FramePhase1" style="border:1.5px solid #e2e8f0;border-radius:10px;background:#ffffff;padding:12px;box-shadow:0 2px 8px rgba(15,23,42,0.04);gap:0;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="background:#1e40af;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 1</span>
-                <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Dimension Filtering: Lọc 3 bảng chiều độc lập</span>
+                <span style="background:#1e40af;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;"><span data-i18n="tab3.phase1_badge">PHASE 1</span></span>
+                <span style="font-weight:700;font-size:13.5px;color:#1e293b;"><span data-i18n="tab3.phase1_title">Dimension Filtering: Lọc 3 bảng chiều độc lập</span></span>
               </div>
               <button type="button" onclick="openPhaseModal(1)" class="spec-info-btn" style="background:#ffffff;color:#1e293b;border:1px solid #cbd5e1;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.05);text-transform:none;letter-spacing:normal;">
                 <span style="color:#2563eb;font-size:12px;">ℹ️</span>
@@ -3568,7 +3632,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               <!-- CUSTOMER -->
               <div id="p3CardCust" class="card" style="border:1px solid #e2e8f0;background:#f8fafc;padding:8px 10px;gap:4px;">
                 <div class="card-head" style="margin-bottom:2px;">
-                  <div class="card-title" id="p3CardTitleCust" style="font-size:12px;color:#1e40af;font-weight:700;">customer (30,000 dòng · 5 dòng mẫu)</div>
+                  <div class="card-title" id="p3CardTitleCust" style="font-size:12px;color:#1e40af;font-weight:700;"><span data-i18n="tab3.customer_dim_title">customer (30,000 dòng · 5 dòng mẫu)</span></div>
                 </div>
                 <div style="overflow-x:auto;">
                   <table class="data-table" style="font-size:11px;margin:0;">
@@ -3578,7 +3642,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
                 </div>
                 <div style="margin-top:6px;padding:6px 10px;background:#ffffff;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;color:#1e40af;display:flex;align-items:center;justify-content:space-between;">
                   <span style="font-weight:600;"><span id="p3CustMatchCount">2 / 5</span> mẫu hợp lệ (Toàn bảng: 6,000 / 30,000 khách ASIA)</span>
-                  <button type="button" onclick="openDimKeysModal('cust')" class="spec-info-btn" id="p3CustKeysTooltip" style="background:#ffffff;color:#1e40af;border:1px solid #93c5fd;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;">ℹ️ Xem chi tiết</button>
+                  <button type="button" onclick="openDimKeysModal('cust')" class="spec-info-btn" id="p3CustKeysTooltip" style="background:#ffffff;color:#1e40af;border:1px solid #93c5fd;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;transition:all 0.15s ease;"><span data-i18n="common.view_details"><span data-i18n="tab3.cust_keys_tooltip_btn"><span data-i18n="tab3.supp_keys_tooltip_btn"><span data-i18n="tab3.date_keys_tooltip_btn">ℹ️ Xem chi tiết</span></span></span></span></button>
                   <code id="p3FooterCustKeys" class="mono" style="display:none;">{13,166; 15,396}</code>
                 </div>
               </div>
@@ -3586,7 +3650,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
               <!-- SUPPLIER -->
               <div id="p3CardSupp" class="card" style="border:1px solid #e2e8f0;background:#f8fafc;padding:8px 10px;gap:4px;">
                 <div class="card-head" style="margin-bottom:2px;">
-                  <div class="card-title" id="p3CardTitleSupp" style="font-size:12px;color:#334155;font-weight:700;">supplier (2,000 dòng · 5 dòng mẫu)</div>
+                  <div class="card-title" id="p3CardTitleSupp" style="font-size:12px;color:#334155;font-weight:700;"><span data-i18n="tab3.supplier_dim_title">supplier (2,000 dòng · 5 dòng mẫu)</span></div>
                 </div>
                 <div style="overflow-x:auto;">
                   <table class="data-table" style="font-size:11px;margin:0;">
@@ -3627,7 +3691,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <div class="card" id="p3CardFact" style="border:1.5px solid #e2e8f0;border-radius:10px;background:#ffffff;padding:12px;box-shadow:0 2px 8px rgba(15,23,42,0.04);gap:0;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="background:#475569;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 2</span>
+                <span style="background:#475569;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;"><span data-i18n="tab3.phase2_badge">PHASE 2</span></span>
                 <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Fact Probing &amp; Bitmap AND: Giao Bitmap cột khóa ngoại</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
@@ -3658,7 +3722,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
           <div class="card" id="p3CardGroupBy" style="border:1.5px solid #e2e8f0;border-radius:10px;background:#ffffff;padding:12px;box-shadow:0 2px 8px rgba(15,23,42,0.04);gap:0;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="background:#047857;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;">PHASE 3</span>
+                <span style="background:#047857;color:#ffffff;font-weight:700;font-size:11px;padding:2px 8px;border-radius:4px;"><span data-i18n="tab3.phase3_badge">PHASE 3</span></span>
                 <span style="font-weight:700;font-size:13.5px;color:#1e293b;">Late Materialization &amp; GROUP BY: Gom nhóm và tính tổng</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;">
@@ -3851,7 +3915,7 @@ ORDER BY d.d_year ASC, revenue DESC;</pre>
     <section id="sec-4" class="sec-panel">
       <!-- HEADER & SUBTITLE (CLEAN TAB 2 STYLE) -->
       <div style="margin-bottom:10px;">
-        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;">4. So sánh 3 kế hoạch thực thi trên truy vấn SSBM Q3.1</h2>
+        <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0 0 4px 0;" data-i18n="tab4.title">4. So sánh 3 kế hoạch thực thi trên truy vấn SSBM Q3.1</h2>
         <div style="font-size:12px;color:#475569;">
           Truy vấn SSBM Q3.1 trên <b id="ctx4-rows" class="mono">6,000,000</b> dòng Fact: Lọc Khách hàng (Asia) + Nhà cung cấp (Asia) + Năm (1992..1997) → Tính tổng doanh thu theo quốc gia &amp; năm
         </div>
@@ -3894,27 +3958,27 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="card" style="border-top:3.5px solid var(--rose); display:flex; flex-direction:column; padding:11px 13px; gap:7px; border-radius:8px; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span class="class-badge badge-rose mono" style="font-size:11px;padding:2px 7px;">PLAN A · CHẬM NHẤT</span>
-              <button type="button" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;">ℹ️ Chi tiết</button>
+              <span class="class-badge badge-rose mono" style="font-size:11px;padding:2px 7px;"><span data-i18n="tab4.plan_a_badge">PLAN A · CHẬM NHẤT</span></span>
+              <button type="button" onclick="openPlanComparisonModal('A')" class="spec-info-btn" style="background:#ffffff;color:#9f1239;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;"><span data-i18n="common.plan_details_explain"><span data-i18n="tab4.plan_a_details_btn"><span data-i18n="tab4.plan_b_details_btn"><span data-i18n="tab4.plan_c_details_btn">ℹ️ Chi tiết</span></span></span></span></button>
             </div>
             <span id="p4CardATime" class="mono" style="font-size:14px;font-weight:700;color:var(--rose);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
-            <span style="font-size:13.5px;font-weight:700;color:var(--rose);">Row-Store Truyền Thống</span>
-            <span style="font-size:11.5px;color:var(--text-muted);">(Early Materialization)</span>
+            <span style="font-size:13.5px;font-weight:700;color:var(--rose);" data-i18n="tab4.plan_a_name">Row-Store Truyền Thống</span>
+            <span style="font-size:11.5px;color:var(--text-muted);" data-i18n="tab4.plan_a_sub">(Early Materialization)</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;flex:1;">
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#e2e8f0;color:#475569;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B1</span>
-              <span id="p4StepA1" style="color:#334155;">Đọc toàn bộ 6M dòng × 68 byte (408 MB)</span>
+              <span id="p4StepA1" style="color:#334155;"><span data-i18n="tab4.plan_a_step1">Đọc toàn bộ 6M dòng × 68 byte (408 MB)</span></span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#e2e8f0;color:#475569;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B2</span>
-              <span style="color:#334155;">Hash Join lần lượt Cust → Supp → Date, copy cả tuple 68B qua từng bước</span>
+              <span style="color:#334155;"><span data-i18n="tab4.plan_a_step2">Hash Join lần lượt Cust → Supp → Date, copy cả tuple 68B qua từng bước</span></span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#e2e8f0;color:#475569;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B3</span>
-              <span style="color:#334155;">Gom nhóm (GROUP BY) toàn bộ dữ liệu trung gian</span>
+              <span style="color:#334155;"><span data-i18n="tab4.plan_a_step3">Gom nhóm (GROUP BY) toàn bộ dữ liệu trung gian</span></span>
             </div>
           </div>
         </div>
@@ -3923,19 +3987,19 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="card" style="border-top:3.5px solid var(--blue); display:flex; flex-direction:column; padding:11px 13px; gap:7px; border-radius:8px; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span id="p4CardBBadge" class="class-badge badge-blue mono" style="font-size:11px;padding:2px 7px;">PLAN B · INVISIBLE JOIN</span>
+              <span id="p4CardBBadge" class="class-badge badge-blue mono" style="font-size:11px;padding:2px 7px;"><span data-i18n="tab4.plan_b_badge">PLAN B · INVISIBLE JOIN</span></span>
               <button type="button" onclick="openPlanComparisonModal('B')" class="spec-info-btn" style="background:#ffffff;color:#1e40af;border:1px solid #bfdbfe;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;">ℹ️ Chi tiết</button>
             </div>
             <span id="p4CardBTime" class="mono" style="font-size:14px;font-weight:700;color:var(--blue);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
-            <span style="font-size:13.5px;font-weight:700;color:var(--blue);">Column-Store + Invisible Join</span>
-            <span style="font-size:11.5px;color:var(--text-muted);">(Hash Table Lookup)</span>
+            <span style="font-size:13.5px;font-weight:700;color:var(--blue);"><span data-i18n="tab4.plan_b_name"><span data-i18n="tab4.plan_c_name">Column-Store + Invisible Join</span></span></span>
+            <span style="font-size:11.5px;color:var(--text-muted);" data-i18n="tab4.plan_b_sub">(Hash Table Lookup)</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;flex:1;">
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#dbeafe;color:#1e40af;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B1</span>
-              <span id="p4StepB1" style="color:#334155;">Chỉ đọc 3 cột khóa ngoại (custkey, suppkey, orderdate) = 12B/dòng</span>
+              <span id="p4StepB1" style="color:#334155;"><span data-i18n="tab4.plan_b_step1">Chỉ đọc 3 cột khóa ngoại (custkey, suppkey, orderdate) = 12B/dòng</span></span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#dbeafe;color:#1e40af;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B2</span>
@@ -3943,7 +4007,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#dbeafe;color:#1e40af;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B3</span>
-              <span style="color:#334155;">Late Materialization → Chỉ đọc cột revenue và tra cứu bảng băm chiều</span>
+              <span style="color:#334155;"><span data-i18n="tab4.plan_b_step3">Late Materialization → Chỉ đọc cột revenue và tra cứu bảng băm chiều</span></span>
             </div>
           </div>
         </div>
@@ -3952,14 +4016,14 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="card" style="border-top:3.5px solid var(--emerald); display:flex; flex-direction:column; padding:11px 13px; gap:7px; border-radius:8px; background:#ffffff; box-shadow:0 1px 3px rgba(0,0,0,0.05); min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <div style="display:flex;align-items:center;gap:6px;">
-              <span id="p4CardCBadge" class="class-badge badge-emerald mono" style="font-size:11px;padding:2px 7px;">PLAN C · BETWEEN-PREDICATE</span>
+              <span id="p4CardCBadge" class="class-badge badge-emerald mono" style="font-size:11px;padding:2px 7px;"><span data-i18n="tab4.plan_c_badge">PLAN C · BETWEEN-PREDICATE</span></span>
               <button type="button" onclick="openPlanComparisonModal('C')" class="spec-info-btn" style="background:#ffffff;color:#065f46;border:1px solid #86efac;padding:2px 6px;border-radius:4px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:3px;cursor:pointer;">ℹ️ Chi tiết</button>
             </div>
             <span id="p4CardCTime" class="mono" style="font-size:14px;font-weight:700;color:var(--emerald);"><span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span></span>
           </div>
           <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
             <span style="font-size:13.5px;font-weight:700;color:var(--emerald);">Column-Store + Invisible Join</span>
-            <span style="font-size:11.5px;color:var(--text-muted);">(Between-Predicate Rewriting)</span>
+            <span style="font-size:11.5px;color:var(--text-muted);" data-i18n="tab4.plan_c_sub">(Between-Predicate Rewriting)</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px;flex:1;">
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
@@ -3968,11 +4032,11 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#d1fae5;color:#065f46;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B2</span>
-              <span style="color:#334155;">Định vị cận liên tục của customer, supplier, orderdate theo Mục 5.4.2</span>
+              <span style="color:#334155;"><span data-i18n="tab4.plan_c_step2">Định vị cận liên tục của customer, supplier, orderdate theo Mục 5.4.2</span></span>
             </div>
             <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:5px 8px;font-size:11.5px;line-height:1.4;">
               <span style="background:#d1fae5;color:#065f46;font-size:9.5px;font-weight:700;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px;">B3</span>
-              <span style="color:#334155;">Bitmap AND + Late Materialization → Chỉ ghép cột ở bước cuối cùng</span>
+              <span style="color:#334155;"><span data-i18n="tab4.plan_c_step3">Bitmap AND + Late Materialization → Chỉ ghép cột ở bước cuối cùng</span></span>
             </div>
           </div>
         </div>
@@ -3981,7 +4045,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
       <!-- EXECUTION TIME BENCHMARK CARD (FULL WIDTH) -->
       <div class="card" style="width:100%;">
         <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-          <div class="card-title">Thời gian thực thi SSBM Q3.1 (ms)</div>
+          <div class="card-title" data-i18n="tab4.chart_title">Thời gian thực thi SSBM Q3.1 (ms)</div>
           <div>
             <button id="p4RunQueryBtn" type="button" onclick="runP4Sql()" class="run-compare-btn" style="padding:6px 16px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 2px 8px rgba(16,185,129,0.25);">
               <span>▶ Run</span>
@@ -3992,7 +4056,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div class="race-list">
           <div class="race-item">
             <div class="race-top">
-              <span>Plan A · Row-Store (Early Materialization)</span>
+              <span><span data-i18n="tab4.bar_plan_a">Plan A · Row-Store (Early Materialization)</span></span>
               <span id="p4TimeA" class="race-ms">-- ms</span>
             </div>
             <div class="race-track">
@@ -4050,14 +4114,14 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             <div style="display:flex;gap:3px;">
               <button id="p4SsmsTab-results" class="ssms-pane-tab active" type="button" onclick="switchP4SsmsPane('results')" style="background:#ffffff;color:#0f172a;border:1px solid #cbd5e1;border-bottom:1px solid #ffffff;padding:5px 14px;font-size:12px;font-family:'Segoe UI',sans-serif;font-weight:700;border-radius:4px 4px 0 0;margin-bottom:-1px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
                 <span>▦ Results</span>
-                <span id="p4SqlRowCountBadge" style="background:#e2e8f0;color:#334155;padding:1px 6px;border-radius:3px;font-size:10.5px;font-weight:600;">3 rows</span>
+                <span id="p4SqlRowCountBadge" style="background:#e2e8f0;color:#334155;padding:1px 6px;border-radius:3px;font-size:10.5px;font-weight:600;"><span data-i18n="tab4.status_rows">3 rows</span></span>
               </button>
               <button id="p4SsmsTab-messages" class="ssms-pane-tab" type="button" onclick="switchP4SsmsPane('messages')" style="background:#e2e8f0;color:#64748b;border:1px solid #cbd5e1;border-bottom:1px solid #cbd5e1;padding:5px 14px;font-size:12px;font-family:'Segoe UI',sans-serif;font-weight:600;border-radius:4px 4px 0 0;margin-bottom:-1px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
                 <span>💬 Messages</span>
               </button>
             </div>
             <div style="font-size:11px;color:#64748b;padding-bottom:5px;font-family:'Segoe UI',sans-serif;">
-              <span id="p4SqlTableDesc" style="font-weight:600;color:#2563eb;">dbo.lineorder - Benchmark Summary (6,000,000 rows)</span>
+              <span id="p4SqlTableDesc" style="font-weight:600;color:#2563eb;"><span data-i18n="tab4.table_desc">dbo.lineorder - Benchmark Summary (6,000,000 rows)</span></span>
             </div>
           </div>
 
@@ -4079,7 +4143,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                   <tr id="p4Row-0" onclick="selectP4SsmsRow(0)" class="ssms-selected" style="cursor:pointer;">
                     <td class="ssms-row-hdr">1</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#059669;margin-right:4px;">⚡</span> Plan C (C-Store + InvJoin)</td>
-                    <td style="color:#334155;padding:4px 8px;">Between-Predicate Rewriting + Invisible Join</td>
+                    <td style="color:#334155;padding:4px 8px;"><span data-i18n="tab4.plan_c_strat_desc">Between-Predicate Rewriting + Invisible Join</span></td>
                     <td id="p4SsmsTimeC" class="num mono" style="color:#059669;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
                     <td id="p4SsmsMemC" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.9 MB</td>
                     <td id="p4SsmsSpeedC" style="color:#059669;font-weight:700;font-size:11.5px;padding:4px 8px;">--x</td>
@@ -4087,7 +4151,7 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                   <tr id="p4Row-1" onclick="selectP4SsmsRow(1)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">2</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#2563eb;margin-right:4px;">📊</span> Plan B (C-Store + InvJoin)</td>
-                    <td style="color:#334155;padding:4px 8px;">Column-Store + Invisible Join (Hash Lookup)</td>
+                    <td style="color:#334155;padding:4px 8px;"><span data-i18n="tab4.plan_b_strat_desc">Column-Store + Invisible Join (Hash Lookup)</span></td>
                     <td id="p4SsmsTimeB" class="num mono" style="color:#2563eb;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
                     <td id="p4SsmsMemB" class="num mono" style="color:#2563eb;font-weight:600;text-align:right;padding:4px 8px;">72.9 MB</td>
                     <td id="p4SsmsSpeedB" style="color:#2563eb;font-weight:600;font-size:11.5px;padding:4px 8px;">--x</td>
@@ -4095,10 +4159,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                   <tr id="p4Row-2" onclick="selectP4SsmsRow(2)" style="cursor:pointer;">
                     <td class="ssms-row-hdr">3</td>
                     <td style="font-weight:600;color:#0f172a;padding:4px 8px;"><span style="color:#e11d48;margin-right:4px;">🐢</span> Plan A (Row-Store)</td>
-                    <td style="color:#334155;padding:4px 8px;">Early Materialization (Full 17 Cols)</td>
+                    <td style="color:#334155;padding:4px 8px;"><span data-i18n="tab4.plan_a_strat_desc">Early Materialization (Full 17 Cols)</span></td>
                     <td id="p4SsmsTimeA" class="num mono" style="color:#e11d48;font-weight:700;text-align:right;padding:4px 8px;">-- ms</td>
                     <td id="p4SsmsMemA" class="num mono" style="color:#64748b;font-weight:600;text-align:right;padding:4px 8px;">408.0 MB</td>
-                    <td id="p4SsmsSpeedA" style="color:#64748b;font-weight:600;font-size:11.5px;padding:4px 8px;">Baseline (1.0x)</td>
+                    <td id="p4SsmsSpeedA" style="color:#64748b;font-weight:600;font-size:11.5px;padding:4px 8px;"><span data-i18n="common.baseline"><span data-i18n="tab4.plan_a_speedup">Baseline (1.0x)</span></span></td>
                   </tr>
                 </tbody>
               </table>
@@ -4108,10 +4172,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
           <!-- PANE 2: SSMS MESSAGES PANE -->
           <div id="p4SsmsPane-messages" style="display:none;background:#ffffff;padding:14px 18px;min-height:140px;max-height:280px;overflow-y:auto;font-family:Consolas,'Courier New',monospace;font-size:12px;color:#0f172a;line-height:1.7;border-bottom:1px solid #cbd5e1;">
             <div id="p4SsmsMessagesText">
-              <span style="color:#059669;font-weight:700;">(3 rows affected)</span><br><br>
-              <span style="color:#475569;">SQL Server Execution Times:</span><br>
+              <span style="color:#059669;font-weight:700;"><span data-i18n="tab4.rows_affected">(3 rows affected)</span></span><br><br>
+              <span style="color:#475569;"><span data-i18n="tab4.sql_exec_times">SQL Server Execution Times:</span></span><br>
               &nbsp;&nbsp;&nbsp;CPU time = <span id="p4MsgCpuTime">48</span> ms,&nbsp;&nbsp;elapsed time = <span id="p4MsgElapsedTime">48</span> ms.<br><br>
-              <span style="color:#0f172a;font-weight:600;">Benchmark Engine Summary (6,000,000 Fact rows):</span><br>
+              <span style="color:#0f172a;font-weight:600;"><span data-i18n="tab4.engine_summary_prefix">Benchmark Engine Summary (6,000,000 Fact rows):</span></span><br>
               • Plan C (Column-Store + Invisible Join + Between-Predicate): So sánh khoảng min/max ➔ Vượt trội <span id="p4MsgSpeedC">~6.1x</span> (quét <span id="p4MsgMemC">72.9 MB</span> I/O, tiết kiệm <span id="p4MsgIoSavedC">82.1%</span>)<br>
               • Plan B (Column-Store + Invisible Join Hash Lookup): Tra bảng băm 3 bảng chiều ➔ Nhanh hơn <span id="p4MsgSpeedB">~3.6x</span> (quét <span id="p4MsgMemB">72.9 MB</span> I/O)<br>
               • Plan A (Row-Store Truyền Thống): Early Materialization quét 17 cột ➔ <span id="p4MsgMemA">408.0 MB</span> I/O (Baseline 1.0x)<br>
@@ -4127,10 +4191,10 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
                 Benchmark completed successfully.
               </span>
               <span style="color:#cbd5e1;">|</span>
-              <span id="p4SsmsStatusDb" style="color:#64748b;font-family:monospace;">SSBM_InMem (Star Schema)</span>
+              <span id="p4SsmsStatusDb" style="color:#64748b;font-family:monospace;"><span data-i18n="tab4.status_db">SSBM_InMem (Star Schema)</span></span>
             </div>
             <div style="display:flex;align-items:center;gap:14px;color:#64748b;">
-              <span id="p4SsmsStatusTime" style="font-family:monospace;">00:00:00.048</span>
+              <span id="p4SsmsStatusTime" style="font-family:monospace;"><span data-i18n="tab4.status_time">00:00:00.048</span></span>
               <span id="p4SqlResultSub" style="color:#64748b;">3 rows</span>
             </div>
           </div>
@@ -4150,8 +4214,8 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
             <span style="font-size:20px;">🐍</span>
-            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;">5. Mã nguồn backend Python (column_store_demo.py)</h2>
-            <span style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;">Python 3 / NumPy Vectorized Engine</span>
+            <h2 style="font-size:18px;font-weight:800;color:#0f172a;margin:0;" data-i18n="tab5.title">5. Mã nguồn backend Python (column_store_demo.py)</h2>
+            <span style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;" data-i18n="tab5.tech_badge">Python 3 / NumPy Vectorized Engine</span>
           </div>
           <div style="font-size:12px;color:#475569;line-height:1.5;">
             Toàn bộ logic đo lường vi mô, cấu trúc mảng 6,000,000 dòng trong RAM, nén RLE Zero Decompression và thuật toán Invisible Join 3 Phase được cài đặt bằng Python và các mảng vector hóa trong C của NumPy (NumPy C-Extension, không phụ thuộc RDBMS).
@@ -4162,12 +4226,12 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
             <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;"></span>
-            <span style="color:#64748b;font-weight:600;">Quy mô Backend:</span>
-            <span class="mono" style="font-weight:700;color:#0f172a;">945 dòng code</span>
+            <span style="color:#64748b;font-weight:600;"><span data-i18n="tab5.scale_label">Quy mô Backend:</span></span>
+            <span class="mono" style="font-weight:700;color:#0f172a;"><span data-i18n="tab5.scale_val">945 dòng code</span></span>
           </div>
           <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:6px 12px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
-            <span style="color:#64748b;font-weight:600;">Bộ nhớ:</span>
-            <span class="mono" style="font-weight:700;color:#2563eb;">In-Memory RAM (6M dòng)</span>
+            <span style="color:#64748b;font-weight:600;"><span data-i18n="tab5.memory_label">Bộ nhớ:</span></span>
+            <span class="mono" style="font-weight:700;color:#2563eb;"><span data-i18n="tab5.memory_val">In-Memory RAM (6M dòng)</span></span>
           </div>
         </div>
       </div>
@@ -4203,13 +4267,13 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
             </span>
             <div style="display:flex;align-items:center;gap:6px;background:#1e293b;padding:3px 10px;border-radius:6px;border:1px solid #334155;">
               <span style="font-size:12px;">🐍</span>
-              <span id="codeFileTitle" style="color:#e2e8f0;font-family:Consolas,monospace;font-size:12px;font-weight:700;">column_store_demo.py</span>
+              <span id="codeFileTitle" style="color:#e2e8f0;font-family:Consolas,monospace;font-size:12px;font-weight:700;"><span data-i18n="tab5.file_title">column_store_demo.py</span></span>
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
             <span style="font-size:11.5px;color:#94a3b8;font-family:Consolas,monospace;display:inline-flex;align-items:center;gap:6px;">
               <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#38bdf8;"></span>
-              <span>Monaco Editor (Read-Only)</span>
+              <span><span data-i18n="tab5.editor_readonly">Monaco Editor (Read-Only)</span></span>
             </span>
             <span id="codeLineBadge" class="mono" style="background:#1e293b;color:#38bdf8;padding:3px 10px;border-radius:6px;font-size:11.5px;font-weight:700;border:1px solid #334155;">-- dòng</span>
           </div>
@@ -4224,7 +4288,130 @@ EXEC dbo.sp_Benchmark_SSBM_Q31 @Iterations = 5;</pre>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <!-- Fallback Translation Dictionary for Zero CORS / Offline file:/// Support -->
+  <script src="locales/translations.js"></script>
   <script>
+    // ===== BILINGUAL I18N SYSTEM (Tiếng Việt & English) =====
+    let currentLang = localStorage.getItem('demo_language') || 'vi';
+    let currentDict = (window.I18N_FALLBACK && window.I18N_FALLBACK[currentLang]) ? window.I18N_FALLBACK[currentLang] : {};
+
+    function getDictValue(dict, key) {
+      if (!dict || !key) return undefined;
+      if (Object.prototype.hasOwnProperty.call(dict, key)) return dict[key];
+      const parts = key.split('.');
+      let cur = dict;
+      for (const part of parts) {
+        if (cur == null || typeof cur !== 'object') return undefined;
+        cur = cur[part];
+      }
+      return cur;
+    }
+
+    function t(key, fallback = '') {
+      const val = getDictValue(currentDict, key);
+      if (val !== undefined && val !== null) return val;
+      if (window.I18N_FALLBACK && window.I18N_FALLBACK[currentLang]) {
+        const fval = getDictValue(window.I18N_FALLBACK[currentLang], key);
+        if (fval !== undefined && fval !== null) return fval;
+      }
+      return fallback !== undefined ? fallback : key;
+    }
+
+    async function loadLanguage(lang) {
+      currentLang = (lang === 'en') ? 'en' : 'vi';
+      if (window.I18N_FALLBACK && window.I18N_FALLBACK[currentLang]) {
+        currentDict = window.I18N_FALLBACK[currentLang];
+      }
+      try {
+        const resp = await fetch(`locales/${currentLang}.json?v=${Date.now()}`);
+        if (resp.ok) {
+          currentDict = await resp.json();
+        }
+      } catch (err) {
+        // Fallback already active; safe for offline file:/// protocol
+      }
+    }
+
+    function applyTranslations() {
+      document.documentElement.lang = currentLang;
+
+      // Update switcher active state
+      const btnVi = document.getElementById('langBtnVi');
+      const btnEn = document.getElementById('langBtnEn');
+      if (btnVi) btnVi.classList.toggle('active', currentLang === 'vi');
+      if (btnEn) btnEn.classList.toggle('active', currentLang === 'en');
+
+      // 1. Elements with data-i18n (textContent)
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const translated = t(key);
+        if (translated && translated !== key) {
+          el.textContent = translated;
+        }
+      });
+
+      // 2. Elements with data-i18n-html (innerHTML)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        const translated = t(key);
+        if (translated && translated !== key) {
+          el.innerHTML = translated;
+        }
+      });
+
+      // 3. Elements with data-i18n-title (title attribute)
+      document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        const key = el.getAttribute('data-i18n-title');
+        const translated = t(key);
+        if (translated && translated !== key) {
+          el.title = translated;
+        }
+      });
+
+      // 4. Elements with data-i18n-placeholder (placeholder attribute)
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const translated = t(key);
+        if (translated && translated !== key) {
+          el.placeholder = translated;
+        }
+      });
+
+      // 5. Elements with data-i18n-aria (aria-label attribute)
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria');
+        const translated = t(key);
+        if (translated && translated !== key) {
+          el.setAttribute('aria-label', translated);
+        }
+      });
+
+      // Update server status text if present
+      const txt = document.getElementById('serverStatusText');
+      if (txt && typeof state !== 'undefined') {
+        if (state.serverOnline) {
+          txt.textContent = t('header.status_online', 'Live Server :8000 (ready)');
+        } else if (state.serverOnline === false) {
+          txt.textContent = t('header.status_offline', 'Offline (Số liệu chuẩn)');
+        }
+      }
+
+      // Re-render active views if rendered
+      if (typeof renderAll === 'function') {
+        renderAll();
+      }
+    }
+
+    async function setLanguage(lang) {
+      if (lang !== 'vi' && lang !== 'en') lang = 'vi';
+      localStorage.setItem('demo_language', lang);
+      await loadLanguage(lang);
+      applyTranslations();
+      if (typeof showToast === 'function') {
+        showToast(currentLang === 'vi' ? 'Đã chuyển sang Tiếng Việt 🇻🇳' : 'Switched to English 🇬🇧');
+      }
+    }
+
     const API_BASE = (window.location.protocol.startsWith('http') && (window.location.port === '8000' || window.location.host.includes(':8000')))
       ? ''
       : 'http://127.0.0.1:8000';
@@ -6901,9 +7088,9 @@ const P1_ALL_COLS = [
       const elTimeRow = document.getElementById('p1TimeRow');
       if (elTimeRow) {
         if (isP1Measuring) {
-          elTimeRow.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elTimeRow.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP1Measured) {
-          elTimeRow.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elTimeRow.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elTimeRow.textContent = `${fmtDec(tRow, 1)} ms`;
         }
@@ -6916,9 +7103,9 @@ const P1_ALL_COLS = [
       const elTimeCol = document.getElementById('p1TimeCol');
       if (elTimeCol) {
         if (isP1Measuring) {
-          elTimeCol.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elTimeCol.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP1Measured) {
-          elTimeCol.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elTimeCol.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elTimeCol.textContent = `${fmtDec(tCol, 1)} ms`;
         }
@@ -6939,7 +7126,7 @@ const P1_ALL_COLS = [
       if (elMatColStd) elMatColStd.textContent = isP1Measured ? `±${fmtDec(stdCol, 1)} ms` : '';
 
       const elSpeedup = document.getElementById('p1SpeedupText');
-      if (elSpeedup) elSpeedup.textContent = isP1Measuring ? '⏳ Đang đo...' : (!isP1Measured ? '--x (Chưa đo)' : `${fmtDec(speedupVal, 2)}x Faster`);
+      if (elSpeedup) elSpeedup.textContent = isP1Measuring ? t('common.measuring', '⏳ Đang đo...') : (!isP1Measured ? `--x ${t('common.unmeasured_hint', '(Chưa đo)')}` : `${fmtDec(speedupVal, 2)}x ${t('common.faster', 'Faster')}`);
       const elMatSpeedup = document.getElementById('p1MatSpeedup');
       if (elMatSpeedup) elMatSpeedup.textContent = isP1Measuring ? '⏳ Đang đo...' : (!isP1Measured ? '--x (Cần đo)' : `${fmtDec(speedupVal, 2)}x Nhanh hơn`);
 
@@ -7411,9 +7598,9 @@ const P1_ALL_COLS = [
       const elTimeRaw = document.getElementById('p2TimeRaw');
       if (elTimeRaw) {
         if (isP2Measuring) {
-          elTimeRaw.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elTimeRaw.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP2Measured) {
-          elTimeRaw.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elTimeRaw.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elTimeRaw.textContent = `${fmtDec(d.t_raw_rle, 3)} ms`;
         }
@@ -7421,9 +7608,9 @@ const P1_ALL_COLS = [
       const elTimeRle = document.getElementById('p2TimeRle');
       if (elTimeRle) {
         if (isP2Measuring) {
-          elTimeRle.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elTimeRle.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP2Measured) {
-          elTimeRle.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elTimeRle.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elTimeRle.textContent = `${fmtDec(d.t_direct_rle, 3)} ms`;
         }
@@ -7784,7 +7971,7 @@ const P1_ALL_COLS = [
       if (elRowCount) elRowCount.textContent = fmtInt(numRows);
       const elSpeedupVal = document.getElementById('p3VsSpeedupVal');
       if (elSpeedupVal) {
-        elSpeedupVal.textContent = isP3Measuring ? '⏳ Đang đo...' : (!isP3Measured ? '~--x (Chưa đo)' : `~${fmtDec(speedup, 1)}x Nhanh hơn`);
+        elSpeedupVal.textContent = isP3Measuring ? t('common.measuring', '⏳ Đang đo...') : (!isP3Measured ? `~--x ${t('common.unmeasured_hint', '(Chưa đo)')}` : `~${fmtDec(speedup, 1)}x ${t('common.faster', 'Nhanh hơn')}`);
       }
       const elSourceBadge = document.getElementById('p3VsSourceBadge');
       if (elSourceBadge) {
@@ -7819,9 +8006,9 @@ const P1_ALL_COLS = [
       const elRowTime = document.getElementById('p3RowTime');
       if (elRowTime) {
         if (isP3Measuring) {
-          elRowTime.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elRowTime.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP3Measured) {
-          elRowTime.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elRowTime.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elRowTime.textContent = `~${fmtDec(tRow, 1)} ms`;
         }
@@ -7839,9 +8026,9 @@ const P1_ALL_COLS = [
       const elColTime = document.getElementById('p3ColTime');
       if (elColTime) {
         if (isP3Measuring) {
-          elColTime.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
+          elColTime.innerHTML = `<span class="measuring-pulse">${t('common.measuring', '⏳ Đang đo...')}</span>`;
         } else if (!isP3Measured) {
-          elColTime.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+          elColTime.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         } else {
           elColTime.textContent = `~${fmtDec(tCol, 1)} ms`;
         }
@@ -8554,19 +8741,19 @@ const P1_ALL_COLS = [
       const elA = document.getElementById('p4CardATime');
       if (elA) {
         if (isP4Measuring) elA.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
-        else if (!isP4Measured) elA.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else if (!isP4Measured) elA.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         else elA.textContent = fmtDec(d.t_plan_a, 1) + ' ms';
       }
       const elB = document.getElementById('p4CardBTime');
       if (elB) {
         if (isP4Measuring) elB.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
-        else if (!isP4Measured) elB.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else if (!isP4Measured) elB.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         else elB.textContent = fmtDec(d.t_plan_b, 1) + ' ms';
       }
       const elC = document.getElementById('p4CardCTime');
       if (elC) {
         if (isP4Measuring) elC.innerHTML = '<span class="measuring-pulse">⏳ Đang đo...</span>';
-        else if (!isP4Measured) elC.innerHTML = '<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">(Chưa đo)</span>';
+        else if (!isP4Measured) elC.innerHTML = `<span class="unmeasured-pill">-- ms</span><span class="unmeasured-hint">${t('common.unmeasured_hint', '(Chưa đo)')}</span>`;
         else elC.textContent = fmtDec(d.t_plan_c, 1) + ' ms';
       }
 
@@ -10127,7 +10314,7 @@ WHERE d.year = 1993
         const info = await resp.json();
         state.serverOnline = true;
         pill.className = 'server-pill online';
-        txt.textContent = `Live Server :8000 (${info.status || 'ready'})`;
+        txt.textContent = t('header.status_online', `Live Server :8000 (${info.status || 'ready'})`);
 
         upsertPyLogEntry({
           id: `status-${++state.pyLogSeq}`,
@@ -10148,7 +10335,7 @@ WHERE d.year = 1993
       } catch (_) {
         state.serverOnline = false;
         pill.className = 'server-pill offline';
-        txt.textContent = 'Offline (Số liệu chuẩn)';
+        txt.textContent = t('header.status_offline', 'Offline (Số liệu chuẩn)');
         upsertPyLogEntry({
           id: `status-${++state.pyLogSeq}`,
           time: nowTimeStr(),
@@ -10558,6 +10745,9 @@ async function runDemo(part, opts = {}) {
 
     document.addEventListener('DOMContentLoaded', () => {
       try {
+        loadLanguage(currentLang).then(() => applyTranslations());
+      } catch (_) {}
+      try {
         const savedLogOpen = localStorage.getItem('py_log_open');
         if (savedLogOpen === '1') {
           togglePyLogSidebar(true, true);
@@ -10796,7 +10986,7 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">⚖️</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Đối Chiếu Kế Hoạch Thực Thi (Execution Plans, SIGMOD 2008)</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;" data-i18n="modals.plan.title">Đối Chiếu Kế Hoạch Thực Thi (Execution Plans, SIGMOD 2008)</span>
         </div>
         <button type="button" onclick="closeAllModals()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
@@ -10805,8 +10995,8 @@ async function runDemo(part, opts = {}) {
         <!-- Plan A Card -->
         <div id="modalPlanACard" style="background:#fff1f2;border:1.5px solid #fecdd3;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#9f1239;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan A: Row-Store Truyền Thống (Early Materialization + Hash Join)</span>
-            <span style="font-size:11px;background:#ffe4e6;color:#e11d48;padding:2px 7px;border-radius:4px;">1.0x (Cơ sở)</span>
+            <span><span data-i18n="modals.plan.plan_a_title">Plan A: Row-Store Truyền Thống (Early Materialization + Hash Join)</span></span>
+            <span style="font-size:11px;background:#ffe4e6;color:#e11d48;padding:2px 7px;border-radius:4px;"><span data-i18n="modals.plan.plan_a_badge">1.0x (Cơ sở)</span></span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
             <li><b>I/O Fact:</b> Đọc toàn bộ 17 thuộc tính Fact (68B/dòng · <span id="modalPlanAMb">-- MB</span>), chiếm 100% dung lượng bảng.</li>
@@ -10819,7 +11009,7 @@ async function runDemo(part, opts = {}) {
         <!-- Plan B Card -->
         <div id="modalPlanBCard" style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#065f46;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan B: Column-Store + Invisible Join (Hash Table Lookup)</span>
+            <span><span data-i18n="modals.plan.plan_b_title">Plan B: Column-Store + Invisible Join (Hash Table Lookup)</span></span>
             <span id="modalPlanBBadge" style="font-size:11px;background:#dcfce7;color:#059669;padding:2px 7px;border-radius:4px;">~--x Nhanh hơn</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
@@ -10833,7 +11023,7 @@ async function runDemo(part, opts = {}) {
         <!-- Plan C Card -->
         <div id="modalPlanCCard" style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
           <div style="font-weight:800;color:#1e40af;font-size:13.5px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
-            <span>Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)</span>
+            <span><span data-i18n="modals.plan.plan_c_title">Plan C: Column-Store + Invisible Join (Between-Predicate Rewriting)</span></span>
             <span id="modalPlanCBadge" style="font-size:11px;background:#dbeafe;color:#2563eb;padding:2px 7px;border-radius:4px;">~--x Nhanh nhất</span>
           </div>
           <ul style="margin:4px 0 0 18px;padding:0;line-height:1.6;">
@@ -10854,13 +11044,13 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">🔍</span>
-          <span id="modalPhaseTitle" style="font-weight:800;font-size:15px;color:#0f172a;">Nguyên Lý 3 Giai Đoạn Invisible Join (SIGMOD 2008)</span>
+          <span id="modalPhaseTitle" style="font-weight:800;font-size:15px;color:#0f172a;"><span data-i18n="modals.phase.title">Nguyên Lý 3 Giai Đoạn Invisible Join (SIGMOD 2008)</span></span>
         </div>
         <button type="button" onclick="closeAllModals()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
         <div id="modalPhase1Box" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;">
-          <div style="font-weight:800;color:#1e40af;font-size:13px;margin-bottom:4px;">Phase 1: Dimension Filtering (Lọc Dimension Độc Lập)</div>
+          <div style="font-weight:800;color:#1e40af;font-size:13px;margin-bottom:4px;"><span data-i18n="modals.phase.phase1_title">Phase 1: Dimension Filtering (Lọc Dimension Độc Lập)</span></div>
           <div>CPU áp dụng độc lập các vị từ WHERE lên từng bảng Dimension nhỏ (CUSTOMER, SUPPLIER, DWDATE). Chỉ các khóa chính thỏa mãn mới được đưa vào Hash Set (<code>ht_c</code>, <code>ht_s</code>, <code>ht_d</code>). Do kích thước Dimension cực nhỏ, toàn bộ Hash Set nằm trọn trong <b>CPU Cache L1/L2</b>.</div>
         </div>
         <div id="modalPhase2Box" style="background:#fefce8;border:1px solid #fef08a;border-radius:8px;padding:12px 14px;">
@@ -10883,14 +11073,14 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">⭐</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Đặc Tả Mô Hình Star Schema Benchmark (SSBM)</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;"><span data-i18n="modals.star_schema.title">Đặc Tả Mô Hình Star Schema Benchmark (SSBM)</span></span>
         </div>
         <button type="button" onclick="closeAllModals()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;">1. Bảng Fact Trung Tâm: LINEORDER (6,000,000 dòng · 408 MB)</div>
-          <div>Chiếm hơn 95% tổng dung lượng toàn bộ cơ sở dữ liệu. Chứa 17 thuộc tính gồm các khóa ngoại (custkey, suppkey, orderdate, partkey) và các thuộc tính định lượng (revenue, supplycost, discount). Trong hệ quản trị Cột, các cột được lưu trữ độc lập theo mảng liên tục trên RAM/Disk.</div>
+          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;"><span data-i18n="modals.star_schema.point1_title">1. Bảng Fact Trung Tâm: LINEORDER (6,000,000 dòng · 408 MB)</span></div>
+          <div><span data-i18n="modals.star_schema.point1_desc">Chiếm hơn 95% tổng dung lượng toàn bộ cơ sở dữ liệu. Chứa 17 thuộc tính gồm các khóa ngoại (custkey, suppkey, orderdate, partkey) và các thuộc tính định lượng (revenue, supplycost, discount). Trong hệ quản trị Cột, các cột được lưu trữ độc lập theo mảng liên tục trên RAM/Disk.</span></div>
         </div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Các Bảng Chiều (Dimension Tables): Cực Nhỏ &amp; Tối Ưu Cache</div>
@@ -10902,7 +11092,7 @@ async function runDemo(part, opts = {}) {
           </ul>
         </div>
         <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#6b21a8;margin-bottom:4px;">3. Ý Nghĩa Thiết Kế Đối Với Invisible Join (SIGMOD 2008)</div>
+          <div style="font-weight:800;color:#6b21a8;margin-bottom:4px;"><span data-i18n="modals.star_schema.point3_title">3. Ý Nghĩa Thiết Kế Đối Với Invisible Join (SIGMOD 2008)</span></div>
           <div>Sự chênh lệch quy mô (Dimension chỉ vài ngàn dòng trong khi Fact hàng triệu dòng) là tiền đề hoàn hảo để Invisible Join đưa toàn bộ Hash Set của Dimension vào <b>CPU L1/L2 Cache</b>, biến phép Join phức tạp thành các phép quét mảng số nguyên siêu tốc.</div>
         </div>
       </div>
@@ -10923,15 +11113,15 @@ async function runDemo(part, opts = {}) {
       </div>
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;">1. Cấu Trúc Bộ Ba Nén (Triple Format)</div>
+          <div style="font-weight:800;color:#1e40af;margin-bottom:4px;"><span data-i18n="modals.rle.point1_title">1. Cấu Trúc Bộ Ba Nén (Triple Format)</span></div>
           <div>Thay vì lưu 6,000,000 số nguyên cho cột <code>orderdate</code> (tốn 24 MB RAM), thuật toán Run-Length Encoding mã hóa các dãy giá trị liên tiếp thành các bộ ba: <code>(value, start_position, count)</code>.</div>
         </div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#065f46;margin-bottom:4px;">2. Tỷ lệ nén cao (~830x)</div>
+          <div style="font-weight:800;color:#065f46;margin-bottom:4px;"><span data-i18n="modals.rle.point2_title">2. Tỷ lệ nén cao (~830x)</span></div>
           <div>Do dữ liệu Fact được sắp xếp theo ngày đặt hàng, 6,000,000 dòng được thu gọn thành đúng <b>2,405 bộ ba</b>. Dung lượng bộ nhớ giảm từ 24 MB xuống chỉ còn vài chục Kilobyte, nằm gọn trong CPU L1 Cache.</div>
         </div>
         <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
-          <div style="font-weight:800;color:#9f1239;margin-bottom:4px;">3. Zero Decompression Execution (Tính Toán Không Giải Nén)</div>
+          <div style="font-weight:800;color:#9f1239;margin-bottom:4px;"><span data-i18n="modals.rle.point3_title">3. Zero Decompression Execution (Tính Toán Không Giải Nén)</span></div>
           <div>Điểm đột phá của C-Store/Column-Store: CPU thực thi phép lọc <code>WHERE orderdate BETWEEN 0 AND 2</code> trực tiếp trên các bộ ba nén. Chỉ các vị trí thỏa mãn mới được sinh ra dưới dạng khoảng vị trí (Position Range), hoàn toàn không giải nén 6M dòng.</div>
         </div>
       </div>
@@ -10946,7 +11136,7 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">📊</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Giải Thích Chi Tiết 4 Chỉ Số So Sánh (Tab 2: Nén RLE)</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;"><span data-i18n="modals.rle_numbers.title">Giải Thích Chi Tiết 4 Chỉ Số So Sánh (Tab 2: Nén RLE)</span></span>
         </div>
         <button type="button" onclick="closeAllModals()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
@@ -10956,13 +11146,13 @@ async function runDemo(part, opts = {}) {
         <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;padding:12px 14px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <div style="font-weight:800;color:#065f46;font-size:13px;display:flex;align-items:center;gap:6px;">
-              <span>🎯 1. Kết Quả (COUNT): Tại sao hai bên bằng nhau tuyệt đối?</span>
+              <span><span data-i18n="modals.rle_numbers.metric1_title">🎯 1. Kết Quả (COUNT): Tại sao hai bên bằng nhau tuyệt đối?</span></span>
             </div>
-            <span class="class-badge badge-emerald mono" style="font-size:10.5px;padding:2px 8px;">✓ Khớp 100%</span>
+            <span class="class-badge badge-emerald mono" style="font-size:10.5px;padding:2px 8px;"><span data-i18n="modals.rle_numbers.metric1_badge">✓ Khớp 100%</span></span>
           </div>
           <div style="color:#1e293b;margin-bottom:6px;">
             Cả hai phương án cùng thực thi câu lệnh SQL: 
-            <code style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-weight:700;">SELECT COUNT(*) FROM lineorder WHERE orderdate BETWEEN 0 AND 2;</code>
+            <code style="background:#dcfce7;color:#166534;padding:1px 6px;border-radius:4px;font-weight:700;"><span data-i18n="modals.rle_numbers.metric1_sql">SELECT COUNT(*) FROM lineorder WHERE orderdate BETWEEN 0 AND 2;</span></code>
           </div>
           <ul style="margin:0 0 6px 18px;padding:0;color:#334155;line-height:1.6;">
             <li><b>Uncompressed (Quét tuần tự):</b> CPU phải duyệt tuần tự qua từng dòng một của bảng (ví dụ 3,000,000 dòng hoặc 6,000,000 dòng) và kiểm tra điều kiện lọc. Kết quả đếm được đúng số đơn hàng thỏa mãn (ví dụ: <b>3,792 đơn hàng</b>).</li>
@@ -11013,7 +11203,7 @@ async function runDemo(part, opts = {}) {
 
         <!-- TIPS THUYẾT TRÌNH -->
         <div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;padding:10px 14px;font-size:12px;">
-          <div style="font-weight:800;color:#0f172a;margin-bottom:4px;">💡 Câu nói đắt giá khi thuyết trình phần này:</div>
+          <div style="font-weight:800;color:#0f172a;margin-bottom:4px;"><span data-i18n="modals.rle_numbers.speech_tip_title">💡 Câu nói đắt giá khi thuyết trình phần này:</span></div>
           <div style="color:#475569;font-style:italic;">
             "Thưa thầy cô và các bạn, hãy nhìn vào kết quả COUNT: cả hai phương pháp đều ra chính xác 3,792 đơn hàng. Nhưng để ra con số đó, cách quét tuần tự phải duyệt 3 triệu dòng và đọc 12 Megabyte từ RAM; trong khi kỹ thuật RLE chỉ cần cộng 3 số nguyên trong bộ nhớ đệm Cache L1 19 Kilobyte mà không cần giải nén bất kỳ dòng nào. Đây chính là minh chứng sống động nhất cho nguyên lý Zero-Decompression!"
           </div>
@@ -11031,7 +11221,7 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">⚡</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Nguyên Lý Late Materialization (SIGMOD 2008)</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;"><span data-i18n="modals.late_mat.title">Nguyên Lý Late Materialization (SIGMOD 2008)</span></span>
         </div>
         <button type="button" onclick="closeLateMatModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
@@ -11039,14 +11229,14 @@ async function runDemo(part, opts = {}) {
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#1e40af;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>1. Bản chất cốt lõi: Hoãn ghép nối đến bước cuối</span>
+            <span><span data-i18n="modals.late_mat.point1_title">1. Bản chất cốt lõi: Hoãn ghép nối đến bước cuối</span></span>
           </div>
-          <div>Trong khi <b>Row-Store ghép nối sớm (Early Materialization)</b> toàn bộ 17 thuộc tính của 6,000,000 dòng tạo bảng tạm khổng lồ (~408 MB), <b>Column-Store</b> tuyệt đối không giải nén thuộc tính chuỗi ở Phase 1 và Phase 2 mà <b>HOÃN việc đọc dữ liệu</b> đến tận bước cuối cùng.</div>
+          <div>Trong khi <b>Row-Store ghép nối sớm (Early Materialization)</b> toàn bộ 17 thuộc tính của 6,000,000 dòng tạo bảng tạm khổng lồ (~408 MB), <b><span data-i18n="tab1.plan_b_card_title">Column-Store</span></b> tuyệt đối không giải nén thuộc tính chuỗi ở Phase 1 và Phase 2 mà <b>HOÃN việc đọc dữ liệu</b> đến tận bước cuối cùng.</div>
         </div>
 
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#065f46;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>2. Quy trình thực thi tại Phase 3 (Dựa trên Position List P)</span>
+            <span><span data-i18n="modals.late_mat.point2_title">2. Quy trình thực thi tại Phase 3 (Dựa trên Position List P)</span></span>
           </div>
           <div>Khi Phase 2 lọc xong và trả về tập vị trí <b>Position List P</b> (chỉ ~216,000 dòng thỏa mãn thay vì 6M dòng):
             <ul style="margin:6px 0 0 18px;padding:0;">
@@ -11058,7 +11248,7 @@ async function runDemo(part, opts = {}) {
 
         <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#9f1239;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>3. Lợi ích đột phá (Zero Intermediate Tuples)</span>
+            <span><span data-i18n="modals.late_mat.point3_title">3. Lợi ích đột phá (Zero Intermediate Tuples)</span></span>
           </div>
           <div>
             <ul style="margin:4px 0 0 18px;padding:0;">
@@ -11081,7 +11271,7 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:18px;">📖</span>
-          <span style="font-weight:800;font-size:15px;color:#0f172a;">Bản Chất Khung SQL &amp; Cơ Chế Thực Thi Thực Tế</span>
+          <span style="font-weight:800;font-size:15px;color:#0f172a;" data-i18n="modals.spec.title">Bản Chất Khung SQL &amp; Cơ Chế Thực Thi Thực Tế</span>
         </div>
         <button type="button" onclick="closeSqlSpecModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
@@ -11089,21 +11279,21 @@ async function runDemo(part, opts = {}) {
       <div style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
         <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#1e40af;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>1. Khung code SQL là gì?</span>
+            <span><span data-i18n="modals.spec.point1_title">1. Khung code SQL là gì?</span></span>
           </div>
           <div>Đây là <b>Logical Query Specification (Đặc tả logic)</b> chuẩn của bộ đo <b>Star Schema Benchmark (SSBM)</b> từ bài báo gốc SIGMOD 2008 (GS. Daniel Abadi, Đại học Yale / MIT). Nó cho người xem biết bài toán nghiệp vụ chuẩn cần tính toán cái gì.</div>
         </div>
         <div style="background:#fef2f2;border:1px solid #fecdd3;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#9f1239;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>2. Hệ thống có kết nối Database SQL (RDBMS) để chạy không?</span>
+            <span><span data-i18n="modals.spec.point2_title">2. Hệ thống có kết nối Database SQL (RDBMS) để chạy không?</span></span>
           </div>
           <div><b>HOÀN TOÀN KHÔNG.</b> Hệ thống không gọi SQL Server hay MySQL. Nếu chạy qua RDBMS đóng gói sẵn, toàn bộ dữ liệu chỉ được xử lý như một Row-Store và ta không thể mổ xẻ, đo đạc vi mô độ trễ Cache CPU L1/L2 hay phân tích băng thông I/O thực tế.</div>
         </div>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;">
           <div style="font-weight:800;color:#065f46;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-            <span>3. Thực tế hệ thống thực thi bằng cách nào?</span>
+            <span><span data-i18n="modals.spec.point3_title">3. Thực tế hệ thống thực thi bằng cách nào?</span></span>
           </div>
-          <div>Khi bạn nhấn nút <b>▶ Run</b> bên dưới, hệ thống kích hoạt <b>Physical Execution Engine</b> viết bằng Python/NumPy thực thi trực tiếp trên mảng cấu trúc bộ nhớ RAM <b>6,000,000 dòng</b>:
+          <div>Khi bạn nhấn nút <b><span data-i18n="common.run"><span data-i18n="tab1.btn_run"><span data-i18n="tab2.btn_run"><span data-i18n="tab3.btn_run"><span data-i18n="tab4.btn_run">▶ Run</span></span></span></span></span></b> bên dưới, hệ thống kích hoạt <b>Physical Execution Engine</b> viết bằng Python/NumPy thực thi trực tiếp trên mảng cấu trúc bộ nhớ RAM <b>6,000,000 dòng</b>:
             <ul style="margin:6px 0 0 18px;padding:0;">
               <li><b>Row-Store:</b> Nạp cả struct tuple AoS 17 cột (68B/dòng), lãng phí 76% bộ nhớ đệm Cache.</li>
               <li><b>Column-Store:</b> Chỉ nạp đúng các cột cần dùng, tính trực tiếp trên dữ liệu nén RLE (Zero Decompression), và nối bảng bằng mảng bit Invisible Join.</li>
@@ -11122,14 +11312,14 @@ async function runDemo(part, opts = {}) {
       <div style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:8px;">
           <span id="academicDimKeyIcon" style="font-size:18px;">🔍</span>
-          <span id="academicDimKeyTitle" style="font-weight:800;font-size:15px;color:#0f172a;">Chi Tiết Khóa Bảng Chiều (Pha 1)</span>
+          <span id="academicDimKeyTitle" style="font-weight:800;font-size:15px;color:#0f172a;"><span data-i18n="modals.dim_key.title">Chi Tiết Khóa Bảng Chiều (Pha 1)</span></span>
         </div>
         <button type="button" onclick="closeDimKeysModal()" style="background:none;border:none;font-size:18px;color:#64748b;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;" title="Đóng (ESC)">✕</button>
       </div>
       <div id="academicDimKeyBody" style="padding:16px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:#334155;line-height:1.55;max-height:80vh;overflow-y:auto;">
       </div>
       <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:10px 18px;display:flex;justify-content:flex-end;">
-        <button type="button" onclick="closeDimKeysModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;">Đóng</button>
+        <button type="button" onclick="closeDimKeysModal()" class="btn btn-primary btn-sm" style="background:#2563eb;color:#ffffff;font-weight:700;border:none;border-radius:6px;padding:6px 16px;cursor:pointer;"><span data-i18n="common.close">Đóng</span></button>
       </div>
     </div>
   </div>
